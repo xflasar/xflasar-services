@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# Environment files — NEVER commit real .env
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Turbo cache
+.turbo/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
