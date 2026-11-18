@@ -56,13 +56,13 @@ pnpm dev --filter=portfolio-api
 
 ## Dev environment
 
-Your laptop runs the app code. The Ubuntu server runs PostgreSQL + Keycloak.
+Your pc runs the app code. The Ubuntu server runs PostgreSQL + Keycloak.
 
 Set `DATABASE_URL` and `KEYCLOAK_URL` in each app's `.env` to point at your server's local IP:
 
 ```
-DATABASE_URL=postgresql://xflasar:password@192.168.1.XXX:5432/portfolio
-KEYCLOAK_URL=http://192.168.1.XXX:8080
+DATABASE_URL=postgresql://username:password@XXX.XXX.XXX.XXX:5432/portfolio
+KEYCLOAK_URL=http://XXX.XXX.XXX.XXX:8080
 ```
 
 ## Deploy

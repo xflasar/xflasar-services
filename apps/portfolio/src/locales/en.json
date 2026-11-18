@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "about": "About & Contact",
+    "blog": "Blog",
+    "aki": "Aki",
+    "gaming": "Gaming",
+    "anime": "Anime",
+    "downloadCv": "CV (PDF)"
+  },
+  "hero": {
+    "badge": "Software Engineering • IoT & Embedded Automation",
+    "greeting": "Hi, I'm",
+    "name": "Martin Flasar",
+    "pitch": "Creator of PUNoted — a gaming analytics and data-retention platform powered by browser extension telemetry and APIs. When offline, I build pragmatic IoT home automation with ESP32 microcontrollers for garden irrigation and gate control.",
+    "ctaProjects": "Explore My Work",
+    "ctaAbout": "About & Contact",
+    "scrollDown": "Scroll Down",
+    "nowPlaying": "Steam Activity",
+    "playingGame": "Currently Offline / Last: DayZ"
+  },
+  "projects": {
+    "title": "Featured Work & Systems",
+    "subtitle": "Production platforms, browser telemetry, and pragmatic IoT electronics",
+    "filterAll": "All",
+    "filterSoftware": "Software",
+    "filterHardware": "Hardware",
+    "filterAcademic": "Uni & Code",
+    "stageBadge": "Production Beta • Active R&D",
+    "communityPlatform": "Community Platform",
+    "activeUsers": "Active Users",
+    "registeredAccounts": "Registered Accounts"
+  },
+  "about": {
+    "title": "About & Experience",
+    "subtitle": "Hands-on background, system architecture, and direct contact",
+    "rolesSection": "Technical Roles & Projects",
+    "subdomainsTitle": "Personal Subdomains",
+    "techStackTitle": "Active Tech Stack",
+    "openInquiries": "Open to Inquiries",
+    "connectTitle": "Let's Connect",
+    "emailLabel": "Primary Email",
+    "locationLabel": "Location & Focus",
+    "locationValue": "Czech Republic / Remote",
+    "downloadCv": "Download CV",
+    "footer": "Built with Next.js, Fastify & Docker",
+    "subdomains": {
+      "blogDesc": "Hardware build logs, ESP32 schematics & devlogs.",
+      "akiDesc": "Self-hosted 4K media timeline for outdoor treks.",
+      "gamingDesc": "Steam stats, PUNoted analytics & gaming telemetry.",
+      "animeDesc": "Synced anime & manga list via MyAnimeList API."
+    },
+    "techCategories": [
+      {
+        "id": "backend",
+        "name": "Backend & Systems",
+        "skills": ["TypeScript", "Python", "Fastify", "Next.js", "React", "PostgreSQL", "Docker"]
+      },
+      {
+        "id": "hardware",
+        "name": "Hardware & Embedded",
+        "skills": ["Arduino", "C++", "ESP32 (WIP)", "Sensors & Relays", "Soldering"]
+      },
+      {
+        "id": "devops",
+        "name": "DevOps & Networking",
+        "skills": ["Linux Ops", "Cloudflare Tunnels", "Traefik", "Git CI/CD"]
+      }
+    ]
+  },
+  "experiences": [
+    {
+      "id": "punoted",
+      "period": "2024 — Present",
+      "role": "Creator & Maintainer",
+      "project": "PUNoted",
+      "description": "Gaming analytics platform with 140+ accounts and 60+ active users. Extension telemetry ingestion, DB and REST APIs.",
+      "tags": ["React", "TypeScript", "Python", "Docker", "PostgreSQL", "REST API"]
+    },
+    {
+      "id": "dayz",
+      "period": "6 months",
+      "role": "Server Admin & Modder",
+      "project": "DayZ Komunitní Server",
+      "description": "Dedicated server lifecycle from scratch: Linux ops, networking, game mod scripting, and player community support.",
+      "tags": ["Linux Ops", "Game Modding", "Networking"]
+    },
+    {
+      "id": "mentoring",
+      "period": "Continuous",
+      "role": "Code Mentor & Debugger",
+      "project": "Technical Coaching & Tooling",
+      "description": "1-on-1 code reviews, architectural debugging, and explanation of logic. Created automated utility scripts.",
+      "tags": ["Code Review", "Debugging", "Refactoring"]
+    },
+    {
+      "id": "embedded",
+      "period": "Active R&D",
+      "role": "Embedded Maker",
+      "project": "Hardware & IoT Prototyping",
+      "description": "Custom soldered ESP32 electronics for gate automation and garden soil moisture telemetry.",
+      "tags": ["ESP32", "C++", "Pájení & Relé", "MQTT"]
+    }
+  ]
+}

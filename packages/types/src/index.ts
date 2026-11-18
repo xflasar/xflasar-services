@@ -1,7 +1,7 @@
 // ─── Project / Portfolio ───────────────────────────────────────────────────
 
-export type ProjectCategory = 'SOFTWARE' | 'HARDWARE'
-export type ProjectStatus = 'ACTIVE' | 'COMPLETED' | 'PAUSED' | 'DISCONTINUED'
+export type ProjectCategory = 'SOFTWARE' | 'HARDWARE' | 'ACADEMIC'
+export type ProjectStatus = 'ACTIVE' | 'IN_DEVELOPMENT' | 'PROTOTYPE' | 'CONCEPT' | 'COMPLETED' | 'PAUSED' | 'DISCONTINUED'
 
 export interface Project {
   id: string
@@ -15,6 +15,7 @@ export interface Project {
   repoUrl?: string
   liveUrl?: string
   imageUrl?: string
+  gallery?: string[]
   userCount?: number
   registeredCount?: number
   sortOrder: number
@@ -32,6 +33,7 @@ export interface AnimeEntry {
   title: string
   titleEn?: string
   imageUrl?: string
+  gallery?: string[]
   status: AnimeStatus
   score?: number
   episodesWatched: number
@@ -62,6 +64,7 @@ export interface MangaEntry {
   title: string
   titleEn?: string
   imageUrl?: string
+  gallery?: string[]
   type: MangaType
   status: MangaStatus
   score?: number

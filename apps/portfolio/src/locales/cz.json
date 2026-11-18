@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "projects": "Projekty",
+    "about": "O mně & Kontakt",
+    "blog": "Blog",
+    "aki": "Aki",
+    "gaming": "Gaming",
+    "anime": "Anime",
+    "downloadCv": "CV (PDF)"
+  },
+  "hero": {
+    "badge": "Software Engineering • IoT & Domácí automatizace",
+    "greeting": "Ahoj, já jsem",
+    "name": "Martin Flasar",
+    "pitch": "Tvůrce PUNoted — herní analytické platformy poháněné telemetrií z browser extension a API. Mimo obrazovku stavím praktickou IoT domácí automatizaci s ESP32 pro zavlažování zahrady a ovládání vrat.",
+    "ctaProjects": "Prozkoumat projekty",
+    "ctaAbout": "O mně & Kontakt",
+    "scrollDown": "Přejít dolů",
+    "nowPlaying": "Steam Aktivita",
+    "playingGame": "Právě offline / Poslední hra: DayZ"
+  },
+  "projects": {
+    "title": "Projekty & Reálné Systémy",
+    "subtitle": "Produkční aplikace, telemetrie a praktická IoT elektronika",
+    "filterAll": "Vše",
+    "filterSoftware": "Software",
+    "filterHardware": "Hardware",
+    "filterAcademic": "Škola & Kód",
+    "stageBadge": "Produkční Beta • Aktivní R&D",
+    "communityPlatform": "Komunitní platforma",
+    "activeUsers": "Aktivních uživatelů",
+    "registeredAccounts": "Registrovaných účtů"
+  },
+  "about": {
+    "title": "O mně & Zkušenosti",
+    "subtitle": "Reálná praxe, architektura systémů a přímý kontakt",
+    "rolesSection": "Reálná praxe & Projekty",
+    "subdomainsTitle": "Osobní subdomény",
+    "techStackTitle": "Používaný Tech Stack",
+    "openInquiries": "Otevřen příležitostem",
+    "connectTitle": "Napiš mi",
+    "emailLabel": "E-mail kontakt",
+    "locationLabel": "Lokalita / Působnost",
+    "locationValue": "Česká republika / Remote",
+    "downloadCv": "Stáhnout CV",
+    "footer": "Postaveno na Next.js, Fastify & Dockeru",
+    "subdomains": {
+      "blogDesc": "Zápisky o stavbě hardwaru, ESP32 schématech a devloge.",
+      "akiDesc": "Self-hosted foto & video galerie výletů se psem.",
+      "gamingDesc": "Steam statistiky, PUNoted metrics a herní telemetrie.",
+      "animeDesc": "Seznam anime & manga propojený s MyAnimeList."
+    },
+    "techCategories": [
+      {
+        "id": "backend",
+        "name": "Backend & Systémy",
+        "skills": ["TypeScript", "Python", "Fastify", "Next.js", "React", "PostgreSQL", "Docker"]
+      },
+      {
+        "id": "hardware",
+        "name": "Hardware & Embedded",
+        "skills": ["Arduino", "C++", "ESP32 (WIP)", "Senzory & Relé", "Pájení"]
+      },
+      {
+        "id": "devops",
+        "name": "DevOps & Sítě",
+        "skills": ["Linux Ops", "Cloudflare Tunnels", "Traefik", "Git CI/CD"]
+      }
+    ]
+  },
+  "experiences": [
+    {
+      "id": "punoted",
+      "period": "2024 — Současnost",
+      "role": "Tvůrce & Vývojář",
+      "project": "PUNoted",
+      "description": "Vlastní komunitní platforma se 140+ účty a 60 aktivními lidmi. Telemetrie z browser extension, databáze a REST API.",
+      "tags": ["React", "TypeScript", "Python", "Docker", "PostgreSQL", "REST API"]
+    },
+    {
+      "id": "dayz",
+      "period": "6 měsíců provozu",
+      "role": "Správce & Modder",
+      "project": "DayZ Komunitní Server",
+      "description": "Kompletní správa dedikovaného serveru od nuly: Linux, síťování, psaní herních módů v kódu a podpora komunity hráčů.",
+      "tags": ["Linux Ops", "Game Modding", "Networking"]
+    },
+    {
+      "id": "mentoring",
+      "period": "Průběžně",
+      "role": "Konzultace & Debugging",
+      "project": "Pomoc s kódem & Nástroje",
+      "description": "Pomoc lidem a studentům s hledáním chyb v kódu, refaktoringem a vysvětlením logiky. Tvorba skriptů a utilit.",
+      "tags": ["Code Review", "Debugging", "Refactoring"]
+    },
+    {
+      "id": "embedded",
+      "period": "Aktivní vývoj",
+      "role": "Maker & Elektronika",
+      "project": "Domácí IoT Automatizace",
+      "description": "Stavba a pájení ESP32 modulů pro automatizaci vjezdu a chytré zalévání zahrady se senzory vlhkosti půdy.",
+      "tags": ["ESP32", "C++", "Pájení & Relé", "MQTT"]
+    }
+  ]
+}
