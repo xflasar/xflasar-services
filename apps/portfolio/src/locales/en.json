@@ -12,7 +12,7 @@
     "badge": "Software Engineering • IoT & Embedded Automation",
     "greeting": "Hi, I'm",
     "name": "Martin Flasar",
-    "pitch": "Creator of PUNoted — a gaming analytics and data-retention platform powered by browser extension telemetry and APIs. When offline, I build pragmatic IoT home automation with ESP32 microcontrollers for garden irrigation and gate control.",
+    "pitch": "Creator of PUNoted with a focus on telemetry and data. Outside software, I'm into IoT hardware, game servers, anime, and self-hosted projects.",
     "ctaProjects": "Explore My Work",
     "ctaAbout": "About & Contact",
     "scrollDown": "Scroll Down",
@@ -20,29 +20,39 @@
     "playingGame": "Currently Offline / Last: DayZ"
   },
   "projects": {
-    "title": "Featured Work & Systems",
-    "subtitle": "Production platforms, browser telemetry, and pragmatic IoT electronics",
+    "title": "Projects",
     "filterAll": "All",
     "filterSoftware": "Software",
     "filterHardware": "Hardware",
-    "filterAcademic": "Uni & Code",
+    "filterAcademic": "School",
     "stageBadge": "Production Beta • Active R&D",
     "communityPlatform": "Community Platform",
     "activeUsers": "Active Users",
-    "registeredAccounts": "Registered Accounts"
+    "registeredAccounts": "Registered Accounts",
+    "noPreview": "No preview",
+    "academicRepo": "Academic Project • Code",
+    "statuses": {
+      "active": "active",
+      "inBeta": "in beta",
+      "inDev": "in dev",
+      "prototype": "prototype",
+      "inConcept": "in concept",
+      "completed": "defended"
+    }
   },
   "about": {
     "title": "About & Experience",
     "subtitle": "Hands-on background, system architecture, and direct contact",
-    "rolesSection": "Technical Roles & Projects",
-    "subdomainsTitle": "Personal Subdomains",
-    "techStackTitle": "Active Tech Stack",
+    "rolesSection": "Experience & Hands-on",
+    "subdomainsTitle": "Subdomains",
+    "techStackTitle": "Technical Skills & Stack",
     "openInquiries": "Open to Inquiries",
     "connectTitle": "Let's Connect",
     "emailLabel": "Primary Email",
     "locationLabel": "Location & Focus",
     "locationValue": "Czech Republic / Remote",
     "downloadCv": "Download CV",
+    "cvPreparing": "(WIP)",
     "footer": "Built with Next.js, Fastify & Docker",
     "subdomains": {
       "blogDesc": "Hardware build logs, ESP32 schematics & devlogs.",
@@ -53,18 +63,39 @@
     "techCategories": [
       {
         "id": "backend",
-        "name": "Backend & Systems",
-        "skills": ["TypeScript", "Python", "Fastify", "Next.js", "React", "PostgreSQL", "Docker"]
-      },
-      {
-        "id": "hardware",
-        "name": "Hardware & Embedded",
-        "skills": ["Arduino", "C++", "ESP32 (WIP)", "Sensors & Relays", "Soldering"]
+        "name": "Stack",
+        "skills": [
+          "TypeScript",
+          "Python",
+          "Next.js",
+          "React",
+          "Fastify / Node.js",
+          "PostgreSQL",
+          "REST APIs"
+        ]
       },
       {
         "id": "devops",
-        "name": "DevOps & Networking",
-        "skills": ["Linux Ops", "Cloudflare Tunnels", "Traefik", "Git CI/CD"]
+        "name": "DevOps",
+        "skills": [
+          "Linux Administration",
+          "Docker & Compose",
+          "Cloudflare Zero Trust / Tunnels",
+          "Traefik Reverse Proxy",
+          "CI/CD Workflows",
+          "Self-Hosting & Networking"
+        ]
+      },
+      {
+        "id": "hardware",
+        "name": "Embedded Systems & IoT",
+        "skills": [
+          "C / C++",
+          "Arduino & ESP32 Platform",
+          "Sensors, Relays & Buses",
+          "HW Prototyping & Soldering",
+          "MQTT / Telemetry"
+        ]
       }
     ]
   },
@@ -75,15 +106,27 @@
       "role": "Creator & Maintainer",
       "project": "PUNoted",
       "description": "Gaming analytics platform with 140+ accounts and 60+ active users. Extension telemetry ingestion, DB and REST APIs.",
-      "tags": ["React", "TypeScript", "Python", "Docker", "PostgreSQL", "REST API"]
+      "tags": [
+        "React",
+        "TypeScript",
+        "Python",
+        "Docker",
+        "PostgreSQL",
+        "REST API",
+        "Cloud"
+      ]
     },
     {
       "id": "dayz",
       "period": "6 months",
       "role": "Server Admin & Modder",
-      "project": "DayZ Komunitní Server",
+      "project": "DayZ Community Server",
       "description": "Dedicated server lifecycle from scratch: Linux ops, networking, game mod scripting, and player community support.",
-      "tags": ["Linux Ops", "Game Modding", "Networking"]
+      "tags": [
+        "Linux Ops",
+        "Game Modding",
+        "Networking"
+      ]
     },
     {
       "id": "mentoring",
@@ -91,15 +134,25 @@
       "role": "Code Mentor & Debugger",
       "project": "Technical Coaching & Tooling",
       "description": "1-on-1 code reviews, architectural debugging, and explanation of logic. Created automated utility scripts.",
-      "tags": ["Code Review", "Debugging", "Refactoring"]
+      "tags": [
+        "Code Review",
+        "Debugging",
+        "Refactoring",
+        "Simple scripts"
+      ]
     },
     {
-      "id": "embedded",
-      "period": "Active R&D",
-      "role": "Embedded Maker",
-      "project": "Hardware & IoT Prototyping",
-      "description": "Custom soldered ESP32 electronics for gate automation and garden soil moisture telemetry.",
-      "tags": ["ESP32", "C++", "Pájení & Relé", "MQTT"]
+      "id": "internship",
+      "period": "Internship • 2 months",
+      "role": "Software Development Student Intern",
+      "project": "Meta IT s.r.o.",
+      "description": "High school development internship: foundational software engineering concepts, network and system utility scripts, automated HTML/CSS PDF invoice generation, and data workflows under senior guidance.",
+      "tags": [
+        "HTML/CSS",
+        "C#",
+        "Network Scripts",
+        "Data Tools"
+      ]
     }
   ]
 }

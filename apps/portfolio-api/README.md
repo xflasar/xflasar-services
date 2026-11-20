@@ -1,6 +1,6 @@
 # Portfolio API (`apps/portfolio-api`)
 
-Fastify microservice providing project showcase and telemetry data for `xflasar.dev`.
+Fastify microservice providing project showcase and telemetry data for `xflasar.com`.
 
 ## Features
 - **Fastify 5** — high-throughput, low-overhead HTTP engine

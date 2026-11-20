@@ -23,10 +23,15 @@ body {
     radial-gradient(ellipse 40% 30% at 85% 20%, rgba(88, 101, 242, 0.08), transparent 60%);
 }
 
-/* Smooth scrolling & magnetic section snapping */
+/* Smooth scrolling & magnetic section snapping for desktop only */
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
 }
 
 /* Discord-style scrollbar */

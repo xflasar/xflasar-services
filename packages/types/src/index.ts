@@ -1,18 +1,25 @@
 // ─── Project / Portfolio ───────────────────────────────────────────────────
 
 export type ProjectCategory = 'SOFTWARE' | 'HARDWARE' | 'ACADEMIC'
-export type ProjectStatus = 'ACTIVE' | 'IN_DEVELOPMENT' | 'PROTOTYPE' | 'CONCEPT' | 'COMPLETED' | 'PAUSED' | 'DISCONTINUED'
+export type ProjectStatus = 'ACTIVE' | 'IN_BETA' | 'IN_DEV' | 'PROTOTYPE' | 'IN_CONCEPT' | 'COMPLETED' | 'PAUSED' | 'DISCONTINUED'
+
+export interface ProjectRepo {
+  name: string
+  url: string
+}
 
 export interface Project {
   id: string
   title: string
   description: string
+  descriptionEn?: string
   longDescription?: string
+  longDescriptionEn?: string
   category: ProjectCategory
   status: ProjectStatus
   featured: boolean
   techStack: string[]
-  repoUrl?: string
+  repoUrl?: string | string[] | ProjectRepo[]
   liveUrl?: string
   imageUrl?: string
   gallery?: string[]

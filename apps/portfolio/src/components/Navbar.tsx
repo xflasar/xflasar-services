@@ -39,9 +39,8 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#05060b]/90 border-b border-white/5 transition-all duration-300 ${
-        scrolled || mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#05060b]/90 border-b border-white/5 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
     >
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo / Brand Name */}
@@ -54,7 +53,7 @@ export function Navbar() {
           }}
           className="font-bold text-lg tracking-wider text-text-primary hover:text-accent-discord transition-colors"
         >
-          xflasar<span className="text-[#8c6bf7]">.dev</span>
+          xflasar<span className="text-[#8c6bf7]">.com</span>
         </a>
 
         {/* Desktop Navigation Links */}
@@ -74,7 +73,7 @@ export function Navbar() {
             {dict.nav.about}
           </a>
           <a
-            href="https://blog.xflasar.dev"
+            href="https://blog.xflasar.com"
             target="_blank"
             rel="noreferrer"
             className="text-text-secondary hover:text-[#b59cfc] transition-colors text-sm font-medium flex items-center gap-1"
@@ -82,7 +81,7 @@ export function Navbar() {
             <span>✍️ {dict.nav.blog} ↗</span>
           </a>
           <a
-            href="https://aki.xflasar.dev"
+            href="https://aki.xflasar.com"
             target="_blank"
             rel="noreferrer"
             className="text-text-secondary hover:text-[#b59cfc] transition-colors text-sm font-medium flex items-center gap-1"
@@ -90,7 +89,7 @@ export function Navbar() {
             <span>🐾 {dict.nav.aki} ↗</span>
           </a>
           <a
-            href="https://gaming.xflasar.dev"
+            href="https://gaming.xflasar.com"
             target="_blank"
             rel="noreferrer"
             className="text-text-secondary hover:text-[#5865F2] transition-colors text-sm font-medium flex items-center gap-1"
@@ -98,7 +97,7 @@ export function Navbar() {
             <span>🎮 {dict.nav.gaming} ↗</span>
           </a>
           <a
-            href="https://anime.xflasar.dev"
+            href="https://anime.xflasar.com"
             target="_blank"
             rel="noreferrer"
             className="text-[#b59cfc] hover:text-white transition-colors text-sm font-medium"
@@ -152,43 +151,43 @@ export function Navbar() {
               </span>
 
               <a
-                href="https://blog.xflasar.dev"
+                href="https://blog.xflasar.com"
                 target="_blank"
                 rel="noreferrer"
                 className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
               >
                 <span>✍️ {dict.nav.blog}</span>
-                <span className="text-xs text-[#b59cfc]">blog.xflasar.dev ↗</span>
+                <span className="text-xs text-[#b59cfc]">blog.xflasar.com ↗</span>
               </a>
 
               <a
-                href="https://aki.xflasar.dev"
+                href="https://aki.xflasar.com"
                 target="_blank"
                 rel="noreferrer"
                 className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
               >
                 <span>🐾 {dict.nav.aki}</span>
-                <span className="text-xs text-[#b59cfc]">aki.xflasar.dev ↗</span>
+                <span className="text-xs text-[#b59cfc]">aki.xflasar.com ↗</span>
               </a>
 
               <a
-                href="https://gaming.xflasar.dev"
+                href="https://gaming.xflasar.com"
                 target="_blank"
                 rel="noreferrer"
                 className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
               >
                 <span>🎮 {dict.nav.gaming}</span>
-                <span className="text-xs text-[#5865F2]">gaming.xflasar.dev ↗</span>
+                <span className="text-xs text-[#5865F2]">gaming.xflasar.com ↗</span>
               </a>
 
               <a
-                href="https://anime.xflasar.dev"
+                href="https://anime.xflasar.com"
                 target="_blank"
                 rel="noreferrer"
                 className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
               >
                 <span>⛩️ {dict.nav.anime}</span>
-                <span className="text-xs text-[#b59cfc]">anime.xflasar.dev ↗</span>
+                <span className="text-xs text-[#b59cfc]">anime.xflasar.com ↗</span>
               </a>
 
               <a

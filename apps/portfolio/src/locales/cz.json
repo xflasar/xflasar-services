@@ -10,9 +10,9 @@
   },
   "hero": {
     "badge": "Software Engineering • IoT & Domácí automatizace",
-    "greeting": "Ahoj, já jsem",
+    "greeting": "Ahoj, jsem",
     "name": "Martin Flasar",
-    "pitch": "Tvůrce PUNoted — herní analytické platformy poháněné telemetrií z browser extension a API. Mimo obrazovku stavím praktickou IoT domácí automatizaci s ESP32 pro zavlažování zahrady a ovládání vrat.",
+    "pitch": "Tvůrce platformy PUNoted zaměřené na telemetrii a data. Mimo software se zajímám o IoT hardware, herní servery, anime a self-hosted projekty.",
     "ctaProjects": "Prozkoumat projekty",
     "ctaAbout": "O mně & Kontakt",
     "scrollDown": "Přejít dolů",
@@ -20,29 +20,39 @@
     "playingGame": "Právě offline / Poslední hra: DayZ"
   },
   "projects": {
-    "title": "Projekty & Reálné Systémy",
-    "subtitle": "Produkční aplikace, telemetrie a praktická IoT elektronika",
+    "title": "Projekty",
     "filterAll": "Vše",
     "filterSoftware": "Software",
     "filterHardware": "Hardware",
-    "filterAcademic": "Škola & Kód",
+    "filterAcademic": "Škola",
     "stageBadge": "Produkční Beta • Aktivní R&D",
     "communityPlatform": "Komunitní platforma",
     "activeUsers": "Aktivních uživatelů",
-    "registeredAccounts": "Registrovaných účtů"
+    "registeredAccounts": "Registrovaných účtů",
+    "noPreview": "Bez náhledu",
+    "academicRepo": "Školní projekt • Kód",
+    "statuses": {
+      "active": "active",
+      "inBeta": "in beta",
+      "inDev": "in dev",
+      "prototype": "prototype",
+      "inConcept": "in concept",
+      "completed": "obhájeno"
+    }
   },
   "about": {
     "title": "O mně & Zkušenosti",
     "subtitle": "Reálná praxe, architektura systémů a přímý kontakt",
-    "rolesSection": "Reálná praxe & Projekty",
-    "subdomainsTitle": "Osobní subdomény",
-    "techStackTitle": "Používaný Tech Stack",
+    "rolesSection": "Zkušenosti & Praxe",
+    "subdomainsTitle": "Subdomény",
+    "techStackTitle": "Technické dovednosti & Stack",
     "openInquiries": "Otevřen příležitostem",
-    "connectTitle": "Napiš mi",
+    "connectTitle": "Kontaktuj mě",
     "emailLabel": "E-mail kontakt",
     "locationLabel": "Lokalita / Působnost",
     "locationValue": "Česká republika / Remote",
     "downloadCv": "Stáhnout CV",
+    "cvPreparing": "CV se připravuje",
     "footer": "Postaveno na Next.js, Fastify & Dockeru",
     "subdomains": {
       "blogDesc": "Zápisky o stavbě hardwaru, ESP32 schématech a devloge.",
@@ -53,18 +63,39 @@
     "techCategories": [
       {
         "id": "backend",
-        "name": "Backend & Systémy",
-        "skills": ["TypeScript", "Python", "Fastify", "Next.js", "React", "PostgreSQL", "Docker"]
-      },
-      {
-        "id": "hardware",
-        "name": "Hardware & Embedded",
-        "skills": ["Arduino", "C++", "ESP32 (WIP)", "Senzory & Relé", "Pájení"]
+        "name": "Stack",
+        "skills": [
+          "TypeScript",
+          "Python",
+          "Next.js",
+          "React",
+          "Fastify / Node.js",
+          "PostgreSQL",
+          "REST APIs"
+        ]
       },
       {
         "id": "devops",
-        "name": "DevOps & Sítě",
-        "skills": ["Linux Ops", "Cloudflare Tunnels", "Traefik", "Git CI/CD"]
+        "name": "DevOps",
+        "skills": [
+          "Linux Administration",
+          "Docker & Compose",
+          "Cloudflare Zero Trust / Tunnels",
+          "Traefik Reverse Proxy",
+          "CI/CD Workflows",
+          "Self-Hosting & Networking"
+        ]
+      },
+      {
+        "id": "hardware",
+        "name": "Embedded Systems & IoT",
+        "skills": [
+          "C / C++",
+          "Arduino & ESP32 Platform",
+          "Senzory, Relé & Sběrnice",
+          "HW Prototyping & Pájení",
+          "MQTT / Telemetrie"
+        ]
       }
     ]
   },
@@ -74,16 +105,28 @@
       "period": "2024 — Současnost",
       "role": "Tvůrce & Vývojář",
       "project": "PUNoted",
-      "description": "Vlastní komunitní platforma se 140+ účty a 60 aktivními lidmi. Telemetrie z browser extension, databáze a REST API.",
-      "tags": ["React", "TypeScript", "Python", "Docker", "PostgreSQL", "REST API"]
+      "description": "Vlastní herní analytická platforma se 140+ účty a 60+ aktivními uživateli. Telemetrie z browser extension, databáze a REST API.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Python",
+        "Docker",
+        "PostgreSQL",
+        "REST API",
+        "Cloud"
+      ]
     },
     {
       "id": "dayz",
-      "period": "6 měsíců provozu",
+      "period": "6 měsíců",
       "role": "Správce & Modder",
       "project": "DayZ Komunitní Server",
       "description": "Kompletní správa dedikovaného serveru od nuly: Linux, síťování, psaní herních módů v kódu a podpora komunity hráčů.",
-      "tags": ["Linux Ops", "Game Modding", "Networking"]
+      "tags": [
+        "Linux Ops",
+        "Game Modding",
+        "Networking"
+      ]
     },
     {
       "id": "mentoring",
@@ -91,15 +134,25 @@
       "role": "Konzultace & Debugging",
       "project": "Pomoc s kódem & Nástroje",
       "description": "Pomoc lidem a studentům s hledáním chyb v kódu, refaktoringem a vysvětlením logiky. Tvorba skriptů a utilit.",
-      "tags": ["Code Review", "Debugging", "Refactoring"]
+      "tags": [
+        "Code Review",
+        "Debugging",
+        "Refactoring",
+        "Jednoduché skripty"
+      ]
     },
     {
-      "id": "embedded",
-      "period": "Aktivní vývoj",
-      "role": "Maker & Elektronika",
-      "project": "Domácí IoT Automatizace",
-      "description": "Stavba a pájení ESP32 modulů pro automatizaci vjezdu a chytré zalévání zahrady se senzory vlhkosti půdy.",
-      "tags": ["ESP32", "C++", "Pájení & Relé", "MQTT"]
+      "id": "internship",
+      "period": "Stáž • 2 měsíce",
+      "role": "Software Development Student Intern",
+      "project": "Meta IT s.r.o.",
+      "description": "Středoškolská odborná stáž: základy vývoje, síťové skripty a systémové utility, automatizované generování PDF faktur (HTML/CSS) a zpracování dat pod vedením seniorních vývojářů.",
+      "tags": [
+        "HTML/CSS",
+        "C#",
+        "Network Scripts",
+        "Data Tools"
+      ]
     }
   ]
 }
