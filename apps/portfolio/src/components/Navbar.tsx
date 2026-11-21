@@ -147,7 +147,7 @@ export function Navbar() {
 
             <div className="pt-2 border-t border-white/5 space-y-2">
               <span className="text-xs uppercase tracking-wider text-[#949ba4] font-mono px-3 block">
-                Subdomains & Links
+                SUBDOMAINS
               </span>
 
               <a
@@ -190,15 +190,17 @@ export function Navbar() {
                 <span className="text-xs text-[#b59cfc]">anime.xflasar.com ↗</span>
               </a>
 
-              <a
-                href="/cv.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
+              <button
+                type="button"
+                disabled
+                title={dict.about.cvPreparing || 'Připravuje se...'}
+                className="w-full px-3 py-2 rounded-lg bg-[#0e1019]/60 text-sm text-[#949ba4] flex items-center justify-between cursor-not-allowed opacity-75 border border-white/5"
               >
                 <span>📄 {dict.nav.downloadCv}</span>
-                <span className="text-xs text-[#3ba55d]">PDF ↗</span>
-              </a>
+                <span className="text-[10px] text-[#b59cfc] font-mono bg-[#181b28] px-1.5 py-0.5 rounded border border-white/5">
+                  {dict.about.cvPreparing}
+                </span>
+              </button>
             </div>
           </nav>
 

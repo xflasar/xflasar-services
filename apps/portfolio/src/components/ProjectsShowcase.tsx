@@ -140,14 +140,14 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
         >
             <div className="space-y-4 w-full flex-1 flex flex-col justify-center py-1">
                 {/* Section Header & Category Filter */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/5 pb-3">
+                <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-2.5 border-b border-white/5 pb-3 text-center md:text-left">
                     <div>
                         <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f2f3f5]">
                             {dict.projects.title}
                         </h2>
                     </div>
 
-                    <div className="flex bg-[#0e1019] p-1 rounded-lg border border-white/10 self-start sm:self-auto flex-wrap gap-1">
+                    <div className="flex bg-[#0e1019] p-1 rounded-lg border border-white/10 mx-auto md:mx-0 flex-wrap justify-center gap-1">
                         {(['ALL', 'SOFTWARE', 'HARDWARE', 'ACADEMIC'] as const).map((cat) => (
                             <button
                                 key={cat}
@@ -171,14 +171,14 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
                 {/* Spotlight: PUNoted */}
                 {punoted && (filter === 'ALL' || filter === 'SOFTWARE') && (
-                    <div className="relative rounded-xl border border-[#7053e3]/40 bg-[#0c0e17] p-4 sm:p-5 shadow-xl">
+                    <div className="relative rounded-xl border border-[#7053e3]/40 bg-[#0c0e17] p-4 sm:p-5 shadow-xl overflow-hidden">
                         <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#7053e3]/10 rounded-full blur-3xl pointer-events-none" />
 
                         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-                            {/* Project info: spread from top to bottom */}
-                            <div className="lg:col-span-7 flex flex-col justify-between py-1">
-                                <div className="space-y-3">
-                                    <div className="flex items-center gap-2">
+                            {/* Project info: centered only on mobile (<md), left-aligned on tablet and desktop (md+) */}
+                            <div className="lg:col-span-7 flex flex-col justify-between py-1 items-center md:items-start text-center md:text-left">
+                                <div className="space-y-3 flex flex-col items-center md:items-start w-full">
+                                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                                         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-semibold bg-[#2a1a4a] text-[#c084fc] border border-[#a855f7]/40 shadow-sm font-mono uppercase tracking-wider">
                                             <span className="w-1.5 h-1.5 rounded-full bg-[#c084fc] animate-pulse" />
                                             {dict.projects.stageBadge}
@@ -187,13 +187,13 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                     </div>
 
                                     {/* Title & Action Buttons Header */}
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 w-full">
                                         <h3 className="text-2xl sm:text-3xl font-extrabold text-[#f2f3f5] tracking-tight">
                                             PUNoted
                                         </h3>
 
                                         {/* Action Buttons: Unified grid on mobile, inline on desktop */}
-                                        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                                        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto justify-center md:justify-start">
                                             {punoted.liveUrl && (
                                                 <a
                                                     href={punoted.liveUrl}
@@ -273,7 +273,7 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                     </p>
                                 </div>
 
-                                <div className="flex flex-wrap gap-1.5 pt-3">
+                                <div className="flex flex-wrap justify-center md:justify-start gap-1.5 pt-3">
                                     {punoted.techStack.map((tech) => (
                                         <span
                                             key={tech}
@@ -374,135 +374,149 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                     </div>
                 )}
 
-                {/* Project Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                    {filteredOthers.map((project) => (
-                        <div
-                            key={project.id}
-                            className="flex flex-col justify-between bg-[#0e1019] rounded-lg border border-white/10 overflow-hidden hover:border-[#7053e3]/50 hover:bg-[#131622] transition-all duration-200 group"
-                        >
-                            {/* Image OR No-Image Fallback Card */}
-                            {project.imageUrl ? (
-                                <button
-                                    onClick={() => openGallery(project)}
-                                    className="relative w-full h-28 overflow-hidden border-b border-white/5 cursor-zoom-in text-left focus:outline-none block"
-                                    aria-label={`Enlarge photo gallery of ${project.title}`}
-                                >
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={project.imageUrl}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
+                {/* Project Cards Grid OR Empty State */}
+                {filteredOthers.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                        {filteredOthers.map((project) => (
+                            <div
+                                key={project.id}
+                                className="flex flex-col justify-between bg-[#0e1019] rounded-lg border border-white/10 overflow-hidden hover:border-[#7053e3]/50 hover:bg-[#131622] transition-all duration-200 group"
+                            >
+                                {/* Image OR No-Image Fallback Card */}
+                                {project.imageUrl ? (
+                                    <button
+                                        onClick={() => openGallery(project)}
+                                        className="relative w-full h-28 overflow-hidden border-b border-white/5 cursor-zoom-in text-left focus:outline-none block"
+                                        aria-label={`Enlarge photo gallery of ${project.title}`}
+                                    >
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={project.imageUrl}
+                                            alt={project.title}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        />
 
-                                    {/* Solid high-contrast badge in top right */}
-                                    <div className="absolute top-2 right-2">
-                                        {getStatusBadge(project.status)}
-                                    </div>
-
-                                    {project.gallery && project.gallery.length > 1 && (
-                                        <div className="absolute bottom-1.5 left-2 px-2 py-0.5 rounded bg-[#06070c] text-[11px] font-semibold text-[#f2f3f5] border border-white/20 shadow-md flex items-center gap-1 font-mono">
-                                            <Images className="w-3 h-3 text-[#b59cfc]" />
-                                            <span>{project.gallery.length}</span>
+                                        {/* Solid high-contrast badge in top right */}
+                                        <div className="absolute top-2 right-2">
+                                            {getStatusBadge(project.status)}
                                         </div>
-                                    )}
 
-                                    <div className="absolute bottom-1.5 right-1.5 p-1 rounded bg-[#06070c] text-[#f2f3f5] border border-white/20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <ZoomIn className="w-3 h-3" />
-                                    </div>
-                                </button>
-                            ) : project.category === 'ACADEMIC' ? (
-                                <div className="w-full h-28 bg-[#06070c] border-b border-white/5 p-3 flex flex-col justify-between">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-1.5 text-xs text-[#b59cfc] font-mono">
-                                            <Code2 className="w-4 h-4 text-[#5865F2]" />
-                                            <span>{dict.projects.academicRepo}</span>
+                                        {project.gallery && project.gallery.length > 1 && (
+                                            <div className="absolute bottom-1.5 left-2 px-2 py-0.5 rounded bg-[#06070c] text-[11px] font-semibold text-[#f2f3f5] border border-white/20 shadow-md flex items-center gap-1 font-mono">
+                                                <Images className="w-3 h-3 text-[#b59cfc]" />
+                                                <span>{project.gallery.length}</span>
+                                            </div>
+                                        )}
+
+                                        <div className="absolute bottom-1.5 right-1.5 p-1 rounded bg-[#06070c] text-[#f2f3f5] border border-white/20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <ZoomIn className="w-3 h-3" />
                                         </div>
-                                        {getStatusBadge(project.status)}
-                                    </div>
-                                    <div className="text-[11px] font-mono text-[#949ba4] bg-[#181b28] px-2 py-1 rounded border border-white/5 truncate">
-                                        $ git clone {project.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="relative w-full h-28 bg-[#06070c] border-b border-white/5 flex flex-col items-center justify-center p-3 overflow-hidden select-none">
-                                    {/* Subtle Discord midnight grid background */}
-                                    <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#7053e3_1px,transparent_1px)] [background-size:12px_12px]" />
-
-                                    {/* Status badge in top right */}
-                                    <div className="absolute top-2 right-2 z-10">
-                                        {getStatusBadge(project.status)}
-                                    </div>
-
-                                    <div className="relative z-10 flex flex-col items-center justify-center gap-1.5 text-center">
-                                        <div className="p-2 rounded-xl bg-[#181b28] border border-white/10 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shadow-inner">
-                                            {project.category === 'HARDWARE' ? (
-                                                <Cpu className="w-5 h-5 text-[#b59cfc]" />
-                                            ) : (
-                                                <ImageOff className="w-5 h-5 text-[#949ba4]" />
-                                            )}
+                                    </button>
+                                ) : project.category === 'ACADEMIC' ? (
+                                    <div className="w-full h-28 bg-[#06070c] border-b border-white/5 p-3 flex flex-col justify-between">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-1.5 text-xs text-[#b59cfc] font-mono">
+                                                <Code2 className="w-4 h-4 text-[#5865F2]" />
+                                                <span>{dict.projects.academicRepo}</span>
+                                            </div>
+                                            {getStatusBadge(project.status)}
                                         </div>
-                                        <span className="text-[10px] font-mono text-[#949ba4] uppercase tracking-wider font-semibold">
-                                            {dict.projects.noPreview}
-                                        </span>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-                                <div className="space-y-1.5">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xs uppercase tracking-wider text-[#b59cfc] font-semibold font-mono">
-                                            {project.category}
-                                        </span>
-                                        {/* Live & Repo Link Icons */}
-                                        <div className="flex items-center gap-1.5">
-                                            {getRepoList(project.repoUrl).map((repo) => (
-                                                <a
-                                                    key={repo.url}
-                                                    href={repo.url}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    title={repo.name ? `Code: ${repo.name}` : 'Source Code'}
-                                                    className="text-[#949ba4] hover:text-white transition-colors"
-                                                >
-                                                    <Github className="w-3.5 h-3.5" />
-                                                </a>
-                                            ))}
-                                            {project.liveUrl && (
-                                                <a
-                                                    href={project.liveUrl}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    title="Live Demo"
-                                                    className="text-[#949ba4] hover:text-[#5865F2] transition-colors"
-                                                >
-                                                    <ExternalLink className="w-3.5 h-3.5" />
-                                                </a>
-                                            )}
+                                        <div className="text-[11px] font-mono text-[#949ba4] bg-[#181b28] px-2 py-1 rounded border border-white/5 truncate">
+                                            $ git clone {project.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
                                         </div>
                                     </div>
+                                ) : (
+                                    <div className="relative w-full h-28 bg-[#06070c] border-b border-white/5 flex flex-col items-center justify-center p-3 overflow-hidden select-none">
+                                        {/* Subtle Discord midnight grid background */}
+                                        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#7053e3_1px,transparent_1px)] [background-size:12px_12px]" />
 
-                                    <h4 className="text-base font-bold text-[#f2f3f5] leading-snug">{project.title}</h4>
-                                    <p className="text-[#949ba4] text-xs sm:text-sm leading-relaxed line-clamp-2">
-                                        {t(project.description, project.descriptionEn || project.description)}
-                                    </p>
-                                </div>
+                                        {/* Status badge in top right */}
+                                        <div className="absolute top-2 right-2 z-10">
+                                            {getStatusBadge(project.status)}
+                                        </div>
 
-                                <div className="pt-2 border-t border-white/5 flex flex-wrap gap-1">
-                                    {project.techStack.map((tech) => (
-                                        <span
-                                            key={tech}
-                                            className="text-[11px] px-2 py-0.5 rounded bg-[#181b28] text-[#949ba4]"
-                                        >
-                                            {tech}
-                                        </span>
-                                    ))}
+                                        <div className="relative z-10 flex flex-col items-center justify-center gap-1.5 text-center">
+                                            <div className="p-2 rounded-xl bg-[#181b28] border border-white/10 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shadow-inner">
+                                                {project.category === 'HARDWARE' ? (
+                                                    <Cpu className="w-5 h-5 text-[#b59cfc]" />
+                                                ) : (
+                                                    <ImageOff className="w-5 h-5 text-[#949ba4]" />
+                                                )}
+                                            </div>
+                                            <span className="text-[10px] font-mono text-[#949ba4] uppercase tracking-wider font-semibold">
+                                                {dict.projects.noPreview}
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                                    <div className="space-y-1.5">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs uppercase tracking-wider text-[#b59cfc] font-semibold font-mono">
+                                                {project.category}
+                                            </span>
+                                            {/* Live & Repo Link Icons */}
+                                            <div className="flex items-center gap-1.5">
+                                                {getRepoList(project.repoUrl).map((repo) => (
+                                                    <a
+                                                        key={repo.url}
+                                                        href={repo.url}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        title={repo.name ? `Code: ${repo.name}` : 'Source Code'}
+                                                        className="text-[#949ba4] hover:text-white transition-colors"
+                                                    >
+                                                        <Github className="w-3.5 h-3.5" />
+                                                    </a>
+                                                ))}
+                                                {project.liveUrl && (
+                                                    <a
+                                                        href={project.liveUrl}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        title="Live Demo"
+                                                        className="text-[#949ba4] hover:text-[#5865F2] transition-colors"
+                                                    >
+                                                        <ExternalLink className="w-3.5 h-3.5" />
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <h4 className="text-base font-bold text-[#f2f3f5] leading-snug">{project.title}</h4>
+                                        <p className="text-[#949ba4] text-xs sm:text-sm leading-relaxed line-clamp-2">
+                                            {t(project.description, project.descriptionEn || project.description)}
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-2 border-t border-white/5 flex flex-wrap gap-1">
+                                        {project.techStack.map((tech) => (
+                                            <span
+                                                key={tech}
+                                                className="text-[11px] px-2 py-0.5 rounded bg-[#181b28] text-[#949ba4]"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+                ) : !(punoted && (filter === 'ALL' || filter === 'SOFTWARE')) ? (
+                    <div className="flex flex-col items-center justify-center p-8 rounded-lg bg-[#0e1019] border border-white/10 text-center my-4 space-y-2">
+                        <div className="p-3 rounded-xl bg-[#181b28] border border-white/10 text-[#949ba4]">
+                            <ImageOff className="w-6 h-6 text-[#b59cfc]" />
                         </div>
-                    ))}
-                </div>
+                        <p className="text-sm font-semibold text-[#f2f3f5]">
+                            {dict.projects.noProjects || 'No projects found'}
+                        </p>
+                        <p className="text-xs text-[#949ba4]">
+                            {t('V této kategorii zatím nejsou žádné projekty.', 'There are currently no projects listed under this category.')}
+                        </p>
+                    </div>
+                ) : null}
             </div>
 
             {/* Lightbox / Multi-Image Gallery Carousel Modal */}

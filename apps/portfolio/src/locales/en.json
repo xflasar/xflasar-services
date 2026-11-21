@@ -30,6 +30,7 @@
     "activeUsers": "Active Users",
     "registeredAccounts": "Registered Accounts",
     "noPreview": "No preview",
+    "noProjects": "No projects found in this category.",
     "academicRepo": "Academic Project • Code",
     "statuses": {
       "active": "active",

@@ -14,8 +14,37 @@ export function Hero() {
     smoothScrollTo(id)
   }
 
+  // On mobile touch: clean one-way trigger from hero to projects
+  const touchStartY = React.useRef<number | null>(null)
+  const isScrollingToProjects = React.useRef(false)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null || isScrollingToProjects.current) return
+    const touchEndY = e.changedTouches[0].clientY
+    const deltaY = touchStartY.current - touchEndY
+
+    // If swiped up more than 35px while on hero, scroll to projects
+    if (deltaY > 35 && window.scrollY < 80) {
+      isScrollingToProjects.current = true
+      smoothScrollTo('projects')
+      setTimeout(() => {
+        isScrollingToProjects.current = false
+      }, 700)
+    }
+    touchStartY.current = null
+  }
+
   return (
-    <section id="hero" className="relative min-h-screen md:h-screen md:snap-start flex flex-col justify-between items-center text-center px-4 sm:px-6 lg:px-8 pt-6 pb-6">
+    <section
+      id="hero"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative min-h-screen md:h-screen md:snap-start flex flex-col justify-between items-center text-center px-4 sm:px-6 lg:px-8 pt-6 pb-6"
+    >
       {/* Top Bar with Brand & Language Toggle */}
       <div className="w-full max-w-6xl mx-auto flex items-center justify-between h-12">
         <span className="font-bold text-base tracking-wider text-[#f2f3f5]">
