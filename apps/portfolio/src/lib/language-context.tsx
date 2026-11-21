@@ -29,6 +29,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('xflasar_lang') as Language
     if (saved === 'cz' || saved === 'en') {
       setLang(saved)
+    } else if (typeof navigator !== 'undefined') {
+      // Auto-detect browser language if not set in localStorage
+      const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || ''
+      const isCzechOrSlovak = /^cs|^sk/i.test(browserLang)
+      setLang(isCzechOrSlovak ? 'cz' : 'en')
     }
   }, [])
 

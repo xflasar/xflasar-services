@@ -30,8 +30,8 @@ export function AboutAndContact() {
     }
 
     return (
-        <SectionContainer id="about" className="justify-center relative !pt-0 !pb-0">
-            <div className="space-y-4 w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center py-2">
+        <SectionContainer id="about" className="justify-center relative !pt-16 md:!pt-0 pb-16 md:!pb-0">
+            <div className="space-y-4 w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center py-2 mb-16 md:mb-0">
                 <div className="flex items-center justify-between border-b border-white/5 pb-3">
                     <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f2f3f5]">
                         {dict.about.title}

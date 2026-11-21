@@ -18,7 +18,7 @@ Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
-Ensure `DATABASE_URL` points to your PostgreSQL instance (e.g. `postgresql://xflasar:password@YOUR_SERVER_IP:5432/portfolio`).
+Ensure `DATABASE_URL` points to your PostgreSQL instance (e.g. `postgresql://username:password@YOUR_SERVER_IP:5432/portfolio`).
 
 ### 2. Database Migration & Seeding
 From the monorepo root or inside this folder:

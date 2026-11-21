@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'xflasar.com | Software Engineer & Maker',
   description:
     'Personal portfolio and projects of xflasar: software engineering, IoT hardware automation, and digital life.',
+  icons: {
+    icon: '/icon.svg',
+  },
 }
 
 export default function RootLayout({

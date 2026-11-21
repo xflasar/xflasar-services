@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b59cfc" />
+      <stop offset="50%" stop-color="#8c6bf7" />
+      <stop offset="100%" stop-color="#5865F2" />
+    </linearGradient>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="32" height="32" rx="8" fill="#0e1019" stroke="#7053e3" stroke-width="1.5" stroke-opacity="0.4" />
+  <!-- Letter X with gradient -->
+  <path d="M9 8 L14 16 L9 24 H12.5 L16 18.5 L19.5 24 H23 L18 16 L23 8 H19.5 L16 13.5 L12.5 8 Z" fill="url(#grad)" />
+</svg>
