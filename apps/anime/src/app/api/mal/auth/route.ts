@@ -1,10 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { generateCodeVerifier } from '@/lib/mal-auth'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const clientId = process.env.MAL_CLIENT_ID
-  const redirectUri = process.env.MAL_REDIRECT_URI || 'http://localhost:3010/api/mal/callback'
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || request.nextUrl.host
+  const proto = request.headers.get('x-forwarded-proto') === 'https' || !host.includes('localhost') ? 'https' : 'http'
+  const origin = `${proto}://${host}`
+  const redirectUri = process.env.MAL_REDIRECT_URI || `${origin}/api/mal/callback`
 
   if (!clientId) {
     return NextResponse.json(
