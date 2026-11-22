@@ -44,21 +44,26 @@ export async function GET(request: NextRequest) {
     const json = await res.json()
     const cookieStore = await cookies()
 
+    const isProd = process.env.NODE_ENV === 'production'
+    const cookieDomain = isProd && !origin.includes('localhost') ? '.xflasar.com' : undefined
+
     cookieStore.set('kc_token', json.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProd,
       sameSite: 'lax',
-      maxAge: json.expires_in || 3600,
+      maxAge: json.expires_in || 86400,
       path: '/',
+      domain: cookieDomain,
     })
 
     if (json.id_token) {
       cookieStore.set('kc_id_token', json.id_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: isProd,
         sameSite: 'lax',
-        maxAge: json.expires_in || 3600,
+        maxAge: json.expires_in || 86400,
         path: '/',
+        domain: cookieDomain,
       })
     }
 
