@@ -33,6 +33,84 @@ interface ActiveGalleryState {
     currentIndex: number
 }
 
+// Subcomponent for project card image with auto-slideshow when 2+ images exist
+function ProjectCardMedia({
+    project,
+    getStatusBadge,
+    onOpenGallery,
+}: {
+    project: Project
+    getStatusBadge: (status: Project['status']) => React.ReactNode
+    onOpenGallery: (project: Project, startIndex?: number) => void
+}) {
+    const images = project.gallery && project.gallery.length > 0
+        ? project.gallery
+        : (project.imageUrl ? [project.imageUrl] : [])
+
+    const [slideIndex, setSlideIndex] = useState(0)
+
+    useEffect(() => {
+        if (images.length <= 1) return
+        const interval = setInterval(() => {
+            setSlideIndex((prev) => (prev + 1) % images.length)
+        }, 3200)
+        return () => clearInterval(interval)
+    }, [images.length])
+
+    return (
+        <button
+            onClick={() => onOpenGallery(project, slideIndex)}
+            className="relative w-full h-32 overflow-hidden border-b border-white/5 cursor-zoom-in text-left focus:outline-none block bg-[#06070c]"
+            aria-label={`Enlarge photo gallery of ${project.title}`}
+        >
+            {/* Ambient blur background for smooth filling */}
+            {images.map((imgUrl, idx) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    key={`blur-${imgUrl}`}
+                    src={imgUrl}
+                    alt=""
+                    aria-hidden="true"
+                    className={`absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-20 transition-opacity duration-700 ease-in-out ${
+                        idx === slideIndex ? 'opacity-20' : 'opacity-0 pointer-events-none'
+                    }`}
+                />
+            ))}
+
+            {/* Foreground image transition */}
+            {images.map((imgUrl, idx) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    key={imgUrl}
+                    src={imgUrl}
+                    alt={`${project.title} slide ${idx + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                        idx === slideIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                    }`}
+                />
+            ))}
+
+            {/* Status badge in top right */}
+            <div className="absolute top-2 right-2 z-10">
+                {getStatusBadge(project.status)}
+            </div>
+
+            {/* Gallery count indicator */}
+            {images.length > 1 && (
+                <div className="absolute bottom-1.5 left-2 px-2 py-0.5 rounded bg-[#06070c]/85 text-[11px] font-semibold text-[#f2f3f5] border border-white/20 shadow-md flex items-center gap-1.5 font-mono z-10 backdrop-blur-sm">
+                    <Images className="w-3 h-3 text-[#b59cfc]" />
+                    <span>{slideIndex + 1}/{images.length}</span>
+                </div>
+            )}
+
+            {/* Zoom hint */}
+            <div className="absolute bottom-1.5 right-1.5 p-1 rounded bg-[#06070c]/85 text-[#f2f3f5] border border-white/20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10 backdrop-blur-sm">
+                <ZoomIn className="w-3 h-3" />
+            </div>
+        </button>
+    )
+}
+
 export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
     const { dict, t } = useLanguage()
 
@@ -383,35 +461,12 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                 className="flex flex-col justify-between bg-[#0e1019] rounded-lg border border-white/10 overflow-hidden hover:border-[#7053e3]/50 hover:bg-[#131622] transition-all duration-200 group"
                             >
                                 {/* Image OR No-Image Fallback Card */}
-                                {project.imageUrl ? (
-                                    <button
-                                        onClick={() => openGallery(project)}
-                                        className="relative w-full h-28 overflow-hidden border-b border-white/5 cursor-zoom-in text-left focus:outline-none block"
-                                        aria-label={`Enlarge photo gallery of ${project.title}`}
-                                    >
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={project.imageUrl}
-                                            alt={project.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-
-                                        {/* Solid high-contrast badge in top right */}
-                                        <div className="absolute top-2 right-2">
-                                            {getStatusBadge(project.status)}
-                                        </div>
-
-                                        {project.gallery && project.gallery.length > 1 && (
-                                            <div className="absolute bottom-1.5 left-2 px-2 py-0.5 rounded bg-[#06070c] text-[11px] font-semibold text-[#f2f3f5] border border-white/20 shadow-md flex items-center gap-1 font-mono">
-                                                <Images className="w-3 h-3 text-[#b59cfc]" />
-                                                <span>{project.gallery.length}</span>
-                                            </div>
-                                        )}
-
-                                        <div className="absolute bottom-1.5 right-1.5 p-1 rounded bg-[#06070c] text-[#f2f3f5] border border-white/20 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <ZoomIn className="w-3 h-3" />
-                                        </div>
-                                    </button>
+                                {project.imageUrl || (project.gallery && project.gallery.length > 0) ? (
+                                    <ProjectCardMedia
+                                        project={project}
+                                        getStatusBadge={getStatusBadge}
+                                        onOpenGallery={openGallery}
+                                    />
                                 ) : project.category === 'ACADEMIC' ? (
                                     <div className="w-full h-28 bg-[#06070c] border-b border-white/5 p-3 flex flex-col justify-between">
                                         <div className="flex items-center justify-between">

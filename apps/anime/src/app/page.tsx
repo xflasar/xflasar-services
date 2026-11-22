@@ -26,6 +26,19 @@ import { useLanguage } from '@/lib/language-context'
 export default function AnimePage() {
   const { lang, setLang, dict } = useLanguage()
   const [mediaMode, setMediaMode] = useState<'anime' | 'manga'>('anime')
+
+  // Auto-detect mediaMode from hostname (e.g. manga.xflasar.com) or ?mode=manga param
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname
+      const params = new URLSearchParams(window.location.search)
+      if (host.startsWith('manga.') || params.get('mode') === 'manga') {
+        setMediaMode('manga')
+      } else if (host.startsWith('anime.') || params.get('mode') === 'anime') {
+        setMediaMode('anime')
+      }
+    }
+  }, [])
   const [entries, setEntries] = useState<any[]>([])
   const [filter, setFilter] = useState<string>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
@@ -603,7 +616,12 @@ export default function AnimePage() {
       <footer className="shrink-0 z-30 bg-[#06070c] border-t border-white/10 py-2.5 px-4 sm:px-8 text-center text-xs text-[#949ba4]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span>© {new Date().getFullYear()} {dict.footer.rights}</span>
+            <span>
+              © {new Date().getFullYear()} {dict.footer.rights} •{' '}
+              <span className="text-[#f2f3f5] font-semibold">
+                {mediaMode === 'anime' ? dict.footer.animeTracker : dict.footer.mangaTracker}
+              </span>
+            </span>
           </div>
 
           <div className="flex items-center gap-3">

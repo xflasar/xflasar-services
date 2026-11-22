@@ -97,7 +97,9 @@
     "success": "Synchronizace s MAL úspěšně dokončena!"
   },
   "footer": {
-    "rights": "xflasar.com • Anime Tracker",
+    "rights": "xflasar.com",
+    "animeTracker": "Anime Tracker",
+    "mangaTracker": "Manga Tracker",
     "aesthetic": "Discord Midnight Aesthetic",
     "malProfile": "MAL: xSupeFly"
   },

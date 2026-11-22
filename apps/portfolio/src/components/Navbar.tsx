@@ -97,9 +97,10 @@ export function Navbar() {
             href="https://anime.xflasar.com"
             target="_blank"
             rel="noreferrer"
-            className="text-[#b59cfc] hover:text-white transition-colors text-sm font-medium"
+            className="text-[#b59cfc] hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
           >
-            {dict.nav.anime} ↗
+            <span>⛩️ {dict.nav.anime}</span>
+            <span className="text-xs">↗</span>
           </a>
         </nav>
 
