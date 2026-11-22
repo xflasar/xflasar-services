@@ -2,21 +2,23 @@
 
 import React from 'react'
 import { Plus, Star, ExternalLink, Edit3, Trash2 } from 'lucide-react'
-import { AnimeEntry, AnimeStatus } from '@xflasar/types'
+import { AnimeEntry, AnimeStatus, MangaEntry } from '@xflasar/types'
 import { useLanguage } from '@/lib/language-context'
 
 interface AnimeTableViewProps {
-  entries: AnimeEntry[]
+  entries: any[]
   isAdmin: boolean
+  mode?: 'anime' | 'manga'
   onQuickIncrement: (id: string) => void
-  onEdit: (anime: AnimeEntry) => void
+  onEdit: (anime: any) => void
   onDelete: (id: string) => void
-  onSelect?: (anime: AnimeEntry) => void
+  onSelect?: (anime: any) => void
 }
 
 export function AnimeTableView({
   entries,
   isAdmin,
+  mode = 'anime',
   onQuickIncrement,
   onEdit,
   onDelete,
@@ -24,12 +26,18 @@ export function AnimeTableView({
 }: AnimeTableViewProps) {
   const { dict } = useLanguage()
 
-  const getStatusBadge = (status: AnimeStatus) => {
+  const getStatusBadge = (status: AnimeStatus | string) => {
     switch (status) {
       case 'WATCHING':
         return (
           <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono uppercase">
             {dict.tabs.watching}
+          </span>
+        )
+      case 'READING':
+        return (
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono uppercase">
+            {dict.tabs.reading || 'Čteno'}
           </span>
         )
       case 'COMPLETED':
@@ -42,6 +50,12 @@ export function AnimeTableView({
         return (
           <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono uppercase">
             {dict.tabs.planToWatch}
+          </span>
+        )
+      case 'PLAN_TO_READ':
+        return (
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono uppercase">
+            {dict.tabs.planToRead || 'Plánuji'}
           </span>
         )
       case 'ON_HOLD':
@@ -147,16 +161,25 @@ export function AnimeTableView({
               {/* Progress */}
               <td className="py-2.5 px-3 text-center">
                 <div className="inline-flex items-center gap-1.5 font-mono">
-                  <span className="text-[#f2f3f5] font-bold">{anime.episodesWatched}</span>
+                  <span className="text-[#f2f3f5] font-bold">
+                    {anime.chaptersRead !== undefined ? anime.chaptersRead : anime.episodesWatched}
+                  </span>
                   <span className="text-[#949ba4]">/</span>
-                  <span className="text-[#949ba4]">{anime.totalEpisodes || '?'}</span>
+                  <span className="text-[#949ba4]">
+                    {(anime.totalChapters !== undefined ? anime.totalChapters : anime.totalEpisodes) || '?'}
+                  </span>
 
-                  {isAdmin && anime.status === 'WATCHING' && (
+                  {isAdmin && (anime.status === 'WATCHING' || anime.status === 'READING') && (
                     <button
                       onClick={() => onQuickIncrement(anime.id)}
-                      disabled={anime.totalEpisodes ? anime.episodesWatched >= anime.totalEpisodes : false}
+                      disabled={
+                        (anime.totalChapters !== undefined ? anime.totalChapters : anime.totalEpisodes)
+                          ? (anime.chaptersRead !== undefined ? anime.chaptersRead : anime.episodesWatched) >=
+                            (anime.totalChapters !== undefined ? anime.totalChapters : anime.totalEpisodes)
+                          : false
+                      }
                       className="ml-1 p-1 rounded bg-[#181b28] hover:bg-[#5865F2] text-[#b59cfc] hover:text-white border border-white/10 transition-colors disabled:opacity-30"
-                      title={dict.card.quickIncrement}
+                      title={mode === 'anime' ? dict.card.quickIncrement : dict.card.quickIncrementChapter || '+1 kap'}
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -167,7 +190,7 @@ export function AnimeTableView({
               {/* Genres */}
               <td className="py-2.5 px-3">
                 <div className="flex flex-wrap gap-1">
-                  {anime.genres.slice(0, 3).map((g) => (
+                  {(anime.genres || []).slice(0, 3).map((g: string) => (
                     <span
                       key={g}
                       className="text-[10px] px-1.5 py-0.2 rounded bg-[#181b28] text-[#949ba4] border border-white/5 font-medium"

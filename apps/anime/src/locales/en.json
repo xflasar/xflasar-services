@@ -1,25 +1,33 @@
 {
   "nav": {
     "backToPortfolio": "← xflasar.com",
-    "title": "Anime Tracker",
+    "title": "Anime / Manga Tracker",
+    "animeTab": "⛩️ Anime",
+    "mangaTab": "📖 Manga",
     "syncMal": "Sync MAL",
     "adminMode": "Admin Mode",
     "viewerMode": "Viewer Mode",
-    "addAnime": "+ Add"
+    "addAnime": "+ Add",
+    "addManga": "+ Add Manga"
   },
   "stats": {
     "titles": "Titles",
     "episodes": "Episodes",
+    "chapters": "Chapters",
+    "volumes": "Volumes",
     "watchTime": "Time",
     "days": "days",
     "average": "Mean",
-    "watching": "Watching"
+    "watching": "Watching",
+    "reading": "Reading"
   },
   "tabs": {
     "all": "All",
     "watching": "Watching",
+    "reading": "Reading",
     "completed": "Completed",
     "planToWatch": "Plan to Watch",
+    "planToRead": "Plan to Read",
     "onHold": "On Hold",
     "dropped": "Dropped"
   },
@@ -29,15 +37,18 @@
       "recent": "Recent",
       "score": "Score (Highest)",
       "title": "Title (A-Z)",
-      "progress": "Episodes"
+      "progress": "Progress"
     },
     "gridView": "Grid view",
     "tableView": "Table view"
   },
   "card": {
     "episodes": "Episodes:",
+    "chapters": "Chapters:",
+    "volumes": "Volumes:",
     "unrated": "Unrated",
-    "quickIncrement": "Episode +1",
+    "quickIncrement": "+1 ep",
+    "quickIncrementChapter": "+1 chapter",
     "noImage": "No Image",
     "edit": "Edit",
     "delete": "Delete"
@@ -47,7 +58,7 @@
     "title": "Title",
     "score": "Score",
     "status": "Status",
-    "episodes": "Episodes",
+    "episodes": "Episodes / Chapters",
     "genres": "Genres",
     "actions": "Actions"
   },

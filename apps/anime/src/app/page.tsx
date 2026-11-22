@@ -25,8 +25,9 @@ import { useLanguage } from '@/lib/language-context'
 
 export default function AnimePage() {
   const { lang, setLang, dict } = useLanguage()
-  const [entries, setEntries] = useState<AnimeEntry[]>([])
-  const [filter, setFilter] = useState<'ALL' | AnimeStatus>('ALL')
+  const [mediaMode, setMediaMode] = useState<'anime' | 'manga'>('anime')
+  const [entries, setEntries] = useState<any[]>([])
+  const [filter, setFilter] = useState<string>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid')
   const [sortBy, setSortBy] = useState<'score' | 'title' | 'progress' | 'recent'>('recent')
@@ -52,33 +53,38 @@ export default function AnimePage() {
   }, [])
 
   // Modal State
-  const [selectedAnime, setSelectedAnime] = useState<Partial<AnimeEntry> | null>(null)
+  const [selectedAnime, setSelectedAnime] = useState<Partial<any> | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Detail Modal State
-  const [detailAnime, setDetailAnime] = useState<AnimeEntry | null>(null)
+  const [detailAnime, setDetailAnime] = useState<any | null>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
 
   // MAL Sync state
   const [isSyncing, setIsSyncing] = useState(false)
   const [syncStatus, setSyncStatus] = useState<string | null>(null)
 
-  // Initial fetch from our DB API
+  // Fetch entries depending on mediaMode (anime vs manga)
   useEffect(() => {
-    fetch('/api/anime')
+    setFilter('ALL')
+    const endpoint = mediaMode === 'anime' ? '/api/anime' : '/api/manga'
+    fetch(endpoint)
       .then((res) => res.json())
       .then((json) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        if (json.success && Array.isArray(json.data)) {
           setEntries(json.data)
         }
       })
-      .catch((err) => console.warn('Could not load anime from API:', err))
-  }, [])
+      .catch((err) => console.warn(`Could not load ${mediaMode} from API:`, err))
+  }, [mediaMode])
 
   // Compute stats dynamically
   const stats: AnimeStats = useMemo(() => {
     const totalEntries = entries.length
-    const totalEpisodesWatched = entries.reduce((acc, curr) => acc + (curr.episodesWatched || 0), 0)
+    const totalEpisodesWatched = entries.reduce(
+      (acc, curr) => acc + (curr.chaptersRead !== undefined ? curr.chaptersRead : (curr.episodesWatched || 0)),
+      0
+    )
     const totalHoursWatched = Math.round((totalEpisodesWatched * 24) / 60)
 
     const scored = entries.filter((e) => typeof e.score === 'number' && e.score > 0)
@@ -86,10 +92,12 @@ export default function AnimePage() {
       ? scored.reduce((acc, curr) => acc + (curr.score || 0), 0) / scored.length
       : 0
 
-    const byStatus: Record<AnimeStatus, number> = {
+    const byStatus: Record<string, number> = {
       WATCHING: 0,
+      READING: 0,
       COMPLETED: 0,
       PLAN_TO_WATCH: 0,
+      PLAN_TO_READ: 0,
       ON_HOLD: 0,
       DROPPED: 0,
     }
@@ -100,7 +108,7 @@ export default function AnimePage() {
       if (byStatus[e.status] !== undefined) {
         byStatus[e.status]++
       }
-      e.genres.forEach((g) => {
+      ;(e.genres || []).forEach((g: string) => {
         genreMap[g] = (genreMap[g] || 0) + 1
       })
     })
@@ -115,7 +123,7 @@ export default function AnimePage() {
       totalEpisodesWatched,
       totalHoursWatched,
       averageScore,
-      byStatus,
+      byStatus: byStatus as any,
       topGenres,
     }
   }, [entries])
@@ -128,7 +136,7 @@ export default function AnimePage() {
         searchQuery.trim() === '' ||
         e.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (e.titleEn && e.titleEn.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        e.genres.some((g) => g.toLowerCase().includes(searchQuery.toLowerCase()))
+        (e.genres && e.genres.some((g: string) => g.toLowerCase().includes(searchQuery.toLowerCase())))
 
       return matchesFilter && matchesSearch
     })
@@ -140,7 +148,9 @@ export default function AnimePage() {
       } else if (sortBy === 'title') {
         return a.title.localeCompare(b.title)
       } else if (sortBy === 'progress') {
-        return b.episodesWatched - a.episodesWatched
+        const progA = a.chaptersRead !== undefined ? a.chaptersRead : a.episodesWatched
+        const progB = b.chaptersRead !== undefined ? b.chaptersRead : b.episodesWatched
+        return progB - progA
       }
       return 0 // default 'recent'
     })
@@ -148,13 +158,17 @@ export default function AnimePage() {
     return result
   }, [entries, filter, searchQuery, sortBy])
 
-  // Quick episode increment (+1) with optional MAL push
+  // Quick increment (+1) with optional MAL push
   const handleQuickIncrement = async (id: string) => {
     const target = entries.find((e) => e.id === id)
     if (!target) return
 
-    const newWatched = target.episodesWatched + 1
-    const completed = target.totalEpisodes ? newWatched >= target.totalEpisodes : false
+    const isManga = mediaMode === 'manga'
+    const curWatched = isManga ? target.chaptersRead : target.episodesWatched
+    const totalMax = isManga ? target.totalChapters : target.totalEpisodes
+
+    const newWatched = (curWatched || 0) + 1
+    const completed = totalMax ? newWatched >= totalMax : false
     const newStatus = completed ? 'COMPLETED' : target.status
 
     setEntries((prev) =>
@@ -162,7 +176,7 @@ export default function AnimePage() {
         if (item.id === id) {
           return {
             ...item,
-            episodesWatched: newWatched,
+            ...(isManga ? { chaptersRead: newWatched } : { episodesWatched: newWatched }),
             status: newStatus,
             updatedAt: new Date().toISOString(),
           }
@@ -174,12 +188,13 @@ export default function AnimePage() {
     // Push update to MAL API in background if authenticated
     if (target.malId) {
       try {
-        await fetch('/api/mal/update', {
+        const updateEndpoint = isManga ? '/api/mal/manga-update' : '/api/mal/update'
+        await fetch(updateEndpoint, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             malId: target.malId,
-            episodesWatched: newWatched,
+            ...(isManga ? { chaptersRead: newWatched } : { episodesWatched: newWatched }),
             status: newStatus,
           }),
         })
@@ -267,7 +282,8 @@ export default function AnimePage() {
     setSyncStatus(dict.sync.connecting)
 
     try {
-      const res = await fetch('/api/mal/sync')
+      const syncEndpoint = mediaMode === 'anime' ? '/api/mal/sync' : '/api/mal/manga-sync'
+      const res = await fetch(syncEndpoint)
       if (res.status === 401) {
         // Redirect to MAL OAuth Login if not authenticated
         setSyncStatus('Přesměrovávám na přihlášení MyAnimeList...')
@@ -278,7 +294,7 @@ export default function AnimePage() {
       const json = await res.json()
       if (json.success && Array.isArray(json.data) && json.data.length > 0) {
         setEntries(json.data)
-        setSyncStatus(dict.sync.success + ` (${json.count} anime)`)
+        setSyncStatus(dict.sync.success + ` (${json.count} ${mediaMode})`)
       } else {
         setSyncStatus(json.error || 'Žádná data z MAL')
       }
@@ -314,6 +330,32 @@ export default function AnimePage() {
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-1.5">
+            {/* Anime / Manga Mode Switcher */}
+            <div className="flex items-center bg-[#0e1019] p-0.5 rounded border border-white/10">
+              <button
+                onClick={() => setMediaMode('anime')}
+                className={`px-2 py-0.5 rounded text-[11px] font-bold font-mono transition-all flex items-center gap-1 ${
+                  mediaMode === 'anime'
+                    ? 'bg-[#7053e3] text-white shadow-sm'
+                    : 'text-[#949ba4] hover:text-white'
+                }`}
+              >
+                <span>⛩️</span>
+                <span>Anime</span>
+              </button>
+              <button
+                onClick={() => setMediaMode('manga')}
+                className={`px-2 py-0.5 rounded text-[11px] font-bold font-mono transition-all flex items-center gap-1 ${
+                  mediaMode === 'manga'
+                    ? 'bg-[#7053e3] text-white shadow-sm'
+                    : 'text-[#949ba4] hover:text-white'
+                }`}
+              >
+                <span>📖</span>
+                <span>Manga</span>
+              </button>
+            </div>
+
             {/* Language Switcher (CZ / EN) */}
             <div className="flex items-center bg-[#0e1019] p-0.5 rounded border border-white/10">
               <button
@@ -379,7 +421,7 @@ export default function AnimePage() {
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#5865F2] hover:bg-[#4752c4] text-white text-[11px] font-semibold transition-all shadow-sm"
               >
                 <Plus className="w-3 h-3" />
-                <span>{dict.nav.addAnime}</span>
+                <span>{mediaMode === 'anime' ? dict.nav.addAnime : dict.nav.addManga}</span>
               </button>
             )}
           </div>
@@ -387,7 +429,7 @@ export default function AnimePage() {
 
         {/* Compact 1-line KPI Ribbon */}
         <div className="max-w-7xl mx-auto">
-          <StatsOverview stats={stats} />
+          <StatsOverview stats={stats} mode={mediaMode} />
         </div>
 
         {/* Toolbar: Status Tabs & Filter / Search directly under KPI */}
@@ -395,14 +437,23 @@ export default function AnimePage() {
           {/* Status Tabs */}
           <div className="flex items-center bg-[#0e1019] p-0.5 rounded-lg border border-white/10 shrink-0 gap-0.5">
             {(
-              [
-                { id: 'ALL', label: dict.tabs.all },
-                { id: 'WATCHING', label: dict.tabs.watching },
-                { id: 'COMPLETED', label: dict.tabs.completed },
-                { id: 'PLAN_TO_WATCH', label: dict.tabs.planToWatch },
-                { id: 'ON_HOLD', label: dict.tabs.onHold },
-                { id: 'DROPPED', label: dict.tabs.dropped },
-              ] as const
+              mediaMode === 'anime'
+                ? [
+                    { id: 'ALL', label: dict.tabs.all },
+                    { id: 'WATCHING', label: dict.tabs.watching },
+                    { id: 'COMPLETED', label: dict.tabs.completed },
+                    { id: 'PLAN_TO_WATCH', label: dict.tabs.planToWatch },
+                    { id: 'ON_HOLD', label: dict.tabs.onHold },
+                    { id: 'DROPPED', label: dict.tabs.dropped },
+                  ]
+                : [
+                    { id: 'ALL', label: dict.tabs.all },
+                    { id: 'READING', label: dict.tabs.reading },
+                    { id: 'COMPLETED', label: dict.tabs.completed },
+                    { id: 'PLAN_TO_READ', label: dict.tabs.planToRead },
+                    { id: 'ON_HOLD', label: dict.tabs.onHold },
+                    { id: 'DROPPED', label: dict.tabs.dropped },
+                  ]
             ).map((tab) => (
               <button
                 key={tab.id}
@@ -492,6 +543,7 @@ export default function AnimePage() {
             <RecentUpdatesSection
               entries={entries}
               isAdmin={isAdmin}
+              mode={mediaMode}
               onQuickIncrement={handleQuickIncrement}
               onSelect={(a) => {
                 setDetailAnime(a)
@@ -509,6 +561,7 @@ export default function AnimePage() {
                     key={anime.id}
                     anime={anime}
                     isAdmin={isAdmin}
+                    mode={mediaMode}
                     onQuickIncrement={handleQuickIncrement}
                     onEdit={handleOpenEdit}
                     onDelete={handleDelete}
@@ -524,6 +577,7 @@ export default function AnimePage() {
                 <AnimeTableView
                   entries={filteredEntries}
                   isAdmin={isAdmin}
+                  mode={mediaMode}
                   onQuickIncrement={handleQuickIncrement}
                   onEdit={handleOpenEdit}
                   onDelete={handleDelete}
@@ -579,6 +633,7 @@ export default function AnimePage() {
         anime={detailAnime}
         isOpen={isDetailOpen}
         isAdmin={isAdmin}
+        mode={mediaMode}
         onClose={() => setIsDetailOpen(false)}
         onOpenEdit={(a) => {
           setSelectedAnime(a)

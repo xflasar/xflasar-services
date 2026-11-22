@@ -83,6 +83,15 @@ export interface MangaEntry {
   updatedAt: string
 }
 
+export interface MangaStats {
+  totalEntries: number
+  totalChaptersRead: number
+  totalVolumesRead?: number
+  averageScore: number
+  byStatus: Record<MangaStatus, number>
+  topGenres: { genre: string; count: number }[]
+}
+
 // ─── API Responses ─────────────────────────────────────────────────────────
 
 export interface ApiResponse<T> {

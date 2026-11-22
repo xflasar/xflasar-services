@@ -2,32 +2,55 @@
 
 import React from 'react'
 import { Plus, Star, ExternalLink, Edit3, Trash2 } from 'lucide-react'
-import { AnimeEntry, AnimeStatus } from '@xflasar/types'
+import { AnimeEntry, AnimeStatus, MangaEntry } from '@xflasar/types'
 import { useLanguage } from '@/lib/language-context'
 
 interface AnimeCardProps {
-  anime: AnimeEntry
+  anime: AnimeEntry | (MangaEntry & { episodesWatched?: number; totalEpisodes?: number })
   isAdmin: boolean
+  mode?: 'anime' | 'manga'
   onQuickIncrement: (id: string) => void
-  onEdit: (anime: AnimeEntry) => void
+  onEdit: (anime: any) => void
   onDelete: (id: string) => void
-  onSelect?: (anime: AnimeEntry) => void
+  onSelect?: (anime: any) => void
 }
 
-export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, onSelect }: AnimeCardProps) {
+export function AnimeCard({
+  anime,
+  isAdmin,
+  mode = 'anime',
+  onQuickIncrement,
+  onEdit,
+  onDelete,
+  onSelect,
+}: AnimeCardProps) {
   const { dict } = useLanguage()
+
+  const currentProgress = (anime as any).chaptersRead !== undefined
+    ? (anime as any).chaptersRead
+    : (anime as any).episodesWatched || 0
+  const maxProgress = (anime as any).totalChapters !== undefined
+    ? (anime as any).totalChapters
+    : (anime as any).totalEpisodes
+
   const isCompleted = anime.status === 'COMPLETED'
-  const isWatching = anime.status === 'WATCHING'
-  const progressPercent = anime.totalEpisodes
-    ? Math.min(100, Math.round((anime.episodesWatched / anime.totalEpisodes) * 100))
+  const isActive = anime.status === 'WATCHING' || (anime.status as any) === 'READING'
+  const progressPercent = maxProgress
+    ? Math.min(100, Math.round((currentProgress / maxProgress) * 100))
     : 0
 
-  const getStatusBadge = (status: AnimeStatus) => {
+  const getStatusBadge = (status: AnimeStatus | string) => {
     switch (status) {
       case 'WATCHING':
         return (
           <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono tracking-wider uppercase">
             {dict.tabs.watching}
+          </span>
+        )
+      case 'READING':
+        return (
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono tracking-wider uppercase">
+            {dict.tabs.reading || 'Čteno'}
           </span>
         )
       case 'COMPLETED':
@@ -40,6 +63,12 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
         return (
           <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono tracking-wider uppercase">
             {dict.tabs.planToWatch}
+          </span>
+        )
+      case 'PLAN_TO_READ':
+        return (
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono tracking-wider uppercase">
+            {dict.tabs.planToRead || 'Plánuji'}
           </span>
         )
       case 'ON_HOLD':
@@ -124,7 +153,7 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
       <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
         {anime.malId ? (
           <a
-            href={`https://myanimelist.net/anime/${anime.malId}`}
+            href={`https://myanimelist.net/${mode === 'anime' ? 'anime' : 'manga'}/${anime.malId}`}
             target="_blank"
             rel="noreferrer"
             title={`Open ${anime.title} on MyAnimeList`}
@@ -148,7 +177,7 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
 
             {/* Genres */}
             <div className="flex flex-wrap gap-1 mt-2">
-              {anime.genres.slice(0, 3).map((g) => (
+              {(anime.genres || []).slice(0, 3).map((g: string) => (
                 <span
                   key={g}
                   className="text-[10px] px-1.5 py-0.2 rounded bg-[#181b28] text-[#949ba4] font-medium border border-white/5"
@@ -175,7 +204,7 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
 
             {/* Genres */}
             <div className="flex flex-wrap gap-1 mt-2">
-              {anime.genres.slice(0, 3).map((g) => (
+              {(anime.genres || []).slice(0, 3).map((g: string) => (
                 <span
                   key={g}
                   className="text-[10px] px-1.5 py-0.2 rounded bg-[#181b28] text-[#949ba4] font-medium border border-white/5"
@@ -190,11 +219,13 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
         {/* Progress & Controls */}
         <div className="pt-2 border-t border-white/5 space-y-1.5">
           <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-[#949ba4]">{dict.card.episodes}</span>
+            <span className="text-[#949ba4]">
+              {mode === 'anime' ? dict.card.episodes : dict.card.chapters || 'Kapitoly:'}
+            </span>
             <div className="flex items-center gap-1">
-              <span className="text-[#f2f3f5] font-bold">{anime.episodesWatched}</span>
+              <span className="text-[#f2f3f5] font-bold">{currentProgress}</span>
               <span className="text-[#949ba4]">/</span>
-              <span className="text-[#949ba4]">{anime.totalEpisodes || '?'}</span>
+              <span className="text-[#949ba4]">{maxProgress || '?'}</span>
             </div>
           </div>
 
@@ -207,15 +238,15 @@ export function AnimeCard({ anime, isAdmin, onQuickIncrement, onEdit, onDelete, 
             />
           </div>
 
-          {/* Quick +1 Episode Button */}
-          {isWatching && isAdmin && (
+          {/* Quick +1 Episode/Chapter Button */}
+          {isActive && isAdmin && (
             <button
               onClick={() => onQuickIncrement(anime.id)}
-              disabled={anime.totalEpisodes ? anime.episodesWatched >= anime.totalEpisodes : false}
+              disabled={maxProgress ? currentProgress >= maxProgress : false}
               className="w-full mt-1.5 py-1 px-2 rounded bg-[#181b28] hover:bg-[#5865F2] hover:text-white text-[#b59cfc] border border-white/10 hover:border-[#5865F2] text-xs font-semibold font-mono flex items-center justify-center gap-1 transition-all disabled:opacity-40 disabled:pointer-events-none"
             >
               <Plus className="w-3 h-3" />
-              <span>{dict.card.quickIncrement}</span>
+              <span>{mode === 'anime' ? dict.card.quickIncrement : dict.card.quickIncrementChapter || '+1 kap'}</span>
             </button>
           )}
         </div>

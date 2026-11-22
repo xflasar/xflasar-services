@@ -1,25 +1,33 @@
 {
   "nav": {
     "backToPortfolio": "← xflasar.com",
-    "title": "Anime Tracker",
+    "title": "Anime / Manga Tracker",
+    "animeTab": "⛩️ Anime",
+    "mangaTab": "📖 Manga",
     "syncMal": "Sync MAL",
     "adminMode": "Admin Mode",
     "viewerMode": "Viewer Mode",
-    "addAnime": "+ Přidat"
+    "addAnime": "+ Přidat",
+    "addManga": "+ Přidat Mangu"
   },
   "stats": {
     "titles": "Titulů",
     "episodes": "Epizod",
+    "chapters": "Kapitol",
+    "volumes": "Svazků",
     "watchTime": "Čas",
     "days": "dní",
     "average": "Průměr",
-    "watching": "Rozkoukáno"
+    "watching": "Rozkoukáno",
+    "reading": "Čteno"
   },
   "tabs": {
     "all": "Vše",
     "watching": "Rozkoukáno",
-    "completed": "Zhlédnuto",
+    "reading": "Rozečteno",
+    "completed": "Dokončeno",
     "planToWatch": "Plánuji",
+    "planToRead": "Plánuji číst",
     "onHold": "Pozastaveno",
     "dropped": "Odloženo"
   },
@@ -29,15 +37,18 @@
       "recent": "Nedávné",
       "score": "Skóre (nejvyšší)",
       "title": "Název (A-Z)",
-      "progress": "Epizody"
+      "progress": "Pokrok"
     },
     "gridView": "Mřížka",
     "tableView": "Tabulka"
   },
   "card": {
     "episodes": "Epizody:",
+    "chapters": "Kapitoly:",
+    "volumes": "Svazky:",
     "unrated": "Nehodnoceno",
-    "quickIncrement": "Episoda +1",
+    "quickIncrement": "+1 díl",
+    "quickIncrementChapter": "+1 kapitola",
     "noImage": "Bez obrázku",
     "edit": "Upravit",
     "delete": "Smazat"
@@ -47,7 +58,7 @@
     "title": "Titul",
     "score": "Skóre",
     "status": "Status",
-    "episodes": "Epizody",
+    "episodes": "Epizody / Kapitoly",
     "genres": "Žánry",
     "actions": "Akce"
   },

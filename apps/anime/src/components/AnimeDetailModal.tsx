@@ -6,16 +6,18 @@ import { AnimeEntry, AnimeStatus } from '@xflasar/types'
 import { useLanguage } from '@/lib/language-context'
 
 interface AnimeDetailModalProps {
-  anime: AnimeEntry | null
+  anime: any | null
   isOpen: boolean
+  mode?: 'anime' | 'manga'
   onClose: () => void
-  onOpenEdit?: (anime: AnimeEntry) => void
+  onOpenEdit?: (anime: any) => void
   isAdmin?: boolean
 }
 
 export function AnimeDetailModal({
   anime,
   isOpen,
+  mode = 'anime',
   onClose,
   onOpenEdit,
   isAdmin,
@@ -24,12 +26,18 @@ export function AnimeDetailModal({
 
   if (!isOpen || !anime) return null
 
-  const getStatusBadge = (status: AnimeStatus) => {
+  const getStatusBadge = (status: AnimeStatus | string) => {
     switch (status) {
       case 'WATCHING':
         return (
           <span className="text-xs px-2.5 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono tracking-wider uppercase">
             {dict.tabs.watching}
+          </span>
+        )
+      case 'READING':
+        return (
+          <span className="text-xs px-2.5 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono tracking-wider uppercase">
+            {dict.tabs.reading || 'Čteno'}
           </span>
         )
       case 'COMPLETED':
@@ -42,6 +50,12 @@ export function AnimeDetailModal({
         return (
           <span className="text-xs px-2.5 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono tracking-wider uppercase">
             {dict.tabs.planToWatch}
+          </span>
+        )
+      case 'PLAN_TO_READ':
+        return (
+          <span className="text-xs px-2.5 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono tracking-wider uppercase">
+            {dict.tabs.planToRead || 'Plánuji'}
           </span>
         )
       case 'ON_HOLD':
@@ -61,8 +75,11 @@ export function AnimeDetailModal({
     }
   }
 
-  const progressPercent = anime.totalEpisodes
-    ? Math.min(100, Math.round((anime.episodesWatched / anime.totalEpisodes) * 100))
+  const currentProgress = anime.chaptersRead !== undefined ? anime.chaptersRead : (anime.episodesWatched || 0)
+  const maxProgress = anime.totalChapters !== undefined ? anime.totalChapters : anime.totalEpisodes
+
+  const progressPercent = maxProgress
+    ? Math.min(100, Math.round((currentProgress / maxProgress) * 100))
     : 0
 
   return (
@@ -130,11 +147,15 @@ export function AnimeDetailModal({
                   </span>
                 )}
 
-                {/* Episodes */}
+                {/* Episodes / Chapters */}
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#181b28] border border-white/10 text-xs font-mono">
-                  <Film className="w-3.5 h-3.5 text-[#5865F2]" />
+                  {mode === 'anime' ? (
+                    <Film className="w-3.5 h-3.5 text-[#5865F2]" />
+                  ) : (
+                    <BookOpen className="w-3.5 h-3.5 text-[#5865F2]" />
+                  )}
                   <span>
-                    {anime.episodesWatched} / {anime.totalEpisodes || '?'} ep
+                    {currentProgress} / {maxProgress || '?'} {mode === 'anime' ? 'ep' : 'kap'}
                   </span>
                 </div>
               </div>
@@ -147,9 +168,8 @@ export function AnimeDetailModal({
                 </div>
                 <div className="w-full bg-[#181b28] h-2 rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-300 ${
-                      anime.status === 'COMPLETED' ? 'bg-[#3ba55d]' : 'bg-[#7053e3]'
-                    }`}
+                    className={`h-full rounded-full transition-all duration-300 ${anime.status === 'COMPLETED' ? 'bg-[#3ba55d]' : 'bg-[#7053e3]'
+                      }`}
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -157,7 +177,7 @@ export function AnimeDetailModal({
 
               {/* Genres */}
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {anime.genres.map((g) => (
+                {anime.genres.map((g: string) => (
                   <span
                     key={g}
                     className="text-[11px] px-2 py-0.5 rounded bg-[#181b28] text-[#b59cfc] font-medium border border-white/10"
@@ -187,7 +207,7 @@ export function AnimeDetailModal({
         <div className="flex items-center justify-between px-5 py-3 border-t border-white/10 bg-[#0c0e17] shrink-0">
           {anime.malId ? (
             <a
-              href={`https://myanimelist.net/anime/${anime.malId}`}
+              href={`https://myanimelist.net/${mode === 'anime' ? 'anime' : 'manga'}/${anime.malId}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#949ba4] hover:text-[#5865F2] font-semibold transition-colors"

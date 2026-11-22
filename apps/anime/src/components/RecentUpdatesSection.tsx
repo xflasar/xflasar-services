@@ -6,15 +6,17 @@ import { AnimeEntry, AnimeStatus } from '@xflasar/types'
 import { useLanguage } from '@/lib/language-context'
 
 interface RecentUpdatesSectionProps {
-  entries: AnimeEntry[]
+  entries: any[]
   isAdmin: boolean
+  mode?: 'anime' | 'manga'
   onQuickIncrement: (id: string) => void
-  onSelect?: (anime: AnimeEntry) => void
+  onSelect?: (anime: any) => void
 }
 
 export function RecentUpdatesSection({
   entries,
   isAdmin,
+  mode = 'anime',
   onQuickIncrement,
   onSelect,
 }: RecentUpdatesSectionProps) {
@@ -32,12 +34,18 @@ export function RecentUpdatesSection({
 
   if (recentUpdates.length === 0) return null
 
-  const getStatusBadge = (status: AnimeStatus) => {
+  const getStatusBadge = (status: AnimeStatus | string) => {
     switch (status) {
       case 'WATCHING':
         return (
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono uppercase">
             {dict.tabs.watching}
+          </span>
+        )
+      case 'READING':
+        return (
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#1e4620] text-[#4ade80] border border-[#22c55e]/40 font-semibold font-mono uppercase">
+            {dict.tabs.reading || 'Čteno'}
           </span>
         )
       case 'COMPLETED':
@@ -50,6 +58,12 @@ export function RecentUpdatesSection({
         return (
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono uppercase">
             {dict.tabs.planToWatch}
+          </span>
+        )
+      case 'PLAN_TO_READ':
+        return (
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#1e2a5e] text-[#60a5fa] border border-[#3b82f6]/40 font-semibold font-mono uppercase">
+            {dict.tabs.planToRead || 'Plánuji'}
           </span>
         )
       case 'ON_HOLD':
@@ -120,7 +134,9 @@ export function RecentUpdatesSection({
                   <span>{formatRelativeTime(item.updatedAt)}</span>
                   <span>•</span>
                   <span className="text-[#f2f3f5] font-semibold">
-                    {item.episodesWatched}/{item.totalEpisodes || '?'} ep
+                    {item.chaptersRead !== undefined ? item.chaptersRead : item.episodesWatched}/
+                    {(item.totalChapters !== undefined ? item.totalChapters : item.totalEpisodes) || '?'}
+                    {mode === 'anime' ? ' ep' : ' kap'}
                   </span>
                   {item.score && (
                     <>
