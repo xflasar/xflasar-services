@@ -52,6 +52,16 @@ export async function GET(request: NextRequest) {
       path: '/',
     })
 
+    if (json.id_token) {
+      cookieStore.set('kc_id_token', json.id_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: json.expires_in || 3600,
+        path: '/',
+      })
+    }
+
     return NextResponse.redirect(new URL(returnTo, origin))
   } catch (err: any) {
     console.error('Keycloak login error:', err)
