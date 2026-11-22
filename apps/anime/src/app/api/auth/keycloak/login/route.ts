@@ -5,8 +5,12 @@ export async function GET(request: NextRequest) {
   const realm = process.env.KEYCLOAK_REALM || 'xflasar'
   const clientId = process.env.KEYCLOAK_CLIENT_ID || 'anime-client'
   
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || request.nextUrl.host
+  const proto = request.headers.get('x-forwarded-proto') || (request.url.startsWith('https') ? 'https' : 'http')
+  const origin = `${proto}://${host}`
+
   const returnTo = request.nextUrl.searchParams.get('returnTo') || '/'
-  const redirectUri = `${request.nextUrl.origin}/api/auth/keycloak/callback?returnTo=${encodeURIComponent(returnTo)}`
+  const redirectUri = `${origin}/api/auth/keycloak/callback?returnTo=${encodeURIComponent(returnTo)}`
 
   const authUrl = new URL(`${keycloakUrl}/realms/${realm}/protocol/openid-connect/auth`)
   authUrl.searchParams.set('client_id', clientId)
