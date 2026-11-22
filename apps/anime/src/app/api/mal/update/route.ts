@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { db } from '@/db/connection'
 import { animeEntries } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { eq, or } from 'drizzle-orm'
 
 // Map our AnimeStatus to MAL status strings
 function mapToMalStatus(status: string): string {
@@ -69,10 +69,18 @@ export async function PUT(request: NextRequest) {
       if (typeof episodesWatched === 'number') dbUpdates.episodesWatched = episodesWatched
       if (typeof comments === 'string') dbUpdates.personalNotes = comments
 
+      const numMalId = Number(malId)
+      const strMalId = String(malId)
+
       await db
         .update(animeEntries)
         .set(dbUpdates)
-        .where(eq(animeEntries.malId, Number(malId)))
+        .where(
+          or(
+            eq(animeEntries.malId, numMalId),
+            eq(animeEntries.id, strMalId)
+          )
+        )
     } catch (dbErr: any) {
       console.warn('Failed to persist update to DB:', dbErr.message)
     }
