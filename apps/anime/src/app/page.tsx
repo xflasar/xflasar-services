@@ -209,7 +209,7 @@ export default function AnimePage() {
     }
   }
 
-  const handleSaveModal = (savedData: Partial<AnimeEntry>) => {
+  const handleSaveModal = async (savedData: Partial<AnimeEntry>) => {
     if (selectedAnime?.id) {
       setEntries((prev) =>
         prev.map((e) =>
@@ -222,6 +222,24 @@ export default function AnimePage() {
             : e
         )
       )
+
+      if (selectedAnime.malId) {
+        try {
+          await fetch('/api/mal/update', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              malId: selectedAnime.malId,
+              status: savedData.status,
+              score: savedData.score,
+              episodesWatched: savedData.episodesWatched,
+              comments: savedData.personalNotes,
+            }),
+          })
+        } catch (err) {
+          console.warn('Could not sync modal edit to MAL:', err)
+        }
+      }
     } else {
       const newEntry: AnimeEntry = {
         id: String(Date.now()),

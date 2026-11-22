@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
+import { db } from '@/db/connection'
+import { animeEntries } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 
 // Map our AnimeStatus to MAL status strings
 function mapToMalStatus(status: string): string {
@@ -55,6 +58,25 @@ export async function PUT(request: NextRequest) {
     }
 
     const result = await malRes.json()
+
+    // Persist change to local PostgreSQL database
+    try {
+      const dbUpdates: Record<string, any> = {
+        updatedAt: new Date(),
+      }
+      if (status) dbUpdates.status = status
+      if (typeof score === 'number') dbUpdates.score = score
+      if (typeof episodesWatched === 'number') dbUpdates.episodesWatched = episodesWatched
+      if (typeof comments === 'string') dbUpdates.personalNotes = comments
+
+      await db
+        .update(animeEntries)
+        .set(dbUpdates)
+        .where(eq(animeEntries.malId, Number(malId)))
+    } catch (dbErr: any) {
+      console.warn('Failed to persist update to DB:', dbErr.message)
+    }
+
     return NextResponse.json({ success: true, data: result })
   } catch (err: any) {
     console.error('MAL update error:', err)
