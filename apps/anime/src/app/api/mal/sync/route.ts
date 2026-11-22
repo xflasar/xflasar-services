@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
   try {
     const allRawItems: any[] = []
     let nextUrl: string | null =
-      'https://api.myanimelist.net/v2/users/@me/animelist?fields=list_status{status,score,num_episodes_watched,comments},num_episodes,genres,alternative_titles&limit=1000'
+      'https://api.myanimelist.net/v2/users/@me/animelist?fields=list_status{status,score,num_episodes_watched,comments},num_episodes,genres,alternative_titles,nsfw&nsfw=true&limit=1000'
 
     // Loop through all pages until all anime are fetched
     while (nextUrl) {
