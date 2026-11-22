@@ -90,5 +90,9 @@
     "aesthetic": "Discord Midnight Aesthetic",
     "malProfile": "MAL: xSupeFly"
   },
+  "recentUpdates": {
+    "title": "Nedávné aktualizace",
+    "subtitle": "Poslední aktivita"
+  },
   "confirmDelete": "Opravdu chceš toto anime odebrat ze svého seznamu?"
 }

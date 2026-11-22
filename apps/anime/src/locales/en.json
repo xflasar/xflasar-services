@@ -90,5 +90,9 @@
     "aesthetic": "Discord Midnight Aesthetic",
     "malProfile": "MAL: xSupeFly"
   },
+  "recentUpdates": {
+    "title": "Recent Updates",
+    "subtitle": "Latest activity"
+  },
   "confirmDelete": "Are you sure you want to remove this anime from your list?"
 }

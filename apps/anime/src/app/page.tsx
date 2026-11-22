@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { AnimeEntry, AnimeStatus, AnimeStats } from '@xflasar/types'
 import { StatsOverview } from '@/components/StatsOverview'
+import { RecentUpdatesSection } from '@/components/RecentUpdatesSection'
 import { AnimeCard } from '@/components/AnimeCard'
 import { AnimeTableView } from '@/components/AnimeTableView'
 import { AnimeModal } from '@/components/AnimeModal'
@@ -486,6 +487,19 @@ export default function AnimePage() {
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-4 space-y-4">
         <div className="max-w-7xl mx-auto">
+          {/* Recent Updates Mini Ribbon (Only if no active text search) */}
+          {searchQuery.trim() === '' && filter === 'ALL' && entries.length > 0 && (
+            <RecentUpdatesSection
+              entries={entries}
+              isAdmin={isAdmin}
+              onQuickIncrement={handleQuickIncrement}
+              onSelect={(a) => {
+                setDetailAnime(a)
+                setIsDetailOpen(true)
+              }}
+            />
+          )}
+
           {/* Items Content: Grid or Table View */}
           {filteredEntries.length > 0 ? (
             viewMode === 'grid' ? (
