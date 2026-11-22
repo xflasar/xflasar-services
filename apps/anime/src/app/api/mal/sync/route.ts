@@ -59,7 +59,8 @@ export async function GET(request: NextRequest) {
 
     // Loop through all pages until all anime are fetched
     while (nextUrl) {
-      const malRes = await fetch(nextUrl, {
+      const currentUrl: string = nextUrl
+      const malRes: Response = await fetch(currentUrl, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
