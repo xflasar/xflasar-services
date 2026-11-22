@@ -272,21 +272,21 @@ export default function AnimePage() {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#05060b] text-[#f2f3f5] flex flex-col justify-between">
-      <header className="shrink-0 z-30 bg-[#06070c] border-b border-white/10 px-4 sm:px-8 py-2 space-y-2 shadow-md">
+    <div className="h-[100dvh] w-screen overflow-hidden bg-[#05060b] text-[#f2f3f5] flex flex-col justify-between">
+      <header className="shrink-0 z-30 bg-[#06070c] border-b border-white/10 px-3 sm:px-6 py-1.5 space-y-1.5 shadow-md">
         {/* Brand bar */}
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           {/* Logo & Subdomain branding */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a
               href="https://xflasar.com"
-              className="text-xs font-mono text-[#949ba4] hover:text-[#b59cfc] transition-colors"
+              className="text-[11px] font-mono text-[#949ba4] hover:text-[#b59cfc] transition-colors"
             >
               {dict.nav.backToPortfolio}
             </a>
-            <span className="text-[#949ba4]">/</span>
-            <div className="flex items-center gap-2">
-              <span className="text-base font-extrabold text-[#f2f3f5] tracking-tight flex items-center gap-1.5">
+            <span className="text-white/20">/</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-extrabold text-[#f2f3f5] tracking-tight flex items-center gap-1">
                 <span>⛩️</span>
                 <span>{dict.nav.title}</span>
               </span>
@@ -294,12 +294,12 @@ export default function AnimePage() {
           </div>
 
           {/* Right Header Actions */}
-          <div className="flex items-center gap-2 self-end sm:self-auto">
+          <div className="flex items-center gap-1.5">
             {/* Language Switcher (CZ / EN) */}
-            <div className="flex items-center bg-[#0e1019] p-0.5 rounded-md border border-white/10">
+            <div className="flex items-center bg-[#0e1019] p-0.5 rounded border border-white/10">
               <button
                 onClick={() => setLang('cz')}
-                className={`px-2 py-1 rounded text-[11px] font-bold font-mono transition-all ${lang === 'cz'
+                className={`px-1.5 py-0.5 rounded text-[10px] font-bold font-mono transition-all ${lang === 'cz'
                   ? 'bg-[#5865F2] text-white shadow-sm'
                   : 'text-[#949ba4] hover:text-white'
                   }`}
@@ -308,7 +308,7 @@ export default function AnimePage() {
               </button>
               <button
                 onClick={() => setLang('en')}
-                className={`px-2 py-1 rounded text-[11px] font-bold font-mono transition-all ${lang === 'en'
+                className={`px-1.5 py-0.5 rounded text-[10px] font-bold font-mono transition-all ${lang === 'en'
                   ? 'bg-[#5865F2] text-white shadow-sm'
                   : 'text-[#949ba4] hover:text-white'
                   }`}
@@ -323,10 +323,10 @@ export default function AnimePage() {
                 onClick={handleSyncMAL}
                 disabled={isSyncing}
                 title="Synchronizovat data s MyAnimeList"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-[#181b28] hover:bg-[#202436] text-[#f2f3f5] border border-white/10 text-xs font-semibold transition-all group"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#181b28] hover:bg-[#202436] text-[#f2f3f5] border border-white/10 text-[11px] font-semibold transition-all group"
               >
                 <RefreshCw
-                  className={`w-3.5 h-3.5 text-[#b59cfc] ${isSyncing ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`}
+                  className={`w-3 h-3 text-[#b59cfc] ${isSyncing ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`}
                 />
                 <span className="hidden sm:inline">{dict.nav.syncMal}</span>
               </button>
@@ -337,18 +337,18 @@ export default function AnimePage() {
               <a
                 href="/api/auth/keycloak/logout"
                 title="Odhlásit se z Keycloak"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold border bg-[#1e1f29] border-[#7053e3]/50 text-[#b59cfc] hover:bg-[#282a36] transition-all"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-semibold border bg-[#1e1f29] border-[#7053e3]/50 text-[#b59cfc] hover:bg-[#282a36] transition-all"
               >
-                <Shield className="w-3.5 h-3.5 text-[#4ade80]" />
-                <span className="hidden sm:inline">Admin ({adminUser || 'Admin'})</span>
+                <Shield className="w-3 h-3 text-[#4ade80]" />
+                <span className="hidden sm:inline">Admin</span>
               </a>
             ) : (
               <a
                 href="/api/auth/keycloak/login"
                 title="Přihlásit se přes Keycloak"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold border bg-[#11131f] hover:bg-[#181b28] border-white/10 text-[#949ba4] hover:text-white transition-all"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-semibold border bg-[#11131f] hover:bg-[#181b28] border-white/10 text-[#949ba4] hover:text-white transition-all"
               >
-                <ShieldAlert className="w-3.5 h-3.5" />
+                <ShieldAlert className="w-3 h-3" />
                 <span className="hidden sm:inline">Login</span>
               </a>
             )}
@@ -357,24 +357,24 @@ export default function AnimePage() {
             {isAdmin && (
               <button
                 onClick={handleOpenAdd}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-semibold transition-all shadow-sm"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#5865F2] hover:bg-[#4752c4] text-white text-[11px] font-semibold transition-all shadow-sm"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-3 h-3" />
                 <span>{dict.nav.addAnime}</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Compact KPI Overview Row */}
+        {/* Compact 1-line KPI Ribbon */}
         <div className="max-w-7xl mx-auto">
           <StatsOverview stats={stats} />
         </div>
 
         {/* Toolbar: Status Tabs & Filter / Search directly under KPI */}
-        <div className="max-w-7xl mx-auto pt-0.5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
           {/* Status Tabs */}
-          <div className="flex items-center bg-[#0e1019] p-1 rounded-lg border border-white/10 overflow-x-auto gap-1">
+          <div className="flex items-center bg-[#0e1019] p-0.5 rounded-lg border border-white/10 shrink-0 gap-0.5">
             {(
               [
                 { id: 'ALL', label: dict.tabs.all },
@@ -388,7 +388,7 @@ export default function AnimePage() {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id)}
-                className={`px-3 py-1 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${filter === tab.id
+                className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all whitespace-nowrap ${filter === tab.id
                   ? 'bg-[#5865F2] text-white shadow-sm'
                   : 'text-[#949ba4] hover:text-[#f2f3f5]'
                   }`}
@@ -404,26 +404,26 @@ export default function AnimePage() {
           </div>
 
           {/* Search, Sort & View Mode Controls */}
-          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Search Input */}
-            <div className="relative flex-1 sm:w-60">
-              <Search className="w-3.5 h-3.5 text-[#949ba4] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="relative w-36 sm:w-52">
+              <Search className="w-3 h-3 text-[#949ba4] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 placeholder={dict.controls.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#0e1019] border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#f2f3f5] placeholder-[#949ba4] focus:outline-none focus:border-[#7053e3] transition-colors"
+                className="w-full bg-[#0e1019] border border-white/10 rounded-md pl-7 pr-2 py-1 text-[11px] text-[#f2f3f5] placeholder-[#949ba4] focus:outline-none focus:border-[#7053e3] transition-colors"
               />
             </div>
 
             {/* Sort Select */}
-            <div className="flex items-center bg-[#0e1019] rounded-lg border border-white/10 px-2 py-1 text-xs text-[#949ba4]">
-              <ArrowUpDown className="w-3.5 h-3.5 mr-1 text-[#b59cfc]" />
+            <div className="flex items-center bg-[#0e1019] rounded-md border border-white/10 px-1.5 py-0.5 text-[11px] text-[#949ba4]">
+              <ArrowUpDown className="w-3 h-3 mr-1 text-[#b59cfc]" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-transparent text-xs text-[#f2f3f5] focus:outline-none cursor-pointer"
+                className="bg-transparent text-[11px] text-[#f2f3f5] focus:outline-none cursor-pointer"
               >
                 <option value="recent" className="bg-[#0e1019]">{dict.controls.sortBy.recent}</option>
                 <option value="score" className="bg-[#0e1019]">{dict.controls.sortBy.score}</option>
@@ -433,26 +433,26 @@ export default function AnimePage() {
             </div>
 
             {/* Grid vs Table View Toggle */}
-            <div className="flex items-center bg-[#0e1019] p-1 rounded-lg border border-white/10 gap-0.5">
+            <div className="flex items-center bg-[#0e1019] p-0.5 rounded-md border border-white/10 gap-0.5">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded transition-all ${viewMode === 'grid'
+                className={`p-1 rounded transition-all ${viewMode === 'grid'
                   ? 'bg-[#181b28] text-white shadow-sm'
                   : 'text-[#949ba4] hover:text-white'
                   }`}
                 title={dict.controls.gridView}
               >
-                <LayoutGrid className="w-3.5 h-3.5" />
+                <LayoutGrid className="w-3 h-3" />
               </button>
               <button
                 onClick={() => setViewMode('table')}
-                className={`p-1.5 rounded transition-all ${viewMode === 'table'
+                className={`p-1 rounded transition-all ${viewMode === 'table'
                   ? 'bg-[#181b28] text-white shadow-sm'
                   : 'text-[#949ba4] hover:text-white'
                   }`}
                 title={dict.controls.tableView}
               >
-                <List className="w-3.5 h-3.5" />
+                <List className="w-3 h-3" />
               </button>
             </div>
           </div>
