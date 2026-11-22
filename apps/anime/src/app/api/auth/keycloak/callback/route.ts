@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   const clientId = process.env.KEYCLOAK_CLIENT_ID || 'anime-client'
   
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || request.nextUrl.host
-  const proto = request.headers.get('x-forwarded-proto') || (request.url.startsWith('https') ? 'https' : 'http')
+  const proto = request.headers.get('x-forwarded-proto') === 'https' || !host.includes('localhost') ? 'https' : 'http'
   const origin = `${proto}://${host}`
 
   const redirectUri = `${origin}/api/auth/keycloak/callback?returnTo=${encodeURIComponent(returnTo)}`
