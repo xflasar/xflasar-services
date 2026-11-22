@@ -30,8 +30,25 @@ export default function AnimePage() {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid')
   const [sortBy, setSortBy] = useState<'score' | 'title' | 'progress' | 'recent'>('recent')
 
-  // Admin simulation state
-  const [isAdmin, setIsAdmin] = useState(true)
+  // Admin mode defaults to false (viewer mode). Only enabled via Keycloak SSO.
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminUser, setAdminUser] = useState<string | null>(null)
+
+  // Check Keycloak Auth Session on load
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.isAdmin) {
+          setIsAdmin(true)
+          setAdminUser(data.username)
+        } else {
+          setIsAdmin(false)
+          setAdminUser(null)
+        }
+      })
+      .catch(() => setIsAdmin(false))
+  }, [])
 
   // Modal State
   const [selectedAnime, setSelectedAnime] = useState<Partial<AnimeEntry> | null>(null)
@@ -315,26 +332,26 @@ export default function AnimePage() {
               </button>
             )}
 
-            {/* Admin Toggle button */}
-            <button
-              onClick={() => setIsAdmin((prev) => !prev)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold border transition-all ${isAdmin
-                ? 'bg-[#1e1f29] border-[#7053e3]/50 text-[#b59cfc]'
-                : 'bg-[#11131f] border-white/10 text-[#949ba4]'
-                }`}
-            >
-              {isAdmin ? (
-                <>
-                  <Shield className="w-3.5 h-3.5 text-[#4ade80]" />
-                  <span className="hidden sm:inline">{dict.nav.adminMode}</span>
-                </>
-              ) : (
-                <>
-                  <ShieldAlert className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">{dict.nav.viewerMode}</span>
-                </>
-              )}
-            </button>
+            {/* Keycloak Auth Button (Login / Logout) */}
+            {isAdmin ? (
+              <a
+                href="/api/auth/keycloak/logout"
+                title="Odhlásit se z Keycloak"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold border bg-[#1e1f29] border-[#7053e3]/50 text-[#b59cfc] hover:bg-[#282a36] transition-all"
+              >
+                <Shield className="w-3.5 h-3.5 text-[#4ade80]" />
+                <span className="hidden sm:inline">Admin ({adminUser || 'Admin'})</span>
+              </a>
+            ) : (
+              <a
+                href="/api/auth/keycloak/login"
+                title="Přihlásit se přes Keycloak"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold border bg-[#11131f] hover:bg-[#181b28] border-white/10 text-[#949ba4] hover:text-white transition-all"
+              >
+                <ShieldAlert className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Login</span>
+              </a>
+            )}
 
             {/* Add Anime button */}
             {isAdmin && (
