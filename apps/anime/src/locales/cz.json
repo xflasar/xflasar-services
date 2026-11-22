@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "backToPortfolio": "← xflasar.com",
+    "title": "Anime Tracker",
+    "syncMal": "Sync MAL",
+    "adminMode": "Admin Mode",
+    "viewerMode": "Viewer Mode",
+    "addAnime": "+ Přidat"
+  },
+  "stats": {
+    "titles": "Titulů",
+    "episodes": "Epizod",
+    "watchTime": "Čas",
+    "days": "dní",
+    "average": "Průměr",
+    "watching": "Rozkoukáno"
+  },
+  "tabs": {
+    "all": "Vše",
+    "watching": "Rozkoukáno",
+    "completed": "Zhlédnuto",
+    "planToWatch": "Plánuji",
+    "onHold": "Pozastaveno",
+    "dropped": "Odloženo"
+  },
+  "controls": {
+    "searchPlaceholder": "Hledat v seznamu...",
+    "sortBy": {
+      "recent": "Nedávné",
+      "score": "Skóre (nejvyšší)",
+      "title": "Název (A-Z)",
+      "progress": "Epizody"
+    },
+    "gridView": "Mřížka",
+    "tableView": "Tabulka"
+  },
+  "card": {
+    "episodes": "Epizody:",
+    "unrated": "Nehodnoceno",
+    "quickIncrement": "Episoda +1",
+    "noImage": "Bez obrázku",
+    "edit": "Upravit",
+    "delete": "Smazat"
+  },
+  "table": {
+    "num": "#",
+    "title": "Titul",
+    "score": "Skóre",
+    "status": "Status",
+    "episodes": "Epizody",
+    "genres": "Žánry",
+    "actions": "Akce"
+  },
+  "modal": {
+    "editTitle": "Upravit Anime",
+    "addTitle": "Přidat Anime",
+    "titleLabel": "Název anime *",
+    "titleEnLabel": "Anglický název",
+    "malIdLabel": "MAL ID",
+    "searchAnimeStep": "Vyhledat anime na MyAnimeList",
+    "searchAnimePlaceholder": "Napiš název anime (např. Naruto, Frieren, Solo Leveling)...",
+    "trackingFieldsStep": "Tvoje sledování & hodnocení",
+    "selectPrompt": "Prosím vyhledej a vyber anime ze seznamu.",
+    "statusLabel": "Status *",
+    "scoreLabel": "Hodnocení (1-10)",
+    "unratedOption": "Nehodnoceno",
+    "episodesWatchedLabel": "Zhlédnuto dílů",
+    "totalEpisodesLabel": "Celkem dílů",
+    "totalEpisodesPlaceholder": "např. 12, 24",
+    "imageUrlLabel": "Odkaz na plakát (Image URL)",
+    "notesLabel": "Osobní poznámky",
+    "notesPlaceholder": "Poznámky, dojmy, oblíbená scéna...",
+    "cancel": "Zrušit",
+    "save": "Uložit změny"
+  },
+  "empty": {
+    "title": "Nebylo nalezeno žádné anime",
+    "desc": "Zkus změnit filtr nebo vyhledávací dotaz."
+  },
+  "sync": {
+    "connecting": "Připojuji se k MyAnimeList (xSupeFly)...",
+    "success": "Synchronizace s MAL úspěšně dokončena!"
+  },
+  "footer": {
+    "rights": "xflasar.com • Anime Tracker",
+    "aesthetic": "Discord Midnight Aesthetic",
+    "malProfile": "MAL: xSupeFly"
+  },
+  "confirmDelete": "Opravdu chceš toto anime odebrat ze svého seznamu?"
+}

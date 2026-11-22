@@ -45,6 +45,23 @@
     "title": "O mně & Zkušenosti",
     "subtitle": "Reálná praxe, architektura systémů a přímý kontakt",
     "rolesSection": "Zkušenosti & Praxe",
+    "educationTitle": "Vzdělání",
+    "education": [
+      {
+        "id": "mendelu",
+        "school": "Mendelova univerzita v Brně",
+        "degree": "Bc. • Obecná informatika",
+        "period": "Současnost (probíhající)",
+        "status": "Aktivní studium"
+      },
+      {
+        "id": "sou-kurim",
+        "school": "SOU Kuřim",
+        "degree": "Informační technologie",
+        "period": "Absolvováno",
+        "status": "Maturitní zkouška"
+      }
+    ],
     "subdomainsTitle": "Subdomény",
     "techStackTitle": "Technické dovednosti & Stack",
     "openInquiries": "Otevřen příležitostem",

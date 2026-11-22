@@ -45,6 +45,23 @@
     "title": "About & Experience",
     "subtitle": "Hands-on background, system architecture, and direct contact",
     "rolesSection": "Experience & Hands-on",
+    "educationTitle": "Education",
+    "education": [
+      {
+        "id": "mendelu",
+        "school": "Mendel University in Brno",
+        "degree": "Bc. • General Computer Science",
+        "period": "Present (In Progress)",
+        "status": "Active Student"
+      },
+      {
+        "id": "sou-kurim",
+        "school": "SOU Kuřim",
+        "degree": "Information Technology",
+        "period": "Graduated",
+        "status": "High School Diploma"
+      }
+    ],
     "subdomainsTitle": "Subdomains",
     "techStackTitle": "Technical Skills & Stack",
     "openInquiries": "Open to Inquiries",

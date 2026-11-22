@@ -1,0 +1,14 @@
+# Next.js build output
+.next/
+out/
+
+# Node modules
+node_modules/
+
+# Local env files (Secrets)
+.env*.local
+.env
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

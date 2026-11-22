@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { SectionContainer } from './SectionContainer'
-import { Mail, Github, Instagram, ExternalLink, Sparkles, Server, HeartHandshake, Check, Copy, FileDown, Layers, Terminal, Wrench, Briefcase } from 'lucide-react'
+import { Mail, Github, Instagram, ExternalLink, Sparkles, Server, HeartHandshake, Check, Copy, FileDown, Layers, Terminal, Wrench, Briefcase, GraduationCap } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 export function AboutAndContact() {
@@ -41,7 +41,7 @@ export function AboutAndContact() {
                 <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-stretch w-full">
 
-                        {/* Experience timeline (left column) */}
+                        {/* Experience & Education timeline (left column) */}
                         <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 sm:p-4 flex flex-col justify-between hover:border-[#7053e3]/40 transition-colors">
                             <div className="border-b border-white/5 pb-1.5 mb-1">
                                 <span className="text-[11px] uppercase tracking-widest text-[#b59cfc] font-semibold font-mono">
@@ -83,6 +83,33 @@ export function AboutAndContact() {
                                     </div>
                                 ))}
                             </div>
+
+                            {/* Education section inside the timeline card */}
+                            {dict.about.education && (
+                                <div className="mt-3 pt-2.5 border-t border-white/5 space-y-1.5">
+                                    <div className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#b59cfc] font-semibold">
+                                        <GraduationCap className="w-3.5 h-3.5 text-[#b59cfc]" />
+                                        <span>{dict.about.educationTitle}</span>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        {dict.about.education.map((edu) => (
+                                            <div key={edu.id} className="p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#7053e3]/40 transition-colors">
+                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
+                                                    <span className="text-xs font-bold text-[#f2f3f5]">{edu.school}</span>
+                                                    <span className="text-[10px] font-mono text-[#949ba4] bg-[#181b28] px-1.5 py-0.5 rounded border border-white/5 self-start sm:self-auto">
+                                                        {edu.period}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-1 mt-0.5 text-[11px]">
+                                                    <span className="text-[#b59cfc] font-medium">{edu.degree}</span>
+                                                    <span className="text-[10px] text-[#949ba4] font-mono">{edu.status}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Sidebar: stack, subdomains, contact (right column) */}

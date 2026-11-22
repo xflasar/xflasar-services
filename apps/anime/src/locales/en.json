@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "backToPortfolio": "← xflasar.com",
+    "title": "Anime Tracker",
+    "syncMal": "Sync MAL",
+    "adminMode": "Admin Mode",
+    "viewerMode": "Viewer Mode",
+    "addAnime": "+ Add"
+  },
+  "stats": {
+    "titles": "Titles",
+    "episodes": "Episodes",
+    "watchTime": "Time",
+    "days": "days",
+    "average": "Mean",
+    "watching": "Watching"
+  },
+  "tabs": {
+    "all": "All",
+    "watching": "Watching",
+    "completed": "Completed",
+    "planToWatch": "Plan to Watch",
+    "onHold": "On Hold",
+    "dropped": "Dropped"
+  },
+  "controls": {
+    "searchPlaceholder": "Search list...",
+    "sortBy": {
+      "recent": "Recent",
+      "score": "Score (Highest)",
+      "title": "Title (A-Z)",
+      "progress": "Episodes"
+    },
+    "gridView": "Grid view",
+    "tableView": "Table view"
+  },
+  "card": {
+    "episodes": "Episodes:",
+    "unrated": "Unrated",
+    "quickIncrement": "Episode +1",
+    "noImage": "No Image",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "table": {
+    "num": "#",
+    "title": "Title",
+    "score": "Score",
+    "status": "Status",
+    "episodes": "Episodes",
+    "genres": "Genres",
+    "actions": "Actions"
+  },
+  "modal": {
+    "editTitle": "Edit Anime",
+    "addTitle": "Add Anime",
+    "titleLabel": "Anime Title *",
+    "titleEnLabel": "English Title",
+    "malIdLabel": "MAL ID",
+    "searchAnimeStep": "Search anime on MyAnimeList",
+    "searchAnimePlaceholder": "Type anime name (e.g. Naruto, Frieren, Solo Leveling)...",
+    "trackingFieldsStep": "Your Progress & Rating",
+    "selectPrompt": "Please search and select an anime from the list.",
+    "statusLabel": "Status *",
+    "scoreLabel": "Score (1-10)",
+    "unratedOption": "Unrated",
+    "episodesWatchedLabel": "Episodes Watched",
+    "totalEpisodesLabel": "Total Episodes",
+    "totalEpisodesPlaceholder": "e.g. 12, 24",
+    "imageUrlLabel": "Poster URL (Image URL)",
+    "notesLabel": "Personal Notes",
+    "notesPlaceholder": "Impressions, notes, favorite scenes...",
+    "cancel": "Cancel",
+    "save": "Save Changes"
+  },
+  "empty": {
+    "title": "No anime found",
+    "desc": "Try tweaking your filter or search query."
+  },
+  "sync": {
+    "connecting": "Connecting to MyAnimeList (xSupeFly)...",
+    "success": "Synced with MyAnimeList successfully!"
+  },
+  "footer": {
+    "rights": "xflasar.com • Anime Tracker",
+    "aesthetic": "Discord Midnight Aesthetic",
+    "malProfile": "MAL: xSupeFly"
+  },
+  "confirmDelete": "Are you sure you want to remove this anime from your list?"
+}

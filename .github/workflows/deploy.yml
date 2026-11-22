@@ -19,10 +19,10 @@ jobs:
           git reset --hard HEAD
           git pull origin main
           
-          # Rebuild and restart portfolio-web via docker compose
+          # Rebuild and restart portfolio-web and anime-web via docker compose
           cd ~/projects/xflasar-infra
-          docker compose build --no-cache portfolio-web
-          docker compose up -d portfolio-web
+          docker compose build --no-cache portfolio-web anime-web
+          docker compose up -d portfolio-web anime-web
           
           # Cleanup unused dangling images
           docker image prune -f
