@@ -52,9 +52,9 @@ export async function GET(request: NextRequest) {
       path: '/',
     })
 
-    return NextResponse.redirect(new URL(returnTo, request.url))
+    return NextResponse.redirect(new URL(returnTo, origin))
   } catch (err: any) {
     console.error('Keycloak login error:', err)
-    return NextResponse.redirect(new URL('/?error=' + encodeURIComponent(err.message), request.url))
+    return NextResponse.redirect(new URL('/?error=' + encodeURIComponent(err.message), origin))
   }
 }
