@@ -78,17 +78,18 @@ export const MOCK_PROJECTS: Project[] = [
     description: 'Osobní sledovač anime a mangy propojený přes MyAnimeList API.',
     descriptionEn: 'Personal anime and manga watch list tracker integrated via the MyAnimeList API.',
     longDescription:
-      'Aktuálně přepracovávaná aplikace na subdoméně anime.xflasar.com. Zobrazuje statistiky zhlédnutých sérií a oblíbené tituly.',
+      'Aktivní full-stack Next.js aplikace na subdoméně anime.xflasar.com. Zpracovává statistiky, živou synchronizaci přes MyAnimeList API v2, ukládání v PostgreSQL a administraci přes Keycloak.',
     longDescriptionEn:
-      'Currently revamped application running on anime.xflasar.com displaying watch statistics and favorites.',
+      'Active full-stack Next.js application running on anime.xflasar.com displaying watch statistics, live MyAnimeList API v2 sync, PostgreSQL storage and Keycloak SSO.',
     category: 'SOFTWARE',
-    status: 'IN_DEV',
+    status: 'ACTIVE',
     featured: true,
-    techStack: ['Next.js', 'TypeScript', 'Tailwind', 'MyAnimeList API'],
+    techStack: ['Next.js', 'TypeScript', 'Tailwind', 'PostgreSQL', 'Drizzle ORM', 'Keycloak', 'MyAnimeList API'],
     sortOrder: 4,
+    repoUrl: 'https://github.com/xflasar/xflasar-services/tree/main/apps/anime',
     liveUrl: 'https://anime.xflasar.com',
     createdAt: '2024-10-01T00:00:00Z',
-    updatedAt: '2024-11-17T00:00:00Z',
+    updatedAt: '2026-11-22T00:00:00Z',
   },
   {
     id: '5',

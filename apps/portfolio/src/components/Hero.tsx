@@ -106,25 +106,21 @@ export function Hero() {
         {/* Quick Links Directory & Now Playing Badge */}
         <div className="space-y-2.5 pt-1">
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="https://aki.xflasar.com"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#7053e3]/20 border border-white/5 hover:border-[#7053e3]/40 text-xs text-[#949ba4] hover:text-[#b59cfc] transition-all"
+            <div
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/40 border border-white/5 text-xs text-[#949ba4]/50 cursor-not-allowed select-none"
+              title="Coming Soon"
             >
               <span>🐾 Aki</span>
-              <span className="text-[10px] text-[#b59cfc]">↗</span>
-            </a>
+              <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/60">Soon</span>
+            </div>
 
-            <a
-              href="https://gaming.xflasar.com"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#5865F2]/20 border border-white/5 hover:border-[#5865F2]/40 text-xs text-[#949ba4] hover:text-[#5865F2] transition-all"
+            <div
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/40 border border-white/5 text-xs text-[#949ba4]/50 cursor-not-allowed select-none"
+              title="Coming Soon"
             >
               <span>🎮 Gaming</span>
-              <span className="text-[10px] text-[#5865F2]">↗</span>
-            </a>
+              <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/60">Soon</span>
+            </div>
 
             <a
               href="https://anime.xflasar.com"
@@ -132,7 +128,7 @@ export function Hero() {
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#7053e3]/20 border border-white/5 hover:border-[#7053e3]/40 text-xs text-[#949ba4] hover:text-[#b59cfc] transition-all"
             >
-              <span>⛩️ Anime</span>
+              <span>⛩️ Anime / Manga</span>
               <span className="text-[10px] text-[#b59cfc]">↗</span>
             </a>
 
@@ -161,7 +157,7 @@ export function Hero() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0e1019] border border-white/5 text-[11px] text-[#949ba4]">
             <Gamepad2 className="w-3.5 h-3.5 text-[#5865F2]" />
             <span className="w-1.5 h-1.5 rounded-full bg-[#949ba4]/50" />
-            <span> NaN</span>
+            <span>{dict.hero.playingGame || 'Offline'}</span>
           </div>
         </div>
       </div>

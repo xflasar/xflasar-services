@@ -153,47 +153,38 @@ export function AboutAndContact() {
                                 </span>
 
                                 <div className="grid grid-cols-2 gap-1.5">
-                                    <a
-                                        href="https://blog.xflasar.com"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        title={dict.about.subdomains.blogDesc}
-                                        className="group flex flex-col justify-between p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#b59cfc]/50 hover:bg-[#181b28] transition-all shadow-sm"
+                                    <div
+                                        title="Coming Soon"
+                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">✍️ Blog</span>
-                                            <ExternalLink className="w-3 h-3 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shrink-0" />
+                                            <span className="text-xs font-bold text-[#949ba4]">✍️ Blog</span>
+                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4] mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.blogDesc}</p>
-                                    </a>
+                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.blogDesc}</p>
+                                    </div>
 
-                                    <a
-                                        href="https://aki.xflasar.com"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        title={dict.about.subdomains.akiDesc}
-                                        className="group flex flex-col justify-between p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#7053e3]/50 hover:bg-[#181b28] transition-all shadow-sm"
+                                    <div
+                                        title="Coming Soon"
+                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">🐾 Aki</span>
-                                            <ExternalLink className="w-3 h-3 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shrink-0" />
+                                            <span className="text-xs font-bold text-[#949ba4]">🐾 Aki</span>
+                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4] mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.akiDesc}</p>
-                                    </a>
+                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.akiDesc}</p>
+                                    </div>
 
-                                    <a
-                                        href="https://gaming.xflasar.com"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        title={dict.about.subdomains.gamingDesc}
-                                        className="group flex flex-col justify-between p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#5865F2]/50 hover:bg-[#181b28] transition-all shadow-sm"
+                                    <div
+                                        title="Coming Soon"
+                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#5865F2] transition-colors">🎮 Gaming</span>
-                                            <ExternalLink className="w-3 h-3 text-[#949ba4] group-hover:text-[#5865F2] transition-colors shrink-0" />
+                                            <span className="text-xs font-bold text-[#949ba4]">🎮 Gaming</span>
+                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4] mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
-                                    </a>
+                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
+                                    </div>
 
                                     <a
                                         href="https://anime.xflasar.com"
@@ -203,7 +194,7 @@ export function AboutAndContact() {
                                         className="group flex flex-col justify-between p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#b59cfc]/50 hover:bg-[#181b28] transition-all shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">⛩️ Anime</span>
+                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">⛩️ Anime / Manga</span>
                                             <ExternalLink className="w-3 h-3 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shrink-0" />
                                         </div>
                                         <p className="text-[10px] text-[#949ba4] mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.animeDesc}</p>

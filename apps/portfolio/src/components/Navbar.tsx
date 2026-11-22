@@ -72,30 +72,27 @@ export function Navbar() {
           >
             {dict.nav.about}
           </a>
-          <a
-            href="https://blog.xflasar.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-text-secondary hover:text-[#b59cfc] transition-colors text-sm font-medium flex items-center gap-1"
+          <span
+            className="text-text-secondary/40 text-sm font-medium flex items-center gap-1 cursor-not-allowed select-none"
+            title="Coming Soon"
           >
-            <span>✍️ {dict.nav.blog} ↗</span>
-          </a>
-          <a
-            href="https://aki.xflasar.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-text-secondary hover:text-[#b59cfc] transition-colors text-sm font-medium flex items-center gap-1"
+            <span>✍️ {dict.nav.blog}</span>
+            <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+          </span>
+          <span
+            className="text-text-secondary/40 text-sm font-medium flex items-center gap-1 cursor-not-allowed select-none"
+            title="Coming Soon"
           >
-            <span>🐾 {dict.nav.aki} ↗</span>
-          </a>
-          <a
-            href="https://gaming.xflasar.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-text-secondary hover:text-[#5865F2] transition-colors text-sm font-medium flex items-center gap-1"
+            <span>🐾 {dict.nav.aki}</span>
+            <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+          </span>
+          <span
+            className="text-text-secondary/40 text-sm font-medium flex items-center gap-1 cursor-not-allowed select-none"
+            title="Coming Soon"
           >
-            <span>🎮 {dict.nav.gaming} ↗</span>
-          </a>
+            <span>🎮 {dict.nav.gaming}</span>
+            <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+          </span>
           <a
             href="https://anime.xflasar.com"
             target="_blank"
@@ -150,35 +147,26 @@ export function Navbar() {
                 SUBDOMAINS
               </span>
 
-              <a
-                href="https://blog.xflasar.com"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
+              <div
+                className="px-3 py-2 rounded-lg bg-[#0e1019]/40 text-sm text-[#949ba4]/50 flex items-center justify-between cursor-not-allowed select-none"
               >
                 <span>✍️ {dict.nav.blog}</span>
-                <span className="text-xs text-[#b59cfc]">blog.xflasar.com ↗</span>
-              </a>
+                <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+              </div>
 
-              <a
-                href="https://aki.xflasar.com"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
+              <div
+                className="px-3 py-2 rounded-lg bg-[#0e1019]/40 text-sm text-[#949ba4]/50 flex items-center justify-between cursor-not-allowed select-none"
               >
                 <span>🐾 {dict.nav.aki}</span>
-                <span className="text-xs text-[#b59cfc]">aki.xflasar.com ↗</span>
-              </a>
+                <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+              </div>
 
-              <a
-                href="https://gaming.xflasar.com"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-2 rounded-lg hover:bg-[#181b28] text-sm text-[#f2f3f5] transition-colors flex items-center justify-between"
+              <div
+                className="px-3 py-2 rounded-lg bg-[#0e1019]/40 text-sm text-[#949ba4]/50 flex items-center justify-between cursor-not-allowed select-none"
               >
                 <span>🎮 {dict.nav.gaming}</span>
-                <span className="text-xs text-[#5865F2]">gaming.xflasar.com ↗</span>
-              </a>
+                <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
+              </div>
 
               <a
                 href="https://anime.xflasar.com"
