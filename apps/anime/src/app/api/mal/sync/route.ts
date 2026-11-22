@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { refreshAccessToken } from '@/lib/mal-auth'
 import { db } from '@/db/connection'
 import { animeEntries } from '@/db/schema'
+import { sql } from 'drizzle-orm'
 import { AnimeEntry, AnimeStatus } from '@xflasar/types'
 
 // Map MAL status to our AnimeStatus
@@ -55,7 +56,7 @@ export async function GET(request: NextRequest) {
   try {
     const allRawItems: any[] = []
     let nextUrl: string | null =
-      'https://api.myanimelist.net/v2/users/@me/animelist?fields=list_status{status,score,num_episodes_watched,comments},num_episodes,genres,alternative_titles,nsfw&nsfw=true&limit=1000'
+      'https://api.myanimelist.net/v2/users/@me/animelist?fields=list_status{status,score,num_episodes_watched,comments,updated_at},num_episodes,genres,alternative_titles,nsfw&nsfw=true&limit=1000'
 
     // Loop through all pages until all anime are fetched
     while (nextUrl) {
@@ -142,7 +143,7 @@ export async function GET(request: NextRequest) {
                 personalNotes: animeEntries.personalNotes,
                 genres: animeEntries.genres,
                 syncedAt: new Date(),
-                updatedAt: new Date(),
+                updatedAt: sql`excluded.updated_at`,
               },
             })
         }
