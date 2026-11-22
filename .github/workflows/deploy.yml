@@ -19,8 +19,12 @@ jobs:
           git reset --hard HEAD
           git pull origin main
           
-          # Rebuild and restart portfolio-web and anime-web via docker compose
+          # Navigate to infra repo and pull latest changes
           cd ~/projects/xflasar-infra
+          git reset --hard HEAD
+          git pull origin main || true
+          
+          # Rebuild and restart portfolio-web and anime-web via docker compose
           docker compose build --no-cache portfolio-web anime-web
           docker compose up -d portfolio-web anime-web
           
