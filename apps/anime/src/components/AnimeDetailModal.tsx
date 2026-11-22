@@ -142,7 +142,7 @@ export function AnimeDetailModal({
               {/* Progress bar */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px] font-mono text-[#949ba4]">
-                  <span>Progress</span>
+                  <span>{dict.modal.progress}</span>
                   <span>{progressPercent}%</span>
                 </div>
                 <div className="w-full bg-[#181b28] h-2 rounded-full overflow-hidden">
@@ -174,7 +174,7 @@ export function AnimeDetailModal({
             <div className="p-3.5 rounded-lg bg-[#06070c] border border-white/10 space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-mono uppercase text-[#b59cfc] font-semibold">
                 <BookOpen className="w-3.5 h-3.5 text-[#b59cfc]" />
-                <span>Osobní poznámky</span>
+                <span>{dict.modal.personalNotes}</span>
               </div>
               <p className="text-xs text-[#949ba4] leading-relaxed italic">
                 &quot;{anime.personalNotes}&quot;
@@ -192,7 +192,7 @@ export function AnimeDetailModal({
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#949ba4] hover:text-[#5865F2] font-semibold transition-colors"
             >
-              <span>Zobrazit na MyAnimeList</span>
+              <span>{dict.modal.viewOnMal}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
@@ -208,14 +208,14 @@ export function AnimeDetailModal({
                 }}
                 className="px-3.5 py-1.5 rounded-md bg-[#181b28] hover:bg-[#202436] text-[#f2f3f5] border border-white/10 text-xs font-semibold transition-colors"
               >
-                Upravit
+                {dict.card.edit}
               </button>
             )}
             <button
               onClick={onClose}
               className="px-4 py-1.5 rounded-md bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-semibold transition-all shadow-sm"
             >
-              Zavřít
+              {dict.modal.close}
             </button>
           </div>
         </div>

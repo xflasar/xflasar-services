@@ -71,7 +71,11 @@
     "notesLabel": "Personal Notes",
     "notesPlaceholder": "Impressions, notes, favorite scenes...",
     "cancel": "Cancel",
-    "save": "Save Changes"
+    "save": "Save Changes",
+    "personalNotes": "Personal Notes",
+    "viewOnMal": "View on MyAnimeList",
+    "close": "Close",
+    "progress": "Progress"
   },
   "empty": {
     "title": "No anime found",

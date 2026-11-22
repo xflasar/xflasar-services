@@ -71,7 +71,11 @@
     "notesLabel": "Osobní poznámky",
     "notesPlaceholder": "Poznámky, dojmy, oblíbená scéna...",
     "cancel": "Zrušit",
-    "save": "Uložit změny"
+    "save": "Uložit změny",
+    "personalNotes": "Osobní poznámky",
+    "viewOnMal": "Zobrazit na MyAnimeList",
+    "close": "Zavřít",
+    "progress": "Průběh"
   },
   "empty": {
     "title": "Nebylo nalezeno žádné anime",
