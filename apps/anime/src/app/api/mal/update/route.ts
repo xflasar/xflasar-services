@@ -61,28 +61,59 @@ export async function PUT(request: NextRequest) {
 
     // Persist change to local PostgreSQL database
     try {
-      const dbUpdates: Record<string, any> = {
-        updatedAt: new Date(),
-      }
-      if (status) dbUpdates.status = status
-      if (typeof score === 'number') dbUpdates.score = score
-      if (typeof episodesWatched === 'number') dbUpdates.episodesWatched = episodesWatched
-      if (typeof comments === 'string') dbUpdates.personalNotes = comments
-
       const numMalId = Number(malId)
       const strMalId = String(malId)
 
-      await db
-        .update(animeEntries)
-        .set(dbUpdates)
+      // Check if entry exists
+      const existing = await db
+        .select({ id: animeEntries.id })
+        .from(animeEntries)
         .where(
           or(
             eq(animeEntries.malId, numMalId),
             eq(animeEntries.id, strMalId)
           )
         )
+        .limit(1)
+
+      if (existing.length > 0) {
+        const dbUpdates: Record<string, any> = {
+          updatedAt: new Date(),
+        }
+        if (status) dbUpdates.status = status
+        if (typeof score === 'number') dbUpdates.score = score
+        if (typeof episodesWatched === 'number') dbUpdates.episodesWatched = episodesWatched
+        if (typeof comments === 'string') dbUpdates.personalNotes = comments
+
+        await db
+          .update(animeEntries)
+          .set(dbUpdates)
+          .where(
+            or(
+              eq(animeEntries.malId, numMalId),
+              eq(animeEntries.id, strMalId)
+            )
+          )
+      } else {
+        // Insert new anime entry if not in DB yet
+        await db.insert(animeEntries).values({
+          id: strMalId,
+          malId: numMalId,
+          title: body.title || 'Untitled',
+          titleEn: body.titleEn,
+          imageUrl: body.imageUrl,
+          status: status || 'WATCHING',
+          score: typeof score === 'number' ? score : undefined,
+          episodesWatched: typeof episodesWatched === 'number' ? episodesWatched : 0,
+          totalEpisodes: body.totalEpisodes,
+          personalNotes: comments,
+          genres: Array.isArray(body.genres) ? body.genres : [],
+          syncedAt: new Date(),
+          updatedAt: new Date(),
+        })
+      }
     } catch (dbErr: any) {
-      console.warn('Failed to persist update to DB:', dbErr.message)
+      console.warn('Failed to persist update/insert to DB:', dbErr.message)
     }
 
     return NextResponse.json({ success: true, data: result })

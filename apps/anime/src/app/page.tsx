@@ -247,21 +247,29 @@ export default function AnimePage() {
               ...e,
               ...savedData,
               updatedAt: new Date().toISOString(),
-            } as AnimeEntry)
+            } as any)
             : e
         )
       )
 
       if (selectedAnime.malId) {
         try {
-          await fetch('/api/mal/update', {
+          const updateEndpoint = mediaMode === 'anime' ? '/api/mal/update' : '/api/mal/manga-update'
+          await fetch(updateEndpoint, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               malId: selectedAnime.malId,
+              title: savedData.title || selectedAnime.title,
+              titleEn: savedData.titleEn || selectedAnime.titleEn,
+              imageUrl: savedData.imageUrl || selectedAnime.imageUrl,
+              genres: savedData.genres || selectedAnime.genres,
+              totalEpisodes: savedData.totalEpisodes,
               status: savedData.status,
               score: savedData.score,
-              episodesWatched: savedData.episodesWatched,
+              ...(mediaMode === 'anime'
+                ? { episodesWatched: savedData.episodesWatched }
+                : { chaptersRead: (savedData as any).chaptersRead || (savedData as any).episodesWatched }),
               comments: savedData.personalNotes,
             }),
           })
@@ -270,22 +278,57 @@ export default function AnimePage() {
         }
       }
     } else {
-      const newEntry: AnimeEntry = {
-        id: String(Date.now()),
+      const newEntry: any = {
+        id: String(savedData.malId || Date.now()),
         malId: savedData.malId || Math.floor(Math.random() * 90000),
         title: savedData.title || 'Untitled',
         titleEn: savedData.titleEn,
         imageUrl: savedData.imageUrl,
-        status: savedData.status || 'WATCHING',
+        status: savedData.status || (mediaMode === 'anime' ? 'WATCHING' : 'READING'),
         score: savedData.score,
-        episodesWatched: savedData.episodesWatched || 0,
-        totalEpisodes: savedData.totalEpisodes,
-        personalNotes: savedData.personalNotes,
         genres: savedData.genres || ['Action'],
         syncedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        ...(mediaMode === 'anime'
+          ? {
+            episodesWatched: savedData.episodesWatched || 0,
+            totalEpisodes: savedData.totalEpisodes,
+          }
+          : {
+            chaptersRead: (savedData as any).chaptersRead || (savedData as any).episodesWatched || 0,
+            totalChapters: (savedData as any).totalChapters || savedData.totalEpisodes,
+            volumesRead: 0,
+          }),
+        personalNotes: savedData.personalNotes,
       }
       setEntries((prev) => [newEntry, ...prev])
+
+      // Push newly added anime/manga to MAL API and local DB
+      if (savedData.malId) {
+        try {
+          const updateEndpoint = mediaMode === 'anime' ? '/api/mal/update' : '/api/mal/manga-update'
+          await fetch(updateEndpoint, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              malId: savedData.malId,
+              title: savedData.title,
+              titleEn: savedData.titleEn,
+              imageUrl: savedData.imageUrl,
+              genres: savedData.genres,
+              totalEpisodes: savedData.totalEpisodes,
+              status: savedData.status || (mediaMode === 'anime' ? 'WATCHING' : 'READING'),
+              score: savedData.score,
+              ...(mediaMode === 'anime'
+                ? { episodesWatched: savedData.episodesWatched || 0 }
+                : { chaptersRead: (savedData as any).chaptersRead || (savedData as any).episodesWatched || 0 }),
+              comments: savedData.personalNotes,
+            }),
+          })
+        } catch (err) {
+          console.warn('Could not save new entry to MAL:', err)
+        }
+      }
     }
     setIsModalOpen(false)
   }
