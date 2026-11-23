@@ -10,34 +10,18 @@ export interface AnimeSearchResult {
 }
 
 /**
- * Search anime dynamically from Jikan v4 (open REST API for MyAnimeList)
+ * Search anime dynamically from our internal API (which proxies Jikan & official MAL API)
  */
 export async function searchAnime(query: string): Promise<AnimeSearchResult[]> {
   const clean = query.trim()
   if (!clean) return []
 
   try {
-    const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 5000)
-
-    const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(clean)}&limit=10&sfw`, {
-      signal: controller.signal,
-    })
-    clearTimeout(timeout)
-
+    const res = await fetch(`/api/mal/search?q=${encodeURIComponent(clean)}`)
     if (res.ok) {
       const json = await res.json()
-      if (Array.isArray(json.data) && json.data.length > 0) {
-        return json.data.map((item: any) => ({
-          malId: item.mal_id,
-          title: item.title,
-          titleEn: item.title_english || item.title,
-          imageUrl: item.images?.jpg?.large_image_url || item.images?.jpg?.image_url,
-          totalEpisodes: item.episodes || undefined,
-          genres: (item.genres || []).map((g: any) => g.name),
-          synopsis: item.synopsis,
-          year: item.year,
-        }))
+      if (Array.isArray(json.data)) {
+        return json.data
       }
     }
   } catch (err: any) {
