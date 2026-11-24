@@ -16,9 +16,27 @@ html {
   overflow-x: clip;
   font-family: 'gg sans', 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   scroll-behavior: smooth;
+  font-size: 16.5px; /* Clean, slightly enlarged base for crisp readability without glasses */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
+/* Scaling up for 2K / 1440p monitors (>= 1800px width or >= 1100px height) so text isn't tiny */
+@media (min-width: 1800px) or (min-height: 1100px) {
+  html {
+    font-size: 19px;
+  }
+}
+
+/* Scaling up for 4K / Ultra-wide monitors (>= 2400px width) */
+@media (min-width: 2400px) {
+  html {
+    font-size: 21.5px;
+  }
+}
+
+/* Scroll snap ONLY on tall screens (>= 850px height) and desktop width (>= 1024px) */
+@media (min-width: 1024px) and (min-height: 850px) {
   html {
     scroll-snap-type: y mandatory;
   }

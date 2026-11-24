@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "title": "Gaming Hub",
+    "backToPortfolio": "xflasar.com",
+    "steamProfile": "Steam Profile"
+  },
+  "hero": {
+    "liveStatus": "Live Status",
+    "inGame": "IN-GAME RIGHT NOW",
+    "offline": "OFFLINE",
+    "online": "ONLINE",
+    "lastSeen": "Last active:",
+    "hoursPlayed": "Total playtime:",
+    "last2Weeks": "Past 2 weeks:"
+  },
+  "kpi": {
+    "totalGames": "Games in Library",
+    "totalHours": "Total Playtime",
+    "recentHours": "Activity (14 days)",
+    "daysEquivalent": "days total"
+  },
+  "tabs": {
+    "all": "All Games",
+    "recent": "Recently Played",
+    "topPlayed": "Top Played"
+  },
+  "punoted": {
+    "badge": "Flagship Project",
+    "title": "PUNoted Telemetry",
+    "desc": "Custom gaming analytics platform built for player communities. Ingests live telemetry, servers, and telemetry data.",
+    "viewProject": "Open PUNoted"
+  },
+  "battlestation": {
+    "title": "Battlestation & Hardware",
+    "subtitle": "My gaming and workstation gear",
+    "desktop": "Main Rig (Desktop)",
+    "laptop": "Mobile Rig (Laptop)",
+    "specs": {
+      "cpu": "Processor (CPU)",
+      "gpu": "Graphics (GPU)",
+      "ram": "Memory (RAM)",
+      "storage": "Storage",
+      "peripherals": "Peripherals"
+    }
+  },
+  "riot": {
+    "title": "Riot Games Profile",
+    "subtitle": "LoL & Valorant activity",
+    "notActive": "Currently not actively playing"
+  },
+  "library": {
+    "searchPlaceholder": "Search game...",
+    "hours": "hours",
+    "noGamesFound": "No games found",
+    "viewOnSteam": "Steam Store"
+  },
+  "footer": {
+    "rights": "xflasar.com • Gaming Hub",
+    "aesthetic": "Discord Midnight Aesthetic"
+  }
+}

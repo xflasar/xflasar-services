@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "title": "Gaming Hub",
+    "backToPortfolio": "xflasar.com",
+    "steamProfile": "Steam Profil"
+  },
+  "hero": {
+    "liveStatus": "Aktuální stav",
+    "inGame": "HRAJE PRÁVĚ TEĎ",
+    "offline": "OFFLINE",
+    "online": "ONLINE",
+    "lastSeen": "Naposledy aktivní:",
+    "hoursPlayed": "Odehráno celkem:",
+    "last2Weeks": "Za 14 dní:"
+  },
+  "kpi": {
+    "totalGames": "Her v knihovně",
+    "totalHours": "Odehráno celkem",
+    "recentHours": "Aktivita (14 dní)",
+    "daysEquivalent": "dní čistého času"
+  },
+  "tabs": {
+    "all": "Všechny hry",
+    "recent": "Nedávno hrané",
+    "topPlayed": "Nejhranější"
+  },
+  "punoted": {
+    "badge": "Vlajkový Projekt",
+    "title": "PUNoted Telemetrie",
+    "desc": "Vlastní analytická platforma pro herní komunitu. Sleduje herní aktivitu, servery a statistiky.",
+    "viewProject": "Otevřít PUNoted"
+  },
+  "battlestation": {
+    "title": "Battlestation & Hardware",
+    "subtitle": "Moje herní a pracovní mašiny",
+    "desktop": "Hlavní Rig (Desktop)",
+    "laptop": "Cestovní Setup (Laptop)",
+    "specs": {
+      "cpu": "Procesor (CPU)",
+      "gpu": "Grafika (GPU)",
+      "ram": "Paměť (RAM)",
+      "storage": "Úložiště",
+      "peripherals": "Periferie"
+    }
+  },
+  "riot": {
+    "title": "Riot Games Profil",
+    "subtitle": "LoL & Valorant aktivita",
+    "notActive": "V současnosti neaktivní"
+  },
+  "library": {
+    "searchPlaceholder": "Hledat hru...",
+    "hours": "hodin",
+    "noGamesFound": "Nebyly nalezeny žádné hry",
+    "viewOnSteam": "Steam Store"
+  },
+  "footer": {
+    "rights": "xflasar.com • Gaming Hub",
+    "aesthetic": "Discord Midnight Aesthetic"
+  }
+}

@@ -43,7 +43,7 @@ export function Hero() {
       id="hero"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative min-h-screen md:h-screen md:snap-start flex flex-col justify-between items-center text-center px-4 sm:px-6 lg:px-8 pt-6 pb-6"
+      className="relative min-h-screen [@media(min-width:1024px)_and_(min-height:850px)]:h-screen [@media(min-width:1024px)_and_(min-height:850px)]:snap-start flex flex-col justify-between items-center text-center px-4 sm:px-6 lg:px-8 pt-6 pb-6"
     >
       {/* Top Bar with Brand & Language Toggle */}
       <div className="w-full max-w-6xl mx-auto flex items-center justify-between h-12">

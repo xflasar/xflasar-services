@@ -22,16 +22,16 @@ export function SectionContainer({
   return (
     <section
       id={id}
-      className={`relative min-h-screen md:h-screen md:snap-start box-border flex flex-col justify-between items-center px-4 pt-20 pb-12 md:py-6 ${className}`}
+      className={`relative min-h-screen [@media(min-width:1024px)_and_(min-height:850px)]:h-screen [@media(min-width:1024px)_and_(min-height:850px)]:snap-start box-border flex flex-col justify-between items-center px-4 pt-20 pb-12 md:py-8 ${className}`}
     >
       {/* Main Content */}
-      <div className="w-full max-w-6xl mx-auto flex-1 flex flex-col justify-center min-h-0">
+      <div className="w-full max-w-6xl 2xl:max-w-7xl mx-auto flex-1 flex flex-col justify-center my-auto min-h-0">
         {children}
       </div>
 
       {/* Bottom Center Next-Section Trigger */}
       {nextSectionId && (
-        <div className="hidden md:flex items-center justify-center pt-2 pb-1 shrink-0">
+        <div className="hidden [@media(min-width:1024px)_and_(min-height:850px)]:flex items-center justify-center pt-2 pb-1 shrink-0">
           <button
             onClick={() => smoothScrollTo(nextSectionId)}
             title={`Scroll to ${nextLabel}`}

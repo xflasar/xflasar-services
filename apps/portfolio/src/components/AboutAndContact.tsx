@@ -31,7 +31,7 @@ export function AboutAndContact() {
 
     return (
         <SectionContainer id="about" className="justify-center relative !pt-16 md:!pt-0 pb-16 md:!pb-0">
-            <div className="space-y-4 w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center py-2 mb-16 md:mb-0">
+            <div className="space-y-4 w-full max-w-4xl 2xl:max-w-5xl mx-auto flex-1 flex flex-col justify-center py-2 mb-16 md:mb-0">
                 <div className="flex items-center justify-between border-b border-white/5 pb-3">
                     <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f2f3f5]">
                         {dict.about.title}
@@ -42,8 +42,8 @@ export function AboutAndContact() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-stretch w-full">
 
                         {/* Experience & Education timeline (left column) */}
-                        <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 sm:p-4 flex flex-col justify-between hover:border-[#7053e3]/40 transition-colors">
-                            <div className="border-b border-white/5 pb-1.5 mb-1">
+                        <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 sm:p-4 flex flex-col justify-between hover:border-[#7053e3]/40 transition-colors h-full">
+                            <div className="border-b border-white/5 pb-1.5 mb-2">
                                 <span className="text-[11px] uppercase tracking-widest text-[#b59cfc] font-semibold font-mono">
                                     {dict.about.rolesSection}
                                 </span>
@@ -58,23 +58,23 @@ export function AboutAndContact() {
                                             {experienceIcons[exp.id] ?? <Briefcase className="w-3 h-3 text-[#b59cfc]" />}
                                         </div>
 
-                                        <div className="space-y-0.5 pl-2">
+                                        <div className="space-y-1 pl-2">
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                                                <h4 className="text-xs sm:text-sm font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors leading-tight">
-                                                    {exp.role} <span className="text-[#949ba4] font-normal text-[11px] sm:text-xs">• {exp.project}</span>
+                                                <h4 className="text-sm sm:text-base font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors leading-tight">
+                                                    {exp.role} <span className="text-[#b5bac1] font-normal text-xs sm:text-sm">• {exp.project}</span>
                                                 </h4>
-                                                <span className="text-[10px] font-mono text-[#949ba4] whitespace-nowrap bg-[#181b28]/80 px-1.5 py-0.5 rounded border border-white/5 self-start sm:self-auto">
+                                                <span className="text-[11px] font-mono text-[#b5bac1] whitespace-nowrap bg-[#181b28] px-2 py-0.5 rounded border border-white/10 self-start sm:self-auto font-medium">
                                                     {exp.period}
                                                 </span>
                                             </div>
 
-                                            <p className="text-[11px] text-[#949ba4] leading-relaxed line-clamp-2">
+                                            <p className="text-xs sm:text-sm text-[#b5bac1] leading-relaxed">
                                                 {exp.description}
                                             </p>
 
-                                            <div className="flex flex-wrap gap-1 pt-0.5">
+                                            <div className="flex flex-wrap gap-1.5 pt-1">
                                                 {exp.tags.map((tag) => (
-                                                    <span key={tag} className="text-[10px] px-1.5 py-0.2 rounded bg-[#181b28] text-[#949ba4] font-medium border border-white/5">
+                                                    <span key={tag} className="text-[11px] px-2 py-0.5 rounded bg-[#181b28] text-[#dbdee1] font-medium border border-white/10">
                                                         {tag}
                                                     </span>
                                                 ))}
@@ -95,15 +95,15 @@ export function AboutAndContact() {
                                     <div className="space-y-1.5">
                                         {dict.about.education.map((edu) => (
                                             <div key={edu.id} className="p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#7053e3]/40 transition-colors">
-                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                                                    <span className="text-xs font-bold text-[#f2f3f5]">{edu.school}</span>
-                                                    <span className="text-[10px] font-mono text-[#949ba4] bg-[#181b28] px-1.5 py-0.5 rounded border border-white/5 self-start sm:self-auto">
+                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                                    <span className="text-xs sm:text-sm font-bold text-[#f2f3f5]">{edu.school}</span>
+                                                    <span className="text-[11px] font-mono text-[#b5bac1] bg-[#181b28] px-2 py-0.5 rounded border border-white/10 self-start sm:self-auto">
                                                         {edu.period}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center justify-between gap-1 mt-0.5 text-[11px]">
-                                                    <span className="text-[#b59cfc] font-medium">{edu.degree}</span>
-                                                    <span className="text-[10px] text-[#949ba4] font-mono">{edu.status}</span>
+                                                <div className="flex items-center justify-between gap-1 mt-1 text-xs">
+                                                    <span className="text-[#b59cfc] font-semibold">{edu.degree}</span>
+                                                    <span className="text-[11px] text-[#b5bac1] font-mono">{edu.status}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -113,29 +113,29 @@ export function AboutAndContact() {
                         </div>
 
                         {/* Sidebar: stack, subdomains, contact (right column) */}
-                        <div className="flex flex-col justify-between gap-2.5">
+                        <div className="flex flex-col gap-3.5">
 
                             {/* Tech stack */}
-                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 space-y-2 hover:border-[#7053e3]/40 transition-colors">
-                                <div className="border-b border-white/5 pb-1">
-                                    <div className="flex items-center gap-1 text-[11px] text-[#b59cfc] font-mono font-semibold uppercase tracking-wider">
-                                        <Layers className="w-3 h-3" />
+                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3.5 sm:p-4 space-y-3 hover:border-[#7053e3]/40 transition-colors">
+                                <div className="border-b border-white/5 pb-1.5">
+                                    <div className="flex items-center gap-1.5 text-xs text-[#b59cfc] font-mono font-semibold uppercase tracking-wider">
+                                        <Layers className="w-3.5 h-3.5" />
                                         <span>{dict.about.techStackTitle}</span>
                                     </div>
                                 </div>
 
-                                <div className="space-y-1.5">
+                                <div className="space-y-3">
                                     {(dict.about.techCategories || []).map((cat) => (
-                                        <div key={cat.id || cat.name} className="space-y-0.5">
-                                            <div className="text-[11px] font-semibold text-[#f2f3f5] flex items-center gap-1">
-                                                {categoryIcons[cat.id] ?? <Layers className="w-3 h-3 text-[#5865F2]" />}
+                                        <div key={cat.id || cat.name} className="space-y-1.5">
+                                            <div className="text-xs sm:text-sm font-semibold text-[#f2f3f5] flex items-center gap-1.5">
+                                                {categoryIcons[cat.id] ?? <Layers className="w-3.5 h-3.5 text-[#5865F2]" />}
                                                 <span>{cat.name}</span>
                                             </div>
-                                            <div className="flex flex-wrap gap-1">
+                                            <div className="flex flex-wrap gap-1.5">
                                                 {cat.skills.map((skill) => (
                                                     <span
                                                         key={skill}
-                                                        className="px-1.5 py-0.5 rounded bg-[#181b28] text-[#f2f3f5] text-[10px] font-mono font-medium border border-white/10 hover:border-[#5865F2]/50 hover:bg-[#202436] transition-all shadow-sm"
+                                                        className="px-2.5 py-1 rounded bg-[#181b28] text-[#f2f3f5] text-xs font-mono font-medium border border-white/10 hover:border-[#5865F2]/50 hover:bg-[#202436] transition-all shadow-sm"
                                                     >
                                                         {skill}
                                                     </span>
@@ -147,43 +147,43 @@ export function AboutAndContact() {
                             </div>
 
                             {/* Subdomains */}
-                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 space-y-1.5 hover:border-[#7053e3]/40 transition-colors">
-                                <span className="text-[11px] text-[#b59cfc] font-mono font-semibold uppercase tracking-wider block">
+                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 sm:p-4 space-y-2 hover:border-[#7053e3]/40 transition-colors">
+                                <span className="text-xs text-[#b59cfc] font-mono font-semibold uppercase tracking-wider block">
                                     {dict.about.subdomainsTitle}
                                 </span>
 
-                                <div className="grid grid-cols-2 gap-1.5">
+                                <div className="grid grid-cols-2 gap-2">
                                     <div
                                         title="Coming Soon"
-                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
+                                        className="flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/5 opacity-70 cursor-not-allowed shadow-sm select-none"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#949ba4]">✍️ Blog</span>
-                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
+                                            <span className="text-xs sm:text-sm font-bold text-[#b5bac1]">✍️ Blog</span>
+                                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#b5bac1] font-semibold">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.blogDesc}</p>
+                                        <p className="text-[11px] text-[#949ba4] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.blogDesc}</p>
                                     </div>
 
                                     <div
                                         title="Coming Soon"
-                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
+                                        className="flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/5 opacity-70 cursor-not-allowed shadow-sm select-none"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#949ba4]">🐾 Aki</span>
-                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
+                                            <span className="text-xs sm:text-sm font-bold text-[#b5bac1]">🐾 Aki</span>
+                                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#b5bac1] font-semibold">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.akiDesc}</p>
+                                        <p className="text-[11px] text-[#949ba4] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.akiDesc}</p>
                                     </div>
 
                                     <div
                                         title="Coming Soon"
-                                        className="flex flex-col justify-between p-2 rounded bg-[#06070c]/50 border border-white/5 opacity-50 cursor-not-allowed shadow-sm"
+                                        className="flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/5 opacity-70 cursor-not-allowed shadow-sm select-none"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#949ba4]">🎮 Gaming</span>
-                                            <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]">Soon</span>
+                                            <span className="text-xs sm:text-sm font-bold text-[#b5bac1]">🎮 Gaming</span>
+                                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#b5bac1] font-semibold">Soon</span>
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4]/60 mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
+                                        <p className="text-[11px] text-[#949ba4] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
                                     </div>
 
                                     <a
@@ -191,19 +191,19 @@ export function AboutAndContact() {
                                         target="_blank"
                                         rel="noreferrer"
                                         title={dict.about.subdomains.animeDesc}
-                                        className="group flex flex-col justify-between p-2 rounded bg-[#06070c] border border-white/5 hover:border-[#b59cfc]/50 hover:bg-[#181b28] transition-all shadow-sm"
+                                        className="group flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/10 hover:border-[#b59cfc]/60 hover:bg-[#181b28] transition-all shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">⛩️ Anime / Manga</span>
-                                            <ExternalLink className="w-3 h-3 text-[#949ba4] group-hover:text-[#b59cfc] transition-colors shrink-0" />
+                                            <span className="text-xs sm:text-sm font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">⛩️ Anime / Manga</span>
+                                            <ExternalLink className="w-3.5 h-3.5 text-[#b5bac1] group-hover:text-[#b59cfc] transition-colors shrink-0" />
                                         </div>
-                                        <p className="text-[10px] text-[#949ba4] mt-0.5 font-medium leading-snug line-clamp-2">{dict.about.subdomains.animeDesc}</p>
+                                        <p className="text-[11px] text-[#b5bac1] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.animeDesc}</p>
                                     </a>
                                 </div>
                             </div>
 
                             {/* Contact */}
-                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 space-y-2 hover:border-[#7053e3]/40 transition-colors">
+                            <div className="bg-[#0e1019] rounded-lg border border-white/10 p-3 sm:p-4 space-y-2.5 hover:border-[#7053e3]/40 transition-colors">
                                 <div className="space-y-0.5">
                                     <div className="flex items-center gap-1.5 text-[#3ba55d] text-[10px] font-mono font-semibold uppercase tracking-wider">
                                         <span className="w-1.5 h-1.5 rounded-full bg-[#3ba55d] animate-pulse" />

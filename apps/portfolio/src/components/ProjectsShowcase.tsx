@@ -249,13 +249,13 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
                 {/* Spotlight: PUNoted */}
                 {punoted && (filter === 'ALL' || filter === 'SOFTWARE') && (
-                    <div className="relative rounded-xl border border-[#7053e3]/40 bg-[#0c0e17] p-4 sm:p-5 shadow-xl overflow-hidden">
+                    <div className="relative rounded-xl border border-[#7053e3]/40 bg-[#0c0e17] p-3 sm:p-5 shadow-xl overflow-hidden mb-3">
                         <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#7053e3]/10 rounded-full blur-3xl pointer-events-none" />
 
-                        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+                        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-5 items-stretch">
                             {/* Project info: centered only on mobile (<md), left-aligned on tablet and desktop (md+) */}
-                            <div className="lg:col-span-7 flex flex-col justify-between py-1 items-center md:items-start text-center md:text-left">
-                                <div className="space-y-3 flex flex-col items-center md:items-start w-full">
+                            <div className="lg:col-span-7 flex flex-col justify-between py-0.5 items-center md:items-start text-center md:text-left">
+                                <div className="space-y-2 flex flex-col items-center md:items-start w-full">
                                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                                         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-semibold bg-[#2a1a4a] text-[#c084fc] border border-[#a855f7]/40 shadow-sm font-mono uppercase tracking-wider">
                                             <span className="w-1.5 h-1.5 rounded-full bg-[#c084fc] animate-pulse" />
@@ -265,8 +265,8 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                     </div>
 
                                     {/* Title & Action Buttons Header */}
-                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 w-full">
-                                        <h3 className="text-2xl sm:text-3xl font-extrabold text-[#f2f3f5] tracking-tight">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2 w-full">
+                                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#f2f3f5] tracking-tight">
                                             PUNoted
                                         </h3>
 
