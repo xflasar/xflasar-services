@@ -1,13 +1,36 @@
 'use client'
 
-import React from 'react'
-import { ChevronDown, Gamepad2, Instagram, Github } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { ChevronDown, Gamepad2, Instagram, Github, GitCommit } from 'lucide-react'
 import { smoothScrollTo } from '@/lib/scroll'
 import { LanguageSwitch } from './LanguageSwitch'
 import { useLanguage } from '@/lib/language-context'
 
+interface GitHubActivity {
+  latestCommit?: {
+    repo: string
+    repoUrl: string
+    message: string
+    sha: string
+    timeAgo: string
+  }
+  publicRepos: number
+}
+
 export function Hero() {
   const { dict } = useLanguage()
+  const [ghActivity, setGhActivity] = useState<GitHubActivity | null>(null)
+
+  useEffect(() => {
+    fetch('/api/github')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.success && json?.data) {
+          setGhActivity(json.data)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const handleScroll = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
@@ -142,6 +165,11 @@ export function Hero() {
             >
               <Github className="w-3.5 h-3.5 text-[#949ba4] group-hover:text-white transition-colors shrink-0" />
               <span>GitHub</span>
+              {ghActivity && ghActivity.publicRepos > 0 && (
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 font-mono text-[#b5bac1]">
+                  {ghActivity.publicRepos}
+                </span>
+              )}
               <span className="text-[10px] text-[#949ba4]">↗</span>
             </a>
 
@@ -155,8 +183,31 @@ export function Hero() {
               <span>Instagram</span>
               <span className="text-[10px] text-[#949ba4] group-hover:text-[#b59cfc] transition-colors">↗</span>
             </a>
-
           </div>
+
+          {/* Live GitHub Commit Badge */}
+          {ghActivity?.latestCommit && (
+            <div className="pt-2 animate-fadeIn">
+              <a
+                href={ghActivity.latestCommit.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={`Pushed to ${ghActivity.latestCommit.repo}: "${ghActivity.latestCommit.message}"`}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0e1019]/80 border border-white/10 hover:border-[#3ba55d]/50 text-xs font-mono text-[#949ba4] hover:text-[#f2f3f5] transition-all shadow-sm max-w-md truncate"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3ba55d] animate-pulse shrink-0" />
+                <span className="text-[#3ba55d] font-semibold shrink-0">GitHub</span>
+                <span className="text-[#b59cfc] font-medium shrink-0">{ghActivity.latestCommit.repo}</span>
+                <span className="text-white/20 shrink-0">•</span>
+                <span className="text-[#dbdee1] truncate max-w-[160px] sm:max-w-[220px]">
+                  {ghActivity.latestCommit.message}
+                </span>
+                <span className="text-[#949ba4] text-[10px] shrink-0 font-sans ml-0.5">
+                  ({ghActivity.latestCommit.timeAgo})
+                </span>
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
