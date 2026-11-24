@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ChevronDown, Gamepad2 } from 'lucide-react'
+import { ChevronDown, Gamepad2, Instagram, Github } from 'lucide-react'
 import { smoothScrollTo } from '@/lib/scroll'
 import { LanguageSwitch } from './LanguageSwitch'
 import { useLanguage } from '@/lib/language-context'
@@ -103,41 +103,44 @@ export function Hero() {
           </a>
         </div>
 
-        {/* Quick Links Directory & Now Playing Badge */}
-        <div className="space-y-2.5 pt-1">
-          <div className="flex flex-wrap items-center justify-center gap-3">
+        {/* Quick Links Directory */}
+        <div className="pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            <a
+              href="https://gaming.xflasar.com"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#181b28] hover:bg-[#202538] border border-white/10 hover:border-[#b59cfc]/60 text-xs font-semibold text-[#f2f3f5] hover:text-[#b59cfc] transition-all shadow-sm"
+            >
+              <span>🎮 Gaming</span>
+              <span className="text-[10px] text-[#b59cfc]">↗</span>
+            </a>
+
+            <a
+              href="https://anime.xflasar.com"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#181b28] hover:bg-[#202538] border border-white/10 hover:border-[#b59cfc]/60 text-xs font-semibold text-[#f2f3f5] hover:text-[#b59cfc] transition-all shadow-sm"
+            >
+              <span>⛩️ Anime / Manga</span>
+              <span className="text-[10px] text-[#b59cfc]">↗</span>
+            </a>
+
             <div
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/40 border border-white/5 text-xs text-[#949ba4]/50 cursor-not-allowed select-none"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181b28]/40 border border-white/5 text-xs text-[#949ba4]/50 cursor-not-allowed select-none"
               title="Coming Soon"
             >
               <span>🐾 Aki</span>
               <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/60">Soon</span>
             </div>
 
-            <div
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/40 border border-white/5 text-xs text-[#949ba4]/50 cursor-not-allowed select-none"
-              title="Coming Soon"
-            >
-              <span>🎮 Gaming</span>
-              <span className="text-[9px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/60">Soon</span>
-            </div>
-
-            <a
-              href="https://anime.xflasar.com"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#7053e3]/20 border border-white/5 hover:border-[#7053e3]/40 text-xs text-[#949ba4] hover:text-[#b59cfc] transition-all"
-            >
-              <span>⛩️ Anime / Manga</span>
-              <span className="text-[10px] text-[#b59cfc]">↗</span>
-            </a>
-
             <a
               href="https://github.com/xflasar"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#232738] border border-white/5 hover:border-white/20 text-xs text-[#949ba4] hover:text-[#f2f3f5] transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#181b28] hover:bg-[#202538] border border-white/10 hover:border-white/20 text-xs font-medium text-[#b5bac1] hover:text-[#f2f3f5] transition-all group"
             >
+              <Github className="w-3.5 h-3.5 text-[#949ba4] group-hover:text-white transition-colors shrink-0" />
               <span>GitHub</span>
               <span className="text-[10px] text-[#949ba4]">↗</span>
             </a>
@@ -146,18 +149,13 @@ export function Hero() {
               href="https://instagram.com/xsupefly"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181b28]/80 hover:bg-[#7053e3]/20 border border-white/5 hover:border-[#7053e3]/40 text-xs text-[#949ba4] hover:text-[#b59cfc] transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#181b28] hover:bg-[#202538] border border-white/10 hover:border-[#b59cfc]/60 text-xs font-medium text-[#b5bac1] hover:text-[#f2f3f5] transition-all group"
             >
-              <span>📸 Instagram</span>
-              <span className="text-[10px] text-[#b59cfc]">↗</span>
+              <Instagram className="w-3.5 h-3.5 text-[#b59cfc] group-hover:text-white transition-colors shrink-0" />
+              <span>Instagram</span>
+              <span className="text-[10px] text-[#949ba4] group-hover:text-[#b59cfc] transition-colors">↗</span>
             </a>
-          </div>
 
-          {/* Steam / Gaming Activity Pill */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0e1019] border border-white/5 text-[11px] text-[#949ba4]">
-            <Gamepad2 className="w-3.5 h-3.5 text-[#5865F2]" />
-            <span className="w-1.5 h-1.5 rounded-full bg-[#949ba4]/50" />
-            <span>{dict.hero.playingGame || 'Offline'}</span>
           </div>
         </div>
       </div>

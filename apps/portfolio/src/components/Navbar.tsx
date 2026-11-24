@@ -86,13 +86,15 @@ export function Navbar() {
             <span>🐾 {dict.nav.aki}</span>
             <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
           </span>
-          <span
-            className="text-text-secondary/40 text-sm font-medium flex items-center gap-1 cursor-not-allowed select-none"
-            title="Coming Soon"
+          <a
+            href="https://gaming.xflasar.com"
+            target="_blank"
+            rel="noreferrer"
+            className="text-[#f2f3f5] hover:text-[#b59cfc] transition-colors text-sm font-semibold flex items-center gap-1"
           >
             <span>🎮 {dict.nav.gaming}</span>
-            <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
-          </span>
+            <span className="text-xs text-[#b59cfc]">↗</span>
+          </a>
           <a
             href="https://anime.xflasar.com"
             target="_blank"
@@ -162,12 +164,15 @@ export function Navbar() {
                 <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
               </div>
 
-              <div
-                className="px-3 py-2 rounded-lg bg-[#0e1019]/40 text-sm text-[#949ba4]/50 flex items-center justify-between cursor-not-allowed select-none"
+              <a
+                href="https://gaming.xflasar.com"
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-2 rounded-lg bg-[#0e1019] hover:bg-[#181b28] border border-white/10 text-sm font-semibold text-[#f2f3f5] transition-colors flex items-center justify-between"
               >
                 <span>🎮 {dict.nav.gaming}</span>
-                <span className="text-[10px] uppercase font-mono px-1 rounded bg-white/5 text-[#949ba4]/50">Soon</span>
-              </div>
+                <span className="text-xs text-[#b59cfc] font-mono">gaming.xflasar.com ↗</span>
+              </a>
 
               <a
                 href="https://anime.xflasar.com"

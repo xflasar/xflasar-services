@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="cs" className="dark">
-      <body className="discord-bg min-h-screen text-text-primary antialiased selection:bg-accent-purple/30 selection:text-white">
+    <html lang="cs" className="dark" suppressHydrationWarning>
+      <body className="discord-bg min-h-screen text-text-primary antialiased selection:bg-accent-purple/30 selection:text-white" suppressHydrationWarning>
         <LanguageProvider>
           {children}
         </LanguageProvider>

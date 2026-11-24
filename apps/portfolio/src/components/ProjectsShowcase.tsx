@@ -71,9 +71,8 @@ function ProjectCardMedia({
                     src={imgUrl}
                     alt=""
                     aria-hidden="true"
-                    className={`absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-20 transition-opacity duration-700 ease-in-out ${
-                        idx === slideIndex ? 'opacity-20' : 'opacity-0 pointer-events-none'
-                    }`}
+                    className={`absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-20 transition-opacity duration-700 ease-in-out ${idx === slideIndex ? 'opacity-20' : 'opacity-0 pointer-events-none'
+                        }`}
                 />
             ))}
 
@@ -84,9 +83,8 @@ function ProjectCardMedia({
                     key={imgUrl}
                     src={imgUrl}
                     alt={`${project.title} slide ${idx + 1}`}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
-                        idx === slideIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
-                    }`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${idx === slideIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+                        }`}
                 />
             ))}
 
@@ -231,8 +229,8 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                 key={cat}
                                 onClick={() => setFilter(cat)}
                                 className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${filter === cat
-                                        ? 'bg-[#5865F2] text-white shadow-sm'
-                                        : 'text-[#949ba4] hover:text-[#f2f3f5]'
+                                    ? 'bg-[#5865F2] text-white shadow-sm'
+                                    : 'text-[#949ba4] hover:text-[#f2f3f5]'
                                     }`}
                             >
                                 {cat === 'ALL'
@@ -306,14 +304,14 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                                         <button
                                                             type="button"
                                                             onClick={() => setRepoDropdownOpen((prev) => !prev)}
-                                                            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md bg-[#181b28] hover:bg-[#232738] border border-white/10 text-[#f2f3f5] text-xs sm:text-sm font-medium transition-all group"
+                                                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 h-8 px-3 rounded-md bg-[#181b28] hover:bg-[#232738] border border-white/10 text-[#f2f3f5] text-xs sm:text-sm font-medium transition-all group"
                                                         >
                                                             <Github className="w-4 h-4 text-[#b59cfc]" />
                                                             <span>Code</span>
-                                                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-[#b59cfc] font-mono">
+                                                            <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full bg-[#5865F2]/20 border border-[#5865F2]/40 text-xs font-mono font-bold text-[#b59cfc]">
                                                                 {repos.length}
                                                             </span>
-                                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${repoDropdownOpen ? 'rotate-180 text-white' : ''}`} />
+                                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${repoDropdownOpen ? 'rotate-180 text-white' : 'text-[#949ba4]'}`} />
                                                         </button>
 
                                                         {/* Dropdown Menu */}
@@ -411,8 +409,8 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                                     <span
                                                         key={idx}
                                                         className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentSlideIndex
-                                                                ? 'w-5 bg-[#b59cfc]'
-                                                                : 'w-1.5 bg-white/30'
+                                                            ? 'w-5 bg-[#b59cfc]'
+                                                            : 'w-1.5 bg-white/30'
                                                             }`}
                                                     />
                                                 ))}
@@ -658,8 +656,8 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                                         key={idx}
                                         onClick={() => setGalleryState((prev) => prev ? { ...prev, currentIndex: idx } : null)}
                                         className={`relative w-12 h-10 rounded-lg overflow-hidden border transition-all ${galleryState.currentIndex === idx
-                                                ? 'border-[#5865F2] ring-2 ring-[#5865F2]/40 scale-105'
-                                                : 'border-white/10 opacity-50 hover:opacity-100'
+                                            ? 'border-[#5865F2] ring-2 ring-[#5865F2]/40 scale-105'
+                                            : 'border-white/10 opacity-50 hover:opacity-100'
                                             }`}
                                     >
                                         {/* eslint-disable-next-line @next/next/no-img-element */}

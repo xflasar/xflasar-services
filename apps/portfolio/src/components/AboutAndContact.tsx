@@ -175,16 +175,19 @@ export function AboutAndContact() {
                                         <p className="text-[11px] text-[#949ba4] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.akiDesc}</p>
                                     </div>
 
-                                    <div
-                                        title="Coming Soon"
-                                        className="flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/5 opacity-70 cursor-not-allowed shadow-sm select-none"
+                                    <a
+                                        href="https://gaming.xflasar.com"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        title={dict.about.subdomains.gamingDesc}
+                                        className="group flex flex-col justify-between p-2.5 rounded bg-[#06070c] border border-white/10 hover:border-[#b59cfc]/60 hover:bg-[#181b28] transition-all shadow-sm"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs sm:text-sm font-bold text-[#b5bac1]">🎮 Gaming</span>
-                                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#b5bac1] font-semibold">Soon</span>
+                                            <span className="text-xs sm:text-sm font-bold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">🎮 Gaming</span>
+                                            <ExternalLink className="w-3.5 h-3.5 text-[#b5bac1] group-hover:text-[#b59cfc] transition-colors shrink-0" />
                                         </div>
-                                        <p className="text-[11px] text-[#949ba4] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
-                                    </div>
+                                        <p className="text-[11px] text-[#b5bac1] mt-1 font-medium leading-snug line-clamp-2">{dict.about.subdomains.gamingDesc}</p>
+                                    </a>
 
                                     <a
                                         href="https://anime.xflasar.com"
