@@ -1,38 +1,12 @@
 import { NextResponse } from 'next/server'
 import { MOCK_PLAYER_SUMMARY, MOCK_GAMES, MOCK_GAMING_STATS } from '@/lib/mock-data'
-
-// =============================================================================
-// 🎯 STEAM API INTEGRACE - NÁVOD A ŠABLONA PRO TEBE
-// =============================================================================
-// Tento endpoint běží na Next.js serveru (`/api/steam`).
-//
-// Co potřebuješ mít v `.env.local`:
-// - STEAM_API_KEY=tve_tajne_steam_api_key (ziskas na https://steamcommunity.com/dev/apikey)
-// - STEAM_ID64=tve_17_mistne_steam_id (napr. 76561198xxxxxxxxx)
-//
-// Jak volat oficiální Steam Web API:
-// 1. Live status hráče (avatar, personaName, zda hraje):
-//    GET https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}
-//    Odpověď: data.response.players[0]
-//    - gameextrainfo: název hry, pokud právě hraje
-//    - personastate: 0 = offline, 1 = online
-//
-// 2. Nedávno hrané hry (posledních 14 dní):
-//    GET https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${apiKey}&steamid=${steamId}&format=json
-//
-// 3. Všechny hry v knihovně:
-//    GET https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamId}&include_appinfo=1&include_played_free_games=1&format=json
-//
-// Tady v této funkci GET můžeš:
-// - buď zavolat Steam API přes fetch()
-// - nebo (pokud zatím nemáš API klíč) vrátit mock data níže
-// =============================================================================
+import { getGameCoverUrl } from '@/lib/covers'
 
 export async function GET() {
   const apiKey = process.env.STEAM_API_KEY
   const steamId = process.env.STEAM_ID64 || process.env.STEAM_ID
 
-  // Pokud zatím nemáš nastavený Steam API klíč, vracíme mock data
+  // If Steam credentials are not configured, return fallback mock data
   if (!apiKey || !steamId) {
     console.warn('[Steam API] Missing STEAM_API_KEY or STEAM_ID/STEAM_ID64 in env. Falling back to mock data.')
     return NextResponse.json({
@@ -45,10 +19,9 @@ export async function GET() {
   }
 
   try {
-    // 1. Paralelní volání všech 3 endpointů přes Promise.all s timeoutem a revalidate
     const fetchOptions: RequestInit = {
-      next: { revalidate: 60 }, // Cache na 60s
-      signal: AbortSignal.timeout(8000), // 8s timeout proti visícím requestům
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(8000),
     }
 
     const [resSummary, resGames, resRecent] = await Promise.all([
@@ -78,7 +51,7 @@ export async function GET() {
       resRecent.ok ? (resRecent.json().catch(() => ({})) as Promise<any>) : Promise.resolve({} as any),
     ])
 
-    // 2. Namapování profilu hráče
+    // Map player summary profile
     const rawPlayer = dataSummary?.response?.players?.[0]
     const player = rawPlayer
       ? {
@@ -87,20 +60,20 @@ export async function GET() {
           profileUrl: rawPlayer.profileurl,
           avatarUrl: rawPlayer.avatarfull || rawPlayer.avatarmedium,
           personaState: rawPlayer.personastate ?? 0,
-          gameExtraInfo: rawPlayer.gameextrainfo, // název hry pokud právě hraje
+          gameExtraInfo: rawPlayer.gameextrainfo,
           gameId: rawPlayer.gameid,
           lastLogoff: rawPlayer.lastlogoff,
         }
       : MOCK_PLAYER_SUMMARY
 
-    // 3. Mapa pro rychlé přiřazení odehraného času za 14 dní (appId -> minuty)
+    // Build map of recent 2-week playtime (appId -> minutes)
     const recentMap = new Map<number, number>()
     const recentGamesRaw = dataRecent?.response?.games || []
     for (const g of recentGamesRaw) {
       recentMap.set(g.appid, g.playtime_2weeks || 0)
     }
 
-    // 4. Namapování knihovny her
+    // Map owned games library
     const rawGames: any[] = dataGames?.response?.games || []
     const games = rawGames.map((g) => ({
       appId: g.appid,
@@ -110,10 +83,10 @@ export async function GET() {
       imgIconUrl: g.img_icon_url
         ? `https://media.steampowered.com/steamcommunity/public/images/apps/${g.appid}/${g.img_icon_url}.jpg`
         : undefined,
-      headerImageUrl: `https://cdn.akamai.steamstatic.com/steam/apps/${g.appid}/header.jpg`,
+      headerImageUrl: getGameCoverUrl(g.appid, g.name),
     }))
 
-    // 5. Výpočet statistik (KPI)
+    // Calculate aggregated stats
     const totalPlaytimeMinutes = games.reduce(
       (acc, curr) => acc + curr.playtimeForeverMinutes,
       0
@@ -123,7 +96,6 @@ export async function GET() {
       0
     )
 
-    // Seřazení pro nalezení nejoblíbenější hry
     const sortedByTime = [...games].sort(
       (a, b) => b.playtimeForeverMinutes - a.playtimeForeverMinutes
     )
@@ -150,7 +122,6 @@ export async function GET() {
     })
   } catch (error: any) {
     console.error('[Steam API] Failed to fetch Steam data:', error)
-    // Bezpečný fallback na mock data, aby stránka nikdy nespadla na 500
     return NextResponse.json({
       success: true,
       isMock: true,

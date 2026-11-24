@@ -10,6 +10,7 @@ import { LanguageSwitch } from '@/components/LanguageSwitch'
 import { SteamPlayerSummary, SteamGame, GamingStats } from '@/types'
 import { MOCK_PLAYER_SUMMARY, MOCK_GAMES, MOCK_GAMING_STATS } from '@/lib/mock-data'
 import { useLanguage } from '@/lib/language-context'
+import { getGameCoverUrl } from '@/lib/covers'
 
 export default function GamingPage() {
   const { dict } = useLanguage()
@@ -20,14 +21,6 @@ export default function GamingPage() {
   const [stats, setStats] = useState<GamingStats>(MOCK_GAMING_STATS)
   const [isLoading, setIsLoading] = useState(false)
 
-  // =========================================================================
-  // 🎯 TODO PRO TEBE: NAČÍTÁNÍ DAT ZE STEAM API
-  // =========================================================================
-  // Tady se při načtení stránky zavolá tvůj Next.js endpoint `/api/steam`.
-  // Můžeš zde upravit:
-  // - jak často se má data obnovovat (např. každých 60s přes setInterval pro live status)
-  // - zpracování chyb nebo zobrazení loading spinneru
-  // =========================================================================
   useEffect(() => {
     async function loadData() {
       try {
@@ -50,9 +43,17 @@ export default function GamingPage() {
     loadData()
   }, [])
 
-  const currentGame = games.find(
-    (g) => g.name.toLowerCase() === player?.gameExtraInfo?.toLowerCase()
-  )
+  const currentGame: SteamGame | null = games.find(
+    (g) =>
+      (player?.gameId && String(g.appId) === String(player.gameId)) ||
+      (player?.gameExtraInfo && g.name.toLowerCase() === player.gameExtraInfo.toLowerCase())
+  ) || (player?.gameExtraInfo ? {
+    appId: player.gameId ? Number(player.gameId) : 0,
+    name: player.gameExtraInfo,
+    playtimeForeverMinutes: 0,
+    playtime2WeeksMinutes: 0,
+    headerImageUrl: getGameCoverUrl(player.gameId, player.gameExtraInfo),
+  } : null)
 
   return (
     <div className="min-h-screen bg-[#05060b] text-[#f2f3f5] flex flex-col justify-between">
@@ -105,8 +106,8 @@ export default function GamingPage() {
       <footer className="bg-[#06070c] border-t border-white/10 py-4 px-4 sm:px-8 text-center text-xs text-[#949ba4] mt-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>© {new Date().getFullYear()} {dict.footer.rights}</span>
-          <span className="font-mono text-[11px] text-[#7053e3]">
-            {dict.footer.aesthetic}
+          <span className="font-mono text-[11px] text-[#949ba4]">
+            Next.js • Steam API
           </span>
         </div>
       </footer>

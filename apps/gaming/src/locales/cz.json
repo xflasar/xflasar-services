@@ -51,11 +51,15 @@
   "library": {
     "searchPlaceholder": "Hledat hru...",
     "hours": "hodin",
+    "recentBadge": "nedávno",
+    "tableGame": "Hra",
+    "tableTotal": "Odehráno celkem",
+    "tablePast2Weeks": "Za 14 dní",
+    "tableStore": "Steam",
     "noGamesFound": "Nebyly nalezeny žádné hry",
     "viewOnSteam": "Steam Store"
   },
   "footer": {
-    "rights": "xflasar.com • Gaming Hub",
-    "aesthetic": "Discord Midnight Aesthetic"
+    "rights": "xflasar.com • Gaming Hub"
   }
 }

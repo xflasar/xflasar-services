@@ -51,11 +51,15 @@
   "library": {
     "searchPlaceholder": "Search game...",
     "hours": "hours",
+    "recentBadge": "recent",
+    "tableGame": "Game",
+    "tableTotal": "Total Playtime",
+    "tablePast2Weeks": "Past 14 Days",
+    "tableStore": "Store",
     "noGamesFound": "No games found",
     "viewOnSteam": "Steam Store"
   },
   "footer": {
-    "rights": "xflasar.com • Gaming Hub",
-    "aesthetic": "Discord Midnight Aesthetic"
+    "rights": "xflasar.com • Gaming Hub"
   }
 }
