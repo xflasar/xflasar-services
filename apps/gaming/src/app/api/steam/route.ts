@@ -30,10 +30,11 @@ import { MOCK_PLAYER_SUMMARY, MOCK_GAMES, MOCK_GAMING_STATS } from '@/lib/mock-d
 
 export async function GET() {
   const apiKey = process.env.STEAM_API_KEY
-  const steamId = process.env.STEAM_ID64
+  const steamId = process.env.STEAM_ID64 || process.env.STEAM_ID
 
   // Pokud zatím nemáš nastavený Steam API klíč, vracíme mock data
   if (!apiKey || !steamId) {
+    console.warn('[Steam API] Missing STEAM_API_KEY or STEAM_ID/STEAM_ID64 in env. Falling back to mock data.')
     return NextResponse.json({
       success: true,
       isMock: true,
@@ -44,23 +45,37 @@ export async function GET() {
   }
 
   try {
-    // 1. Paralelní volání všech 3 endpointů přes Promise.all
+    // 1. Paralelní volání všech 3 endpointů přes Promise.all s timeoutem a revalidate
+    const fetchOptions: RequestInit = {
+      next: { revalidate: 60 }, // Cache na 60s
+      signal: AbortSignal.timeout(8000), // 8s timeout proti visícím requestům
+    }
+
     const [resSummary, resGames, resRecent] = await Promise.all([
       fetch(
-        `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}`
+        `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}`,
+        fetchOptions
       ),
       fetch(
-        `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamId}&include_appinfo=1&include_played_free_games=1&format=json`
+        `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamId}&include_appinfo=1&include_played_free_games=1&format=json`,
+        fetchOptions
       ),
       fetch(
-        `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${apiKey}&steamid=${steamId}&format=json`
+        `https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${apiKey}&steamid=${steamId}&format=json`,
+        fetchOptions
       ),
     ])
 
+    if (!resSummary.ok || !resGames.ok) {
+      console.error(
+        `[Steam API] Steam responded with error status. Summary: ${resSummary.status}, Games: ${resGames.status}`
+      )
+    }
+
     const [dataSummary, dataGames, dataRecent] = await Promise.all([
-      resSummary.json(),
-      resGames.json(),
-      resRecent.json(),
+      resSummary.ok ? (resSummary.json().catch(() => ({})) as Promise<any>) : Promise.resolve({} as any),
+      resGames.ok ? (resGames.json().catch(() => ({})) as Promise<any>) : Promise.resolve({} as any),
+      resRecent.ok ? (resRecent.json().catch(() => ({})) as Promise<any>) : Promise.resolve({} as any),
     ])
 
     // 2. Namapování profilu hráče
@@ -134,9 +149,15 @@ export async function GET() {
       stats,
     })
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    )
+    console.error('[Steam API] Failed to fetch Steam data:', error)
+    // Bezpečný fallback na mock data, aby stránka nikdy nespadla na 500
+    return NextResponse.json({
+      success: true,
+      isMock: true,
+      error: error?.message || 'Failed to fetch Steam API',
+      player: MOCK_PLAYER_SUMMARY,
+      games: MOCK_GAMES,
+      stats: MOCK_GAMING_STATS,
+    })
   }
 }
