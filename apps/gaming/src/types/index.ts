@@ -18,6 +18,26 @@ export interface SteamGame {
   headerImageUrl: string
 }
 
+export interface SteamAchievement {
+  apiName: string
+  name: string
+  description?: string
+  icon: string
+  gameName: string
+  gameAppId: number
+  unlockedAt?: number
+  rarityPercent?: number // Global unlock percentage (e.g. 2.4%)
+}
+
+export interface PerfectGame {
+  appId: number
+  name: string
+  totalAchievements: number
+  iconUrl?: string
+  headerImageUrl?: string
+}
+
+
 export interface GamingStats {
   totalGames: number
   totalPlaytimeHours: number

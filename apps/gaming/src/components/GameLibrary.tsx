@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Search, LayoutGrid, Table, Clock, ExternalLink, Gamepad2 } from 'lucide-react'
+import { Search, LayoutGrid, Table, Clock, ExternalLink, Gamepad2, Filter } from 'lucide-react'
 import { SteamGame } from '@/types'
 import { useLanguage } from '@/lib/language-context'
 import { getGameCoverUrl, getGameFallbackUrls } from '@/lib/covers'
@@ -88,6 +88,15 @@ function GameRowIcon({ game }: { game: SteamGame }) {
   )
 }
 
+export type PlaytimeFilter =
+  | 'all'
+  | '1000h+'
+  | '500h-1000h'
+  | '100h-500h'
+  | 'under100h'
+  | 'under2h'
+  | 'zero'
+
 interface GameLibraryProps {
   games: SteamGame[]
 }
@@ -95,20 +104,65 @@ interface GameLibraryProps {
 export function GameLibrary({ games }: GameLibraryProps) {
   const { dict } = useLanguage()
   const [filterTab, setFilterTab] = useState<'all' | 'recent' | 'top'>('all')
+  const [playtimeFilter, setPlaytimeFilter] = useState<PlaytimeFilter>('all')
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid')
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Tier counts calculated dynamically
+  const tierCounts = React.useMemo(() => {
+    return {
+      all: games.length,
+      '1000h+': games.filter((g) => g.playtimeForeverMinutes >= 60000).length,
+      '500h-1000h': games.filter(
+        (g) => g.playtimeForeverMinutes >= 30000 && g.playtimeForeverMinutes < 60000
+      ).length,
+      '100h-500h': games.filter(
+        (g) => g.playtimeForeverMinutes >= 6000 && g.playtimeForeverMinutes < 30000
+      ).length,
+      under100h: games.filter(
+        (g) => g.playtimeForeverMinutes >= 120 && g.playtimeForeverMinutes < 6000
+      ).length,
+      under2h: games.filter(
+        (g) => g.playtimeForeverMinutes < 120 && g.playtimeForeverMinutes > 0
+      ).length,
+      zero: games.filter((g) => g.playtimeForeverMinutes === 0).length,
+    }
+  }, [games])
 
   const filteredGames = React.useMemo(() => {
     let result = [...games]
 
-    // 1. Vyhledávání
+    // 1. Text search
     if (searchQuery.trim()) {
       result = result.filter((g) =>
         g.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
 
-    // Filter and sort games
+    // 2. Playtime Tier filter
+    if (playtimeFilter === '1000h+') {
+      result = result.filter((g) => g.playtimeForeverMinutes >= 60000)
+    } else if (playtimeFilter === '500h-1000h') {
+      result = result.filter(
+        (g) => g.playtimeForeverMinutes >= 30000 && g.playtimeForeverMinutes < 60000
+      )
+    } else if (playtimeFilter === '100h-500h') {
+      result = result.filter(
+        (g) => g.playtimeForeverMinutes >= 6000 && g.playtimeForeverMinutes < 30000
+      )
+    } else if (playtimeFilter === 'under100h') {
+      result = result.filter(
+        (g) => g.playtimeForeverMinutes >= 120 && g.playtimeForeverMinutes < 6000
+      )
+    } else if (playtimeFilter === 'under2h') {
+      result = result.filter(
+        (g) => g.playtimeForeverMinutes < 120 && g.playtimeForeverMinutes > 0
+      )
+    } else if (playtimeFilter === 'zero') {
+      result = result.filter((g) => g.playtimeForeverMinutes === 0)
+    }
+
+    // 3. Sort tab
     if (filterTab === 'top') {
       result.sort((a, b) => b.playtimeForeverMinutes - a.playtimeForeverMinutes)
     } else if (filterTab === 'recent') {
@@ -116,15 +170,12 @@ export function GameLibrary({ games }: GameLibraryProps) {
         .filter((g) => (g.playtime2WeeksMinutes || 0) > 0)
         .sort((a, b) => (b.playtime2WeeksMinutes || 0) - (a.playtime2WeeksMinutes || 0))
     } else {
-      // 'all' tab: recent games first (sorted by 2-week hours descending), then alphabetical
+      // 'all' tab: recent games first, then alphabetical
       result.sort((a, b) => {
         const aRecent = a.playtime2WeeksMinutes || 0
         const bRecent = b.playtime2WeeksMinutes || 0
 
-        if (aRecent > 0 && bRecent > 0) {
-          return bRecent - aRecent
-        }
-
+        if (aRecent > 0 && bRecent > 0) return bRecent - aRecent
         if (aRecent > 0 && bRecent === 0) return -1
         if (bRecent > 0 && aRecent === 0) return 1
 
@@ -133,46 +184,59 @@ export function GameLibrary({ games }: GameLibraryProps) {
     }
 
     return result
-  }, [games, filterTab, searchQuery])
+  }, [games, filterTab, playtimeFilter, searchQuery])
+
+  const tierPills: { id: PlaytimeFilter; label: string; count: number; color?: string }[] = [
+    { id: 'all', label: 'All Playtimes', count: tierCounts.all },
+    { id: '1000h+', label: '1,000h+', count: tierCounts['1000h+'], color: '#a855f7' },
+    { id: '500h-1000h', label: '500h – 1k', count: tierCounts['500h-1000h'], color: '#c084fc' },
+    { id: '100h-500h', label: '100h – 500h', count: tierCounts['100h-500h'], color: '#34d399' },
+    { id: 'under100h', label: '< 100h', count: tierCounts.under100h, color: '#38bdf8' },
+    { id: 'under2h', label: '< 2h', count: tierCounts.under2h, color: '#f59e0b' },
+    { id: 'zero', label: '0h / Unplayed', count: tierCounts.zero, color: '#f43f5e' },
+  ]
 
   return (
-    <div className="space-y-4">
-      {/* Toolbar: Tabs, Search, View switch */}
+    <div className="space-y-2.5">
+      {/* Row 1: Sort Tabs, Search, View switch */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-        {/* Filter Tabs */}
-        <div className="flex items-center bg-[#0e1019] p-0.5 rounded-lg border border-white/10 w-full sm:w-auto">
+        {/* Sort Tabs */}
+        <div className="flex items-center bg-[#0e1019] p-1 rounded-lg border border-white/10 w-full sm:w-auto">
           <button
             onClick={() => setFilterTab('top')}
-            className={`flex-1 sm:flex-none px-3 py-1 rounded text-xs font-semibold font-mono transition-all ${filterTab === 'top'
+            className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded text-sm font-semibold font-mono transition-all ${
+              filterTab === 'top'
                 ? 'bg-[#7053e3] text-white shadow-sm'
                 : 'text-[#949ba4] hover:text-white'
-              }`}
+            }`}
           >
             {dict.tabs.topPlayed}
           </button>
           <button
             onClick={() => setFilterTab('recent')}
-            className={`flex-1 sm:flex-none px-3 py-1 rounded text-xs font-semibold font-mono transition-all ${filterTab === 'recent'
+            className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded text-sm font-semibold font-mono transition-all ${
+              filterTab === 'recent'
                 ? 'bg-[#7053e3] text-white shadow-sm'
                 : 'text-[#949ba4] hover:text-white'
-              }`}
+            }`}
           >
             {dict.tabs.recent}
           </button>
           <button
             onClick={() => setFilterTab('all')}
-            className={`flex-1 sm:flex-none px-3 py-1 rounded text-xs font-semibold font-mono transition-all ${filterTab === 'all'
+            className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded text-sm font-semibold font-mono transition-all ${
+              filterTab === 'all'
                 ? 'bg-[#7053e3] text-white shadow-sm'
                 : 'text-[#949ba4] hover:text-white'
-              }`}
+            }`}
           >
             {dict.tabs.all} ({games.length})
           </button>
         </div>
 
         {/* Right side: Search and View Mode */}
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="relative flex-1 sm:w-72">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="relative flex-1 sm:w-64">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#949ba4]" />
             <input
               type="text"
@@ -183,25 +247,63 @@ export function GameLibrary({ games }: GameLibraryProps) {
             />
           </div>
 
-          <div className="flex bg-[#0e1019] p-0.5 rounded-lg border border-white/10 shrink-0">
+          <div className="flex bg-[#0e1019] p-1 rounded-lg border border-white/10 shrink-0">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded transition-all ${viewMode === 'grid' ? 'bg-[#181b28] text-[#b59cfc]' : 'text-[#949ba4]'
-                }`}
+              className={`p-1.5 rounded transition-all ${
+                viewMode === 'grid' ? 'bg-[#181b28] text-[#b59cfc]' : 'text-[#949ba4]'
+              }`}
               title="Grid View"
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
+              <LayoutGrid className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded transition-all ${viewMode === 'table' ? 'bg-[#181b28] text-[#b59cfc]' : 'text-[#949ba4]'
-                }`}
+              className={`p-1.5 rounded transition-all ${
+                viewMode === 'table' ? 'bg-[#181b28] text-[#b59cfc]' : 'text-[#949ba4]'
+              }`}
               title="Table View"
             >
-              <Table className="w-3.5 h-3.5" />
+              <Table className="w-4 h-4" />
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Row 2: Playtime Tier Filter Chips (wrapping without horizontal scroll) */}
+      <div className="flex flex-wrap items-center gap-1.5 font-mono pt-0.5">
+        <span className="text-xs text-white/50 uppercase tracking-wider flex items-center gap-1.5 shrink-0 pl-0.5 pr-1 font-semibold">
+          <Filter className="w-3.5 h-3.5" /> Tier:
+        </span>
+        {tierPills.map((pill) => {
+          const isActive = playtimeFilter === pill.id
+          return (
+            <button
+              key={pill.id}
+              onClick={() => setPlaytimeFilter(pill.id)}
+              className={`px-2.5 py-1 rounded-md text-xs font-mono whitespace-nowrap transition-all border flex items-center gap-1.5 ${
+                isActive
+                  ? 'bg-[#7053e3]/20 border-[#7053e3] text-white shadow-sm font-semibold'
+                  : 'bg-[#0e1019]/80 border-white/5 text-[#949ba4] hover:text-white hover:border-white/15'
+              }`}
+            >
+              {pill.color && (
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: pill.color }}
+                />
+              )}
+              <span>{pill.label}</span>
+              <span
+                className={`text-[11px] px-1.5 py-0.2 rounded font-bold ${
+                  isActive ? 'bg-[#7053e3]/40 text-white' : 'bg-white/5 text-white/50'
+                }`}
+              >
+                {pill.count}
+              </span>
+            </button>
+          )
+        })}
       </div>
 
       {/* Grid or Table Display */}
@@ -270,11 +372,19 @@ export function GameLibrary({ games }: GameLibraryProps) {
                 {filteredGames.map((game, idx) => (
                   <tr
                     key={game.appId}
-                    onClick={() => window.open(`https://store.steampowered.com/app/${game.appId}`, '_blank', 'noreferrer')}
+                    onClick={() =>
+                      window.open(
+                        `https://store.steampowered.com/app/${game.appId}`,
+                        '_blank',
+                        'noreferrer'
+                      )
+                    }
                     className="hover:bg-[#181b28]/80 hover:text-white transition-colors cursor-pointer group"
                     title={`Open ${game.name} on Steam`}
                   >
-                    <td className="py-2.5 px-3.5 text-center text-[#949ba4] group-hover:text-white">{idx + 1}</td>
+                    <td className="py-2.5 px-3.5 text-center text-[#949ba4] group-hover:text-white">
+                      {idx + 1}
+                    </td>
                     <td className="py-2.5 px-3.5">
                       <div className="flex items-center gap-2.5 font-sans font-semibold text-[#f2f3f5] group-hover:text-[#b59cfc] transition-colors">
                         <GameRowIcon game={game} />
@@ -285,7 +395,9 @@ export function GameLibrary({ games }: GameLibraryProps) {
                       {Math.round(game.playtimeForeverMinutes / 60)}h
                     </td>
                     <td className="py-2.5 px-3.5 text-right text-[#4ade80]">
-                      {game.playtime2WeeksMinutes ? `${Math.round(game.playtime2WeeksMinutes / 60)}h` : '-'}
+                      {game.playtime2WeeksMinutes
+                        ? `${Math.round(game.playtime2WeeksMinutes / 60)}h`
+                        : '-'}
                     </td>
                     <td className="py-2.5 px-3.5 text-center">
                       <span className="inline-flex items-center justify-center text-[#949ba4] group-hover:text-[#b59cfc] transition-colors">

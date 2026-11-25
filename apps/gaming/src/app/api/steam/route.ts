@@ -113,12 +113,84 @@ export async function GET() {
       topGame: favoriteGame,
     }
 
+    // Fetch achievements for top played games dynamically from Steam
+    const topGamesForAchievements = sortedByTime.slice(0, 3)
+    let rareAchievements: any[] = []
+
+    try {
+      const achPromises = topGamesForAchievements.map(async (tg) => {
+        const [resPlayerAch, resGlobalPerc, resSchema] = await Promise.all([
+          fetch(
+            `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${tg.appId}&key=${apiKey}&steamid=${steamId}&l=english`,
+            fetchOptions
+          ).catch(() => null),
+          fetch(
+            `https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid=${tg.appId}&format=json`,
+            fetchOptions
+          ).catch(() => null),
+          fetch(
+            `https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${apiKey}&appid=${tg.appId}&l=english`,
+            fetchOptions
+          ).catch(() => null),
+        ])
+
+        if (!resPlayerAch?.ok || !resGlobalPerc?.ok) return []
+
+        const [dataPlayer, dataGlobal, dataSchema] = await Promise.all([
+          resPlayerAch.json().catch(() => ({})),
+          resGlobalPerc.json().catch(() => ({})),
+          resSchema?.ok ? resSchema.json().catch(() => ({})) : Promise.resolve({}),
+        ])
+
+        const unlocked = (dataPlayer?.playerstats?.achievements || []).filter(
+          (a: any) => a.achieved === 1
+        )
+        const globalPercMap = new Map<string, number>()
+        for (const gp of dataGlobal?.achievementpercentages?.achievements || []) {
+          globalPercMap.set(gp.name, Number(Number(gp.percent).toFixed(1)))
+        }
+
+        const schemaMap = new Map<string, { displayName: string; description: string; icon: string }>()
+        for (const sa of dataSchema?.game?.availableGameStats?.achievements || []) {
+          schemaMap.set(sa.name, {
+            displayName: sa.displayName || sa.name,
+            description: sa.description || '',
+            icon: sa.icon,
+          })
+        }
+
+        return unlocked.map((u: any) => {
+          const schema = schemaMap.get(u.apiname)
+          return {
+            apiName: u.apiname,
+            name: schema?.displayName || u.apiname,
+            description: schema?.description || '',
+            icon: schema?.icon || tg.headerImageUrl,
+            gameName: tg.name,
+            gameAppId: tg.appId,
+            unlockedAt: u.unlocktime,
+            rarityPercent: globalPercMap.get(u.apiname) ?? 100,
+          }
+        })
+      })
+
+      const allUnlockedResults = await Promise.all(achPromises)
+      rareAchievements = allUnlockedResults
+        .flat()
+        .filter((a) => a.rarityPercent !== undefined)
+        .sort((a, b) => a.rarityPercent - b.rarityPercent)
+        .slice(0, 4)
+    } catch (achErr) {
+      console.warn('[Steam API] Failed to fetch live achievements, continuing:', achErr)
+    }
+
     return NextResponse.json({
       success: true,
       isMock: false,
       player,
       games,
       stats,
+      rareAchievements: rareAchievements.length > 0 ? rareAchievements : undefined,
     })
   } catch (error: any) {
     console.error('[Steam API] Failed to fetch Steam data:', error)
