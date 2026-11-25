@@ -39,78 +39,76 @@ export async function GET() {
       headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`
     }
 
-    // Cache requests for 5 minutes (300s) on server side
+    // Cache requests for 2 minutes (120s)
     const fetchOptions: RequestInit = {
       headers,
-      next: { revalidate: 300 },
+      next: { revalidate: 120 },
       signal: AbortSignal.timeout(6000),
     }
 
-    const [userRes, eventsRes] = await Promise.all([
+    // Fetch user profile and recently pushed repos simultaneously
+    const [userRes, reposRes] = await Promise.all([
       fetch('https://api.github.com/users/xflasar', fetchOptions).catch(() => null),
-      fetch('https://api.github.com/users/xflasar/events/public?per_page=10', fetchOptions).catch(() => null),
+      fetch('https://api.github.com/users/xflasar/repos?sort=pushed&per_page=5', fetchOptions).catch(() => null),
     ])
 
     const userData = userRes && userRes.ok ? await userRes.json().catch(() => null) : null
-    const eventsData = eventsRes && eventsRes.ok ? await eventsRes.json().catch(() => []) : []
+    const reposData = reposRes && reposRes.ok ? await reposRes.json().catch(() => []) : []
 
     let latestCommit: GitHubActivityData['latestCommit'] = undefined
 
-    if (Array.isArray(eventsData)) {
-      // Find latest PushEvent (commits array can be empty in public events payload, so check head or commits)
-      const pushEvent = eventsData.find((ev: any) => ev.type === 'PushEvent')
-      if (pushEvent) {
-        const repoFullName = pushEvent.repo?.name || 'xflasar'
-        const shortRepo = repoFullName.includes('/') ? repoFullName.split('/')[1] : repoFullName
-        
-        // 1. Try to get message from payload.commits
-        let commitMsg = ''
-        let commitSha = ''
-        if (pushEvent.payload?.commits && pushEvent.payload.commits.length > 0) {
-          const last = pushEvent.payload.commits[pushEvent.payload.commits.length - 1]
-          commitMsg = last.message ? last.message.split('\n')[0] : ''
-          commitSha = last.sha ? last.sha.substring(0, 7) : ''
-        }
+    if (Array.isArray(reposData) && reposData.length > 0) {
+      const topRepo = reposData[0]
+      const repoFullName = topRepo.full_name || `xflasar/${topRepo.name}`
+      const shortRepo = topRepo.name
+      const defaultBranch = topRepo.default_branch || 'main'
 
-        // 2. If commits array is omitted in events feed, use head SHA
-        if (!commitSha && pushEvent.payload?.head) {
-          commitSha = pushEvent.payload.head.substring(0, 7)
-        }
+      // Fetch the actual latest commit from the top recently pushed repo
+      try {
+        const commitRes = await fetch(
+          `https://api.github.com/repos/${repoFullName}/commits/${defaultBranch}`,
+          { headers, next: { revalidate: 120 }, signal: AbortSignal.timeout(4000) }
+        )
+        if (commitRes.ok) {
+          const commitJson = await commitRes.json()
+          const rawMessage = commitJson?.commit?.message || 'Recent update'
+          const committedAt = commitJson?.commit?.committer?.date || commitJson?.commit?.author?.date || topRepo.pushed_at
 
-        // 3. Optional: fetch commit message if missing
-        if (!commitMsg && pushEvent.payload?.head) {
-          try {
-            const commitRes = await fetch(
-              `https://api.github.com/repos/${repoFullName}/commits/${pushEvent.payload.head}`,
-              { headers, next: { revalidate: 3600 }, signal: AbortSignal.timeout(3000) }
-            )
-            if (commitRes.ok) {
-              const commitJson = await commitRes.json()
-              commitMsg = commitJson?.commit?.message ? commitJson.commit.message.split('\n')[0] : ''
-            }
-          } catch {}
+          latestCommit = {
+            repo: shortRepo,
+            repoUrl: topRepo.html_url || `https://github.com/${repoFullName}`,
+            message: rawMessage.split('\n')[0],
+            sha: commitJson?.sha ? commitJson.sha.substring(0, 7) : '',
+            timeAgo: formatRelativeTime(committedAt),
+            committedAt,
+          }
         }
+      } catch (err) {
+        console.warn('[GitHub API] Failed to fetch commit details:', err)
+      }
 
+      // Fallback to repo pushed_at if commit fetch failed
+      if (!latestCommit) {
         latestCommit = {
           repo: shortRepo,
-          repoUrl: `https://github.com/${repoFullName}`,
-          message: commitMsg || 'Recent update',
-          sha: commitSha,
-          timeAgo: formatRelativeTime(pushEvent.created_at),
-          committedAt: pushEvent.created_at,
+          repoUrl: topRepo.html_url || `https://github.com/${repoFullName}`,
+          message: topRepo.description || 'Recent update',
+          sha: '',
+          timeAgo: formatRelativeTime(topRepo.pushed_at),
+          committedAt: topRepo.pushed_at,
         }
       }
     }
 
     const result: GitHubActivityData = {
       latestCommit,
-      publicRepos: userData?.public_repos || 0,
+      publicRepos: userData?.public_repos || (Array.isArray(reposData) ? reposData.length : 0),
       followers: userData?.followers || 0,
     }
 
     return NextResponse.json({ success: true, data: result }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60',
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=60',
       },
     })
   } catch (error: any) {
